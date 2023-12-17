@@ -1,0 +1,80 @@
+#!/bin/bash
+# shellcheck shell=bash source=/dev/null
+
+RSYNC_FILTER=${RSYNC_FILTER:-"$HOME/.config/dotfiles/rsync-filter"}
+
+for cmd in "$@"; do
+  case "$cmd" in
+  xrandr)
+    xrandr --output HDMI1 --mode 2560x1440 --primary
+    xrandr --output eDP1 --mode 1920x1080
+    ;;
+  setxkeymap)
+    #[[ "$*" =~ "--reset" ]] && (setxkbmap -option && exit 0)
+    setxkbmap -option ctrl:swapcaps
+    setxkbmap -option altwin:swap_alt_win
+    ;;
+  backup)
+    [[ -r "$RSYNC_FILTER" ]] || {
+      echo "ERROR: RSYNC_FILTER is not readable: $RSYNC_FILTER"
+      exit 1
+    }
+    rsync -abcirv --suffix=".bak" --filter=". $RSYNC_FILTER" "$HOME/" .
+    ;;
+  setup)
+    [[ -r "$RSYNC_FILTER" ]] || {
+      echo "ERROR: RSYNC_FILTER is not readable: $RSYNC_FILTER"
+      exit 1
+    }
+    rsync -abcirv --suffix=".bak" --filter=". $RSYNC_FILTER" . "$HOME"
+    ;;
+  xrdb)
+    # TODO: add xrdb config
+    xrdb -merge "$HOME/.Xresources"
+    ;;
+  i3wm)
+    # TODO: add i3wm config
+    i3-msg restart
+    ;;
+  bspwm) ;;
+  sxhkd) ;;
+  yabai)
+    brew services restart yabai
+    ;;
+  skhd)
+    brew services restart skhd
+    ;;
+  alacritty) ;;
+  tmux)
+    # TODO: add tmux config
+    tmux source-file "$HOME/.tmux.conf"
+    #[[ -d "$HOME/.tmux/plugins/tpm" ]] || git clone
+    ./tmux/plugins/tpm/scripts/install_plugins.sh
+    ./tmux/plugins/tpm/scripts/update_plugin.sh all
+    ;;
+  zellij) ;;
+  vim)
+    [[ -r "$HOME/.config/nvim/init.vim" ]] && ln -sf "$HOME/.config/nvim/init.vim" "$HOME/.vimrc"
+    ;;
+  nvim) ;;
+  bash) ;;
+  zsh) ;;
+  sshd) ;;
+  generate-filter)
+    rules=""
+    include() {
+      [ "." = "$1" ] && return
+      include "$(dirname "$1")"
+      rules="$rules${rules:+\n}+ $1"
+    }
+    for p in $(git ls-tree -r --name-only HEAD | grep -v ".*\.md" | grep -v ".githook" | grep -v ".gitignore" | sort); do
+      include "$p"
+    done
+    rules="$rules${rules:+\n}- *"
+    echo -e "$rules" | sort -u
+    ;;
+  *)
+    printf "Usage: %s [xrandr|setxkeymap|backup|setup|xrdb|i3wm|bspwm|sxhkd|yabai|skhd|alacritty|tmux|zellij|vim|nvim|bash|zsh|sshd|generate-filter]\n" "$0"
+    ;;
+  esac
+done

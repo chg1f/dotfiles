@@ -1,0 +1,15 @@
+#!/bin/sh
+
+rules=""
+include() {
+  [ "." = "$1" ] && return
+  include "$(dirname "$1")"
+  rules="$rules${rules:+\n}+ $1"
+}
+for p in $(git ls-tree -r --name-only HEAD | grep -v ".*\.md" | grep -v ".githook" | grep -v ".gitignore" | sort); do
+  include "$p"
+done
+echo -e "$rules" | sort -u >.config/dotfiles/rsyncfilter
+echo "- *" >>.config/dotfiles/rsyncfilter
+
+git add .config/dotfiles/rsyncfilter
