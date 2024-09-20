@@ -1,0 +1,6 @@
+README.md
+
+{{- if eq .chezmoi.os "darwin" -}}
+{{- else if eq .chezmoi.os "linux" -}}
+Brewfile
+{{ end -}}

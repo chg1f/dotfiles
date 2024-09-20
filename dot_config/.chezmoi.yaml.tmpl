@@ -1,0 +1,22 @@
+# encoding=utf-8
+#
+# sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
+
+verbose: true
+
+git:
+  autoAdd: true
+  autoCommit: true
+  # autoPush: true
+
+hooks:
+  add:
+    pre:
+      command: "echo" # TODO: brew bundle dump -f
+      args: ["add-pre"]
+  apply:
+    post:
+      command: "echo" # TODO: brew bundle
+      args: ["post-apply"]
+
+# vim: ft=yaml

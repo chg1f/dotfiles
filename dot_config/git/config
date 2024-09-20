@@ -3,6 +3,9 @@
   name = chg1f
   email = chongiofai@gmail.com
 
+[core]
+  sshCommand = ssh -i ~/.ssh/gh.id_rsa
+
 [init]
   defaultBranch = main
 
@@ -17,8 +20,11 @@
 [pull]
   rebase = true
 
-[core]
-  editor = nvim
+[diff]
+  tool = nvimdiff
+
+[merge]
+  tool = nvimdiff
 
 [pager]
   diff = delta
@@ -28,12 +34,6 @@
 
 [delta]
   side-by-side = true
-
-[diff]
-  tool = nvimdiff
-
-[merge]
-  tool = nvimdiff
 
 [include]
   path = ~/.config/git/includes

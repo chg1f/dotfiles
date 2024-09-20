@@ -216,6 +216,8 @@ require("lazy").setup({
       },
     },
   },
+  -- chezmoi
+  { "xvzc/chezmoi.nvim" },
 }, {
   root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json", -- lockfile generated after running update.
