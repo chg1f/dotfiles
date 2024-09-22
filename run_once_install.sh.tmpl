@@ -1,0 +1,6 @@
+#!bash
+
+{{- if eq .chezmoi.os "darwin" -}}
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+{{- else if eq .chezmoi.os "linux" -}}
+{{ end -}}
