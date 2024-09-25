@@ -1,34 +1,15 @@
--- encoding=utf-8
-
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-  local repo = "https://github.com/folke/lazy.nvim.git"
-  local ret = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", repo, lazypath })
-  if vim.v.shell_error ~= 0 then
-    vim.api.nvim_echo({
-      { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-      { ret, "WarningMsg" },
-      { "\nPress any key to exit..." },
-    }, true, {})
-    vim.fn.getchar()
-    os.exit(1)
-  end
-end
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup({
+---@class LazyVimPlugin
+return {
   {
     "LazyVim/LazyVim",
-    import = "lazyvim.plugins",
-    ---@type LazyVimConfig
     opts = {
       colorscheme = "tokyonight",
       news = {
-        lazyvim = false,
+        lazyvim = true,
         neovim = false,
       },
-      icons = {
-        diagnostics = {
+      diagnostics = {
+        icons = {
           Error = "E",
           Warn = "W",
           Info = "I",
@@ -67,15 +48,6 @@ require("lazy").setup({
           },
           lualine_b = {
             {
-              "diagnostics",
-              symbols = {
-                error = LazyVim.config.icons.diagnostics.Error,
-                warn = LazyVim.config.icons.diagnostics.Warn,
-                info = LazyVim.config.icons.diagnostics.Info,
-                hint = LazyVim.config.icons.diagnostics.Hint,
-              },
-            },
-            {
               "diff",
               symbols = {
                 added = LazyVim.config.icons.git.added,
@@ -92,25 +64,28 @@ require("lazy").setup({
                 end
               end,
             },
-          },
-          lualine_c = {
-            -- stylua: ignore
             {
-              function() return require("noice").api.status.command.get() end, -- # spellchecker:disable-line
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end, -- # spellchecker:disable-line
-              color = function() return LazyVim.ui.fg("Statement") end,
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end, -- # spellchecker:disable-line
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end, -- # spellchecker:disable-line
-              color = function() return LazyVim.ui.fg("Constant") end,
+              "diagnostics",
+              symbols = {
+                error = LazyVim.config.icons.diagnostics.Error,
+                warn = LazyVim.config.icons.diagnostics.Warn,
+                info = LazyVim.config.icons.diagnostics.Info,
+                hint = LazyVim.config.icons.diagnostics.Hint,
+              },
             },
             -- stylua: ignore
             {
               function() return "  " .. require("dap").status() end,
               cond = function() return package.loaded["dap"] and require("dap").status() ~= "" end,
               color = function() return LazyVim.ui.fg("Debug") end,
+            },
+          },
+          lualine_c = {
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.mode.get() end, -- # spellchecker:disable-line
+              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end, -- # spellchecker:disable-line
+              color = function() return LazyVim.ui.fg("Constant") end,
             },
             -- stylua: ignore
             {
@@ -122,6 +97,12 @@ require("lazy").setup({
             "location",
             "searchcount",
             "selectioncount",
+            -- stylua: ignore
+            {
+              function() return require("noice").api.status.command.get() end, -- # spellchecker:disable-line
+              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end, -- # spellchecker:disable-line
+              color = function() return LazyVim.ui.fg("Statement") end,
+            },
           },
           lualine_x = {
             -- "branch",
@@ -130,7 +111,11 @@ require("lazy").setup({
             "encoding",
             {
               "fileformat",
-              symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
+              symbols = {
+                unix = "LF",
+                dos = "CRLF",
+                mac = "CR",
+              },
             },
           },
           lualine_y = {
@@ -146,7 +131,11 @@ require("lazy").setup({
   {
     "akinsho/bufferline.nvim",
     opts = {
-      always_show_bufferline = true,
+      options = {
+        indicator = { style = "underline" },
+        always_show_bufferline = true,
+        show_buffer_close_icons = false,
+      },
     },
   },
   {
@@ -155,10 +144,17 @@ require("lazy").setup({
       signs = {
         add = { text = "+" },
         change = { text = "~" },
+        changedelete = { text = "~" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
+        untracked = { text = ":" },
+      },
+      signs_staged = {
+        add = { text = "+" },
+        change = { text = "~" },
         delete = { text = "_" },
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
-        untracked = { text = ":" },
       },
     },
   },
@@ -188,6 +184,13 @@ require("lazy").setup({
       -- },
     },
   },
+  -- coding
+  {
+    "mason.nvim",
+    opts = {
+      install_root = vim.fn.stdpath("data") .. "/mason",
+    },
+  },
   -- editor
   {
     "folke/todo-comments.nvim",
@@ -203,6 +206,25 @@ require("lazy").setup({
       },
     },
   },
+  {
+    "nvim-telescope/telescope.nvim",
+    keys = {
+      {
+        "<leader><space>",
+        function()
+          require("telescope.builtin").resume()
+        end,
+        desc = "Resume",
+      },
+      {
+        "<leader>.",
+        function()
+          require("telescope.builtin").builtin()
+        end,
+        desc = "Resume",
+      },
+    },
+  },
   -- lsp
   {
     "neovim/nvim-lspconfig",
@@ -215,41 +237,29 @@ require("lazy").setup({
         },
       },
     },
-  },
-  -- chezmoi
-  { "xvzc/chezmoi.nvim" },
-}, {
-  root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
-  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json", -- lockfile generated after running update.
-  defaults = {
-    lazy = true, -- plugins lazy loaded by default
-    version = false, -- always use the latest git commit
-  },
-  install = {
-    colorscheme = { "tokyonight" }, -- try to load one of these colorschemes when starting an installation during startup
-  },
-  checker = {
-    enabled = true, -- automatically check for plugin updates
-    frequency = 86400, -- check for updates every day
-  },
-  performance = {
-    rtp = {
-      disabled_plugins = { -- disable some rtp plugins
-        "gzip",
-        -- "matchit",
-        -- "matchparen",
-        -- "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "zipPlugin",
-      },
+    keys = {
+      -- {
+      --   "gd",
+      --   "<cmd>FzfLua lsp_definitions ignore_current_line=true<cr>",
+      --   desc = "Goto Definition",
+      --   has = "definition",
+      -- },
+      -- {
+      --   "gr",
+      --   "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>",
+      --   desc = "References",
+      --   nowait = true,
+      -- },
+      -- {
+      --   "gI",
+      --   "<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>",
+      --   desc = "Goto Implementation",
+      -- },
+      -- {
+      --   "gy",
+      --   "<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>",
+      --   desc = "Goto T[y]pe Definition",
+      -- },
     },
   },
-})
-
--- options
-vim.opt.mouse = ""
-
--- keymaps
--- autocmds
+}
