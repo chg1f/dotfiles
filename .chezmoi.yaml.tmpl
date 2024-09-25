@@ -1,7 +1,5 @@
 # encoding=utf-8
 
-# sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
-
 verbose: true
 
 git:
@@ -9,10 +7,24 @@ git:
   autoCommit: true
   # autoPush: true
 
-{{- if eq .chezmoi.os "darwin" -}}
+diff:
+  command: "delta"
+  pager: "delta"
+
+merge:
+  command: "nvim"
+  args: ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
+
+encryption: "age"
+age:
+  symmetric: true
+  identity: "~/.ssh/gh.id_rsa"
+
+{{ if eq .chezmoi.os "darwin" -}}
 hooks:
-  add:
+  re-add:
     pre:
-      - brew bundle dump --file .config/Brewfile --force
+      command: "brew"
+      args: ["bundle", "dump", "--file", ".config/Brewfile", "--force"]
 {{- else if eq .chezmoi.os "linux" -}}
 {{ end -}}
