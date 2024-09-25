@@ -1,0 +1,11 @@
+Include $HOME/.ssh/config.d/*
+
+Host *
+  AddKeysToAgent ask
+  StrictHostKeyChecking ask
+  TCPKeepAlive yes
+  ServerAliveInterval 60
+  ServerAliveCountMax 30
+  HostkeyAlgorithms +ssh-rsa
+  PubkeyAcceptedAlgorithms +ssh-rsa
+  SetEnv TERM=xterm-256color
