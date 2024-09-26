@@ -5,11 +5,11 @@ return {
     opts = {
       colorscheme = "tokyonight",
       news = {
-        lazyvim = true,
+        lazyvim = false,
         neovim = false,
       },
-      diagnostics = {
-        icons = {
+      icons = {
+        diagnostics = {
           Error = "E",
           Warn = "W",
           Info = "I",
@@ -170,16 +170,27 @@ return {
   {
     "folke/noice.nvim",
     opts = {
-      -- views = {
-      --   cmdline_popup = {
-      --     position = { row = "50%", col = "50%" },
-      --   },
-      --   cmdline_popupmenu = {
-      --     relative = "editor",
-      --     position = "auto",
-      --   },
-      -- },
+      views = {
+        -- cmdline_popup = {
+        --   position = { row = "50%", col = "50%" },
+        -- },
+        -- cmdline_popupmenu = {
+        --   relative = "editor",
+        --   position = "auto",
+        -- },
+      },
     },
+  },
+  {
+    "echasnovski/mini.animate",
+    opts = function()
+      return {
+        resize = {
+          enable = false,
+          -- timing = require("animate").gen_timing.linear({ duration = 50, unit = "total" }),
+        },
+      }
+    end,
   },
   -- coding
   {
