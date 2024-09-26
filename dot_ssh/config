@@ -1,5 +1,3 @@
-Include $HOME/.ssh/config.d/*
-
 Host *
   AddKeysToAgent ask
   StrictHostKeyChecking ask
@@ -9,3 +7,6 @@ Host *
   HostkeyAlgorithms +ssh-rsa
   PubkeyAcceptedAlgorithms +ssh-rsa
   SetEnv TERM=xterm-256color
+
+Include ~/.ssh/config.d/*
+

@@ -24,10 +24,7 @@ return {
     },
   },
   -- ui
-  {
-    "nvimdev/dashboard-nvim",
-    enabled = false,
-  },
+  { "nvimdev/dashboard-nvim", enabled = false },
   {
     "nvim-lualine/lualine.nvim",
     opts = function()
@@ -221,14 +218,21 @@ return {
         function()
           require("telescope.builtin").builtin()
         end,
-        desc = "Resume",
+        desc = "Telescope",
       },
+      {
+        "<leader>ff",
+        LazyVim.pick("files", { root = false, no_ignore = true, hidden = true }),
+        desc = "Find Files (cwd)",
+      },
+      { "<leader>fF", LazyVim.pick("files", { hidden = true }), desc = "Find Files (Root Dir)" },
     },
   },
   -- lsp
   {
     "neovim/nvim-lspconfig",
     opts = {
+      inlay_hints = { enabled = false },
       servers = {
         typos_lsp = {
           init_options = {
