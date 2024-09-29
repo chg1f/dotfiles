@@ -181,17 +181,17 @@ return {
       },
     },
   },
-  {
-    "echasnovski/mini.animate",
-    opts = function()
-      return {
-        resize = {
-          enable = false,
-          -- timing = require("animate").gen_timing.linear({ duration = 50, unit = "total" }),
-        },
-      }
-    end,
-  },
+  -- {
+  --   "echasnovski/mini.animate",
+  --   opts = function()
+  --     return {
+  --       resize = {
+  --         enable = false,
+  --         -- timing = require("animate").gen_timing.linear({ duration = 50, unit = "total" }),
+  --       },
+  --     }
+  --   end,
+  -- },
   -- coding
   {
     "mason.nvim",
