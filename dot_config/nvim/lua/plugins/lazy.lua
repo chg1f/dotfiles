@@ -2,6 +2,9 @@
 return {
   {
     "LazyVim/LazyVim",
+    -- keys = {
+    --   { "<leader>L", function() end },
+    -- },
     opts = {
       colorscheme = "tokyonight",
       news = {
@@ -102,8 +105,6 @@ return {
             },
           },
           lualine_x = {
-            -- "branch",
-            -- LazyVim.lualine.pretty_path(),
             "filesize",
             "encoding",
             {
@@ -114,6 +115,8 @@ return {
                 mac = "CR",
               },
             },
+            -- "branch",
+            LazyVim.lualine.pretty_path(),
           },
           lualine_y = {
             LazyVim.lualine.root_dir(),
@@ -181,17 +184,33 @@ return {
       },
     },
   },
-  -- {
-  --   "echasnovski/mini.animate",
-  --   opts = function()
-  --     return {
-  --       resize = {
-  --         enable = false,
-  --         -- timing = require("animate").gen_timing.linear({ duration = 50, unit = "total" }),
-  --       },
-  --     }
-  --   end,
-  -- },
+  {
+    "echasnovski/mini.animate",
+    enable = false,
+    opts = function()
+      return {
+        resize = {
+          enable = false,
+          -- timing = require("animate").gen_timing.linear({ duration = 50, unit = "total" }),
+        },
+      }
+    end,
+  },
+  -- treesitter
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      highlight = {
+        disable = function(_, buf)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+        end,
+      },
+    },
+  },
   -- coding
   {
     "mason.nvim",
@@ -199,6 +218,8 @@ return {
       install_root = vim.fn.stdpath("data") .. "/mason",
     },
   },
+  { "windwp/nvim-ts-autotag", ft = "typescript" },
+  { "folke/ts-comments.nvim", ft = "typescript" },
   -- editor
   {
     "folke/todo-comments.nvim",
@@ -250,31 +271,59 @@ return {
             diagnosticSeverity = "Hint",
           },
         },
+        gopls = {
+          usePlaceholders = true,
+          -- experimentalPostfixCompletions = true,
+          completeUnimported = true,
+          staticcheck = true,
+          directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+          semanticTokens = true,
+          gofumpt = true,
+          analyses = {
+            -- fieldalignment = true,
+            nilness = true,
+            unusedparams = true,
+            unusedwrite = true,
+            useany = true,
+          },
+          codelenses = {
+            gc_details = false,
+            generate = true,
+            regenerate_cgo = true,
+            run_govulncheck = true,
+            test = true,
+            tidy = true,
+            upgrade_dependency = true,
+            vendor = true,
+          },
+          hints = {
+            assignVariableTypes = true,
+            compositeLiteralFields = true,
+            compositeLiteralTypes = true,
+            constantValues = true,
+            functionTypeParameters = true,
+            parameterNames = true,
+            rangeVariableTypes = true,
+          },
+        },
       },
     },
-    keys = {
-      -- {
-      --   "gd",
-      --   "<cmd>FzfLua lsp_definitions ignore_current_line=true<cr>",
-      --   desc = "Goto Definition",
-      --   has = "definition",
-      -- },
-      -- {
-      --   "gr",
-      --   "<cmd>FzfLua lsp_references jump_to_single_result=true ignore_current_line=true<cr>",
-      --   desc = "References",
-      --   nowait = true,
-      -- },
-      -- {
-      --   "gI",
-      --   "<cmd>FzfLua lsp_implementations jump_to_single_result=true ignore_current_line=true<cr>",
-      --   desc = "Goto Implementation",
-      -- },
-      -- {
-      --   "gy",
-      --   "<cmd>FzfLua lsp_typedefs jump_to_single_result=true ignore_current_line=true<cr>",
-      --   desc = "Goto T[y]pe Definition",
-      -- },
-    },
   },
+  -- TODO: extend
+  -- {
+  --   "fatih/vim-go",
+  --   config = function()
+  --     -- we disable most of these features because treesitter and nvim-lsp
+  --     -- take care of it
+  --     vim.g["go_gopls_enabled"] = 0
+  --     vim.g["go_code_completion_enabled"] = 0
+  --     vim.g["go_fmt_autosave"] = 0
+  --     vim.g["go_imports_autosave"] = 0
+  --     vim.g["go_mod_fmt_autosave"] = 0
+  --     vim.g["go_doc_keywordprg_enabled"] = 0
+  --     vim.g["go_def_mapping_enabled"] = 0
+  --     vim.g["go_textobj_enabled"] = 0
+  --     vim.g["go_list_type"] = "quickfix"
+  --   end,
+  -- },
 }
