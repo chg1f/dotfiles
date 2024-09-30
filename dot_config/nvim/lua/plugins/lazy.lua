@@ -33,7 +33,7 @@ return {
     opts = function()
       return {
         options = {
-          icons_enabled = false,
+          -- icons_enabled = false,
           component_separators = "",
           section_separators = "",
         },
@@ -109,11 +109,7 @@ return {
             "encoding",
             {
               "fileformat",
-              symbols = {
-                unix = "LF",
-                dos = "CRLF",
-                mac = "CR",
-              },
+              symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
             },
             -- "branch",
             LazyVim.lualine.pretty_path(),
@@ -306,6 +302,17 @@ return {
             rangeVariableTypes = true,
           },
         },
+      },
+      setup = {
+        gopls = function(_, opts)
+          --ISSUE: https://github.com/neovim/neovim/issues/28058
+          if type(opts) == "table" and opts.workspace then
+            opts.workspace.didChangeWatchedFiles = {
+              dynamicRegistration = false,
+              relativePatternSupport = false,
+            }
+          end
+        end,
       },
     },
   },
