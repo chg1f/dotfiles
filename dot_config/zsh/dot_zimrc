@@ -1,32 +1,26 @@
 #!/bin/zsh
-# shellcheck shell=bash source=/dev/null disable=SC2034
+# shellcheck shell=bash
 
 zmodule environment # Sets sane Zsh built-in environment options.
-zmodule utility     # Aliases and functions for common utilities.
-
-zstyle ':zim:git' aliases-prefix 'g' # Prefix for git aliases.
-zmodule git                          # Aliases for git.
-
-
+zmodule utility # Aliases and functions for common utilities.
 zmodule input # Friendly key bindings for Zsh.
-
-zmodule ssh  # SSH agent management.
+zstyle ':zim:git' aliases-prefix 'g' # Prefix for git aliases.
+zmodule git # Aliases for git.
+zmodule ssh # SSH agent management.
 zmodule fzf # Fuzzy finder for Zsh.
+zmodule exa # Modern replacement for ls.
+
+zmodule zsh-users/zsh-completions --fpath src # Additional completion definitions for Zsh.
+zmodule completion # Enables and configures smart and extensive tab completion.
+zmodule zsh-users/zsh-syntax-highlighting # Fish-like syntax highlighting for Zsh.
+zmodule zsh-users/zsh-history-substring-search # Fish-like history search (up arrow) for Zsh.
+zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
 #ASDF_DATA_DIR="$HOME/.asdf"
 #ASDF_DIR="$(brew --prefix asdf)"
-zmodule asdf # Version manager for multiple languages.
-
+zmodule direnv
+zmodule asdf
+zmodule joke/zim-chezmoi
 zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
-
-zmodule zsh-users/zsh-completions --fpath src # Additional completion definitions for Zsh.
-zmodule completion                            # Enables and configures smart and extensive tab completion.
-
-# NOTE: Must be loaded after Completion.
-zmodule zsh-users/zsh-syntax-highlighting      # Fish-like syntax highlighting for Zsh.
-zmodule zsh-users/zsh-history-substring-search # Fish-like history search (up arrow) for Zsh.
-zmodule zsh-users/zsh-autosuggestions          # Fish-like autosuggestions for Zsh.
-
-# TODO: zmodule lukechilds/zsh-nvm ?
 
 # vim: set ft=zsh
