@@ -1,21 +1,20 @@
+[include]
+  path = ~/.config/git/config.local
 
-[user]
-  name = chg1f
-  email = chongiofai@gmail.com
+; [includeIf "gitdir:**/github.com/"]
+; [includeIf "hasconfig:remote.*.url:ssh://git@github.com/**"]
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+   path = ~/.config/git/github.com
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
 
-[core]
-  sshCommand = ssh -i ~/.ssh/gh.id_rsa
-
-[init]
-  defaultBranch = main
-
-[alias]
-  s = status -s
-  add = add --verbose
-  logf = log --format=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-  logg = logf --graph
-  logm = "!f() { git logf --name-status -n ${1:-1}; }; f"
-  tree = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
+; [alias]
+;   s = status -s
+;   add = add --verbose
+;   logf = log --format=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
+;   logg = logf --graph
+;   logm = "!f() { git logf --name-status -n ${1:-1}; }; f"
+;   tree = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
 
 [pull]
   rebase = true
@@ -34,8 +33,5 @@
 
 [delta]
   side-by-side = true
-
-[include]
-  path = ~/.config/git/includes
 
 # vim: ft=gitconfig

@@ -99,20 +99,20 @@
     # battery                 # internal battery
     # wifi                    # wifi speed
     # example                 # example user-defined segment (see prompt_example function below)
+    # direnv                  # direnv status (https://direnv.net/)
+    # asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
 
     # ==================================================
-    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
-    pyenv                   # python environment (https://github.com/pyenv/pyenv)
+    status                  # exit code of the last command
+    command_execution_time  # duration of the last command
+    background_jobs         # presence of background jobs
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+    pyenv                   # python environment (https://github.com/pyenv/pyenv)
+    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
     node_version            # node.js version
     go_version              # go version (https://golang.org)
-    direnv                  # direnv status (https://direnv.net/)
-    asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
     chezmoi_shell           # chezmoi shell (https://www.chezmoi.io/)
     ip                      # ip address and bandwidth usage for a specified network interface
-    background_jobs         # presence of background jobs
-    command_execution_time  # duration of the last command
-    status                  # exit code of the last command
     # ==================================================
     newline
     context                 # user@hostname
@@ -186,17 +186,17 @@
 
   ################################[ prompt_char: prompt symbol ]################################
   # Color of the prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_FOREGROUND=2
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_{VICMD,VIVIS,VIOWR}_FOREGROUND=9
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_FOREGROUND=8
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_{VICMD,VIVIS,VIOWR}_FOREGROUND=8
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_{VICMD,VIVIS,VIOWR}_BOLD=true
   # Default prompt symbol.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='#'
   # Prompt symbol in command vi mode.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='[c]'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='c:'
   # Prompt symbol in visual vi mode.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='[v]'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='v:'
   # Prompt symbol in overwrite vi mode.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIOWR_CONTENT_EXPANSION='[w]'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIOWR_CONTENT_EXPANSION='w:'
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OVERWRITE_STATE=true
   # No line terminator if prompt_char is the last segment.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=''
