@@ -99,8 +99,9 @@
     # battery                 # internal battery
     # wifi                    # wifi speed
     # example                 # example user-defined segment (see prompt_example function below)
-    # direnv                  # direnv status (https://direnv.net/)
     # asdf                    # asdf version manager (https://github.com/asdf-vm/asdf)
+    # chezmoi_shell           # chezmoi shell (https://www.chezmoi.io/)
+    # nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
 
     # ==================================================
     status                  # exit code of the last command
@@ -110,10 +111,9 @@
     context                 # user@hostname
     # ==================================================
     newline
-    chezmoi_shell           # chezmoi shell (https://www.chezmoi.io/)
-    virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
+    direnv                  # direnv status (https://direnv.net/)
+    # virtualenv            # python virtual environment (https://docs.python.org/3/library/venv.html)
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
-    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
     node_version            # node.js version
     go_version              # go version (https://golang.org)
   )
@@ -970,7 +970,7 @@
   # $(pyenv version-name) == $(pyenv global).
   typeset -g POWERLEVEL9K_PYENV_PROMPT_ALWAYS_SHOW=true
   # If set to false, hide python version if it's equal to "system".
-  typeset -g POWERLEVEL9K_PYENV_SHOW_SYSTEM=false
+  typeset -g POWERLEVEL9K_PYENV_SHOW_SYSTEM=true
 
   # Pyenv segment format. The following parameters are available within the expansion.
   #
