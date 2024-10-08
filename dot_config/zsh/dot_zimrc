@@ -16,10 +16,10 @@ zmodule zsh-users/zsh-syntax-highlighting # Fish-like syntax highlighting for Zs
 zmodule zsh-users/zsh-history-substring-search # Fish-like history search (up arrow) for Zsh.
 zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
-#ASDF_DATA_DIR="$HOME/.asdf"
-#ASDF_DIR="$(brew --prefix asdf)"
-zmodule direnv
-zmodule asdf
+# ASDF_DATA_DIR="$HOME/.asdf"
+# ASDF_DIR="$(brew --prefix asdf)"
+# zmodule direnv
+# zmodule asdf
 zmodule joke/zim-chezmoi
 zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
 

@@ -4,3 +4,12 @@
 
 vim.opt.mouse = ""
 vim.opt.relativenumber = false
+
+vim.opt.listchars = {
+  eol = "↩",
+  tab = "» ",
+  trail = "·",
+  multispace = "· ",
+  extends = ">",
+  precedes = "<",
+}

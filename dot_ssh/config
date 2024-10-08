@@ -1,12 +1,21 @@
 Host *
-  AddKeysToAgent ask
-  StrictHostKeyChecking ask
+  SetEnv TERM=xterm-256color
+  # User root
+  Port 22
   TCPKeepAlive yes
   ServerAliveInterval 60
   ServerAliveCountMax 30
+  StrictHostKeyChecking ask
   HostkeyAlgorithms +ssh-rsa
+  PreferredAuthentications publickey
+  # IdentitiesOnly yes
+  AddKeysToAgent ask
+  # UseKeychain yes
   PubkeyAcceptedAlgorithms +ssh-rsa
-  SetEnv TERM=xterm-256color
 
 Include ~/.ssh/config.d/*
 
+Host github.com
+  Hostname github.com
+  User git
+  IdentityFile ~/.ssh/gh.id_rsa
