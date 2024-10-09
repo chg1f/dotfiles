@@ -18,19 +18,22 @@ keybinds clear-defaults=true {
         // bind "Ctrl d" { HalfPageScrollDown; SwitchToMode "Scroll"; }
         // bind "Ctrl u" { HalfPageScrollUp; SwitchToMode "Scroll"; }
 
-        bind "Ctrl z" { ToggleFocusFullscreen; }
         // bind "Ctrl d" { CloseFocus; }
+    }
+    move {
+        bind "Ctrl z" { ToggleFocusFullscreen; }
+        bind "Ctrl d" { CloseFocus; }
 
-        // bind "Ctrl v" { NewPane "Right"; }
-        bind "Ctrl s" { NewPane "Down"; }
-        bind "Ctrl h" { MoveFocus "Left"; }
-        bind "Ctrl j" { MoveFocus "Down"; }
-        bind "Ctrl k" { MoveFocus "Up"; }
-        bind "Ctrl l" { MoveFocus "Right"; }
+        bind "v" { NewPane "Right"; }
+        bind "s" { NewPane "Down"; }
+        bind "h" { MoveFocus "Left"; }
+        bind "j" { MoveFocus "Down"; }
+        bind "k" { MoveFocus "Up"; }
+        bind "l" { MoveFocus "Right"; }
 
-        bind "Ctrl e" { NewTab; }
-        bind "Ctrl n" { GoToNextTab; }
-        bind "Ctrl p" { GoToPreviousTab; }
+        bind "e" { NewTab; }
+        bind "n" { GoToNextTab; }
+        bind "p" { GoToPreviousTab; }
     }
 
     entersearch {
@@ -106,18 +109,18 @@ plugins {
     // strider { path "strider"; }
     // compact-bar { path "compact-bar"; }
 
-    session-manager { path "session-manager"; }
-    tab-bar location="zellij:tab-bar"
-    status-bar location="zellij:status-bar"
-    strider location="zellij:strider"
-    compact-bar location="zellij:compact-bar"
-    session-manager location="zellij:session-manager"
-    welcome-screen location="zellij:session-manager" {
-        welcome_screen true
-    }
-    filepicker location="zellij:strider" {
-        cwd "/"
-    }
+    // session-manager { path "session-manager"; }
+    // tab-bar location="zellij:tab-bar"
+    // status-bar location="zellij:status-bar"
+    // strider location="zellij:strider"
+    // compact-bar location="zellij:compact-bar"
+    // session-manager location="zellij:session-manager"
+    // welcome-screen location="zellij:session-manager" {
+    //     welcome_screen true
+    // }
+    // filepicker location="zellij:strider" {
+    //     cwd "/"
+    // }
 }
 
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP

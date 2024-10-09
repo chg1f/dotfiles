@@ -14,7 +14,7 @@ local config = {
     { family = "JetBrains Mono NL" },
     { family = "Noto Sans CJK TC" },
     { family = "Noto Sans CJK SC" },
-    -- { family = "Noto Emoji" },
+    { family = "Noto Emoji" },
   }),
   font_size = 12.0,
 
@@ -39,7 +39,8 @@ local config = {
 
     { key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
     { key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-    { key = "Tab", action = wezterm.action.ActivateTabRelative(1) },
+    { key = "[", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
+    { key = "]", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
   },
   -- mouse_bindings = {
   --   {
