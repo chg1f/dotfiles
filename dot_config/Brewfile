@@ -90,6 +90,7 @@ brew "uv"
 brew "vim"
 brew "watch"
 brew "yq"
+brew "zellij", args: ["HEAD"]
 brew "zlib"
 brew "zsh"
 brew "tidwall/jj/jj"
