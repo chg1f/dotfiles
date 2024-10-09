@@ -93,6 +93,7 @@ brew "yq"
 brew "zellij", args: ["HEAD"]
 brew "zlib"
 brew "zsh"
+brew "go-swagger/go-swagger/go-swagger"
 brew "tidwall/jj/jj"
 cask "coteditor"
 cask "font-jetbrains-mono"
