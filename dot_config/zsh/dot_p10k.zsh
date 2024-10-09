@@ -112,7 +112,7 @@
     # ==================================================
     newline
     direnv                  # direnv status (https://direnv.net/)
-    # virtualenv            # python virtual environment (https://docs.python.org/3/library/venv.html)
+    virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
     node_version            # node.js version
     go_version              # go version (https://golang.org)
