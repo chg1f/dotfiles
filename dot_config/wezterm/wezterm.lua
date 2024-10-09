@@ -12,7 +12,9 @@ local config = {
   color_scheme = "Tokyo Night",
   font = wezterm.font_with_fallback({
     { family = "JetBrains Mono NL" },
-    { family = "Noto Color Emoji" },
+    { family = "Noto Sans CJK TC" },
+    { family = "Noto Sans CJK SC" },
+    -- { family = "Noto Emoji" },
   }),
   font_size = 12.0,
 
