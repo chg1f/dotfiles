@@ -4,6 +4,7 @@ local plugins = {}
 plugins = vim.list_extend(plugins, {
   {
     "fatih/vim-go",
+    ft = "go",
     config = function()
       -- we disable most of these features because treesitter and nvim-lsp
       -- take care of it
@@ -20,6 +21,7 @@ plugins = vim.list_extend(plugins, {
   },
   {
     "rgroli/other.nvim",
+    ft = { "go" },
     cmd = { "Other", "OtherTabNew", "OtherSplit", "OtherVSplit" },
     keys = {
       { "<leader>o", "<cmd>Other<cr>", desc = "Open alternative files" },
@@ -40,24 +42,24 @@ plugins = vim.list_extend(plugins, {
       },
     },
   },
-  {
-    "LunarVim/bigfile.nvim",
-    lazy = false,
-    opts = {
-      filesize = 2, -- in MiB
-      pattern = { "*" },
-      features = { -- features to disable
-        "indent_blankline",
-        "illuminate",
-        "lsp",
-        "treesitter",
-        "syntax",
-        "matchparen",
-        "vimopts",
-        "filetype",
-      },
-    },
-  },
+  -- {
+  --   "LunarVim/bigfile.nvim",
+  --   lazy = false,
+  --   opts = {
+  --     filesize = 2, -- in MiB
+  --     pattern = { "*" },
+  --     features = { -- features to disable
+  --       "indent_blankline",
+  --       "illuminate",
+  --       "lsp",
+  --       "treesitter",
+  --       "syntax",
+  --       "matchparen",
+  --       "vimopts",
+  --       "filetype",
+  --     },
+  --   },
+  -- },
 })
 
 return plugins

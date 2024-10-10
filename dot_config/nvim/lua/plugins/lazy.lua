@@ -316,17 +316,17 @@ return {
           },
         },
       },
-      setup = {
-        gopls = function(_, opts)
-          --ISSUE: https://github.com/neovim/neovim/issues/28058
-          if type(opts) == "table" and opts.workspace then
-            opts.workspace.didChangeWatchedFiles = {
-              dynamicRegistration = false,
-              relativePatternSupport = false,
-            }
-          end
-        end,
-      },
+      -- setup = {
+      --   gopls = function(_, opts)
+      --     --ISSUE: https://github.com/neovim/neovim/issues/28058
+      --     if type(opts) == "table" and opts.workspace then
+      --       opts.workspace.didChangeWatchedFiles = {
+      --         dynamicRegistration = false,
+      --         relativePatternSupport = false,
+      --       }
+      --     end
+      --   end,
+      -- },
     },
   },
   -- TODO: extend

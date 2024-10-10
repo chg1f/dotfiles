@@ -4,7 +4,7 @@
 zmodule environment # Sets sane Zsh built-in environment options.
 zmodule utility # Aliases and functions for common utilities.
 zmodule input # Friendly key bindings for Zsh.
-zstyle ':zim:git' aliases-prefix 'g' # Prefix for git aliases.
+# zstyle ':zim:git' aliases-prefix 'g
 zmodule git # Aliases for git.
 zmodule ssh # SSH agent management.
 zmodule fzf # Fuzzy finder for Zsh.
