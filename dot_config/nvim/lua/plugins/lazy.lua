@@ -192,6 +192,10 @@ return {
       }
     end,
   },
+  -- {
+  --   "indent-blankline.nvim",
+  --   enabled = false,
+  -- },
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
@@ -217,6 +221,18 @@ return {
   { "windwp/nvim-ts-autotag", ft = "typescript" },
   { "folke/ts-comments.nvim", ft = "typescript" },
   -- editor
+  {
+    "folke/which-key.nvim",
+    keys = {
+      -- {
+      --   "<leader>?",
+      --   function()
+      --     require("which-key").show({ global = false })
+      --   end,
+      --   desc = "Buffer Keymaps (which-key)",
+      -- },
+    },
+  },
   {
     "folke/todo-comments.nvim",
     opts = {
@@ -255,7 +271,7 @@ return {
         desc = "Resume",
       },
       {
-        "<leader>.",
+        "<leader>?",
         function()
           require("telescope.builtin").builtin()
         end,
