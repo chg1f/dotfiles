@@ -1,11 +1,11 @@
 #!/bin/zsh
-# shellcheck shell=bash
+# shellcheck shell=bash source=/dev/null
 
-PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-XDG_CONFIG_HOME="$HOME/.config"
+source "$HOME/.profile"
+
 ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # GITHUB_USERNAME=chg1f
 
 HOMEBREW_NO_INSTALL_FROM_API=1
 
-# vim: set ft=zsh
+# vim: ft=zsh

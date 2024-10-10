@@ -1,0 +1,13 @@
+#!/bin/sh
+# shellcheck shell=sh disable=SC2034
+
+PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+LANG="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+command -v less >/dev/null 2>&1 && PAGER=less
+command -v nvim >/dev/null 2>&1 && VISUAL=vim
+command -v nvim >/dev/null 2>&1 && EDITOR=vim
+
+XDG_CONFIG_HOME="$HOME/.config"
+
+# vim: ft=sh
