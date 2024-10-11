@@ -264,13 +264,6 @@ return {
 		"nvim-telescope/telescope.nvim",
 		keys = {
 			{
-				"<leader><space>",
-				function()
-					require("telescope.builtin").resume()
-				end,
-				desc = "Resume",
-			},
-			{
 				"<leader>?",
 				function()
 					require("telescope.builtin").builtin()
@@ -278,11 +271,44 @@ return {
 				desc = "Telescope",
 			},
 			{
-				"<leader>ff",
-				LazyVim.pick("files", { root = false, no_ignore = true, hidden = true }),
-				desc = "Find Files (cwd)",
+				"<leader><space>",
+				function()
+					require("telescope.builtin").resume()
+				end,
+				desc = "Resume",
 			},
-			{ "<leader>fF", LazyVim.pick("files", { hidden = true }), desc = "Find Files (Root Dir)" },
+		},
+		opts = {
+			defaults = {
+				prompt_prefix = " ",
+				selection_caret = " ",
+			},
+			pickers = {
+				builtin = {
+					include_extensions = true,
+					use_default_opts = true,
+				},
+				find_files = {
+					hidden = true,
+					-- no_ignore = true,
+					-- no_ignore_parent = true,
+				},
+				colorscheme = {
+					enable_preview = true,
+				},
+				lsp_definitions = {
+					jump_type = "vsplit",
+				},
+				lsp_references = {
+					jump_type = "vsplit",
+				},
+				lsp_implementations = {
+					jump_type = "vsplit",
+				},
+				lsp_type_definitions = {
+					jump_type = "vsplit",
+				},
+			},
 		},
 	},
 	-- lsp

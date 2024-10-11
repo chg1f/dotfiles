@@ -8,13 +8,45 @@
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 
-; [alias]
-;   s = status -s
-;   add = add --verbose
-;   logf = log --format=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-;   logg = logf --graph
-;   logm = "!f() { git logf --name-status -n ${1:-1}; }; f"
-;   tree = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
+[alias]
+	s = status --short
+
+	l = log --date-order --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
+	lp = l -p
+	lf = l --name-status
+    ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f"
+	lg = l --date-order --graph
+	; FIXME: with last commit ?
+	ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f"
+	lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
+
+    add = add --verbose
+	au = add --update
+	aa = add --all
+
+	commit = commit --verbose
+	cm = commit -m
+	ca = commit --amend --reuse-message=HEAD
+	wip = commit -m "wip"
+
+	push = push --verbose
+	p = push --set-upstream origin "$(git-branch-current 2>/dev/null)"
+	pa = "!f() { git push --all && git push --tags --no-verify; }; f"
+
+	fetch = fetch --verbose
+	fa = fetch --all
+	fp = fetch --all --prune
+
+	rebase = rebase --verbose
+	; r = rebase origin/main
+	ra = rebase --abort
+	rc = rebase --continue
+	rs = rebase --skip
+
+	tags = tag --list
+	branches = branch --list --all --verbose ; TODO git branch --list --all --format "$%(refname)%(HEAD)"
+
+	whoami = "!f() { printf \"%s<%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 
 [pull]
   rebase = true

@@ -14,6 +14,7 @@ syntax on
 colorscheme slate
 
 set mouse=a " disable mouse
+set clipboard=unnamedplus " use system clipboard
 let g:mapleader=" "
 let g:maplocalleader="\\"
 

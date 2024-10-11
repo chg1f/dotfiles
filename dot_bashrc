@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck shell=bash source=/dev/null
+# shellcheck shell=bash source=/dev/null disable=SC2034
 
 source "$HOME/.profile"
 
@@ -7,7 +7,31 @@ source "$HOME/.profile"
 
 case "$TERM" in
 *color)
-	PS1=' \[\e[0;32m\]\]\u\[\e[0m\]\]@\[\e[0;35m\]\]\h\[\e[0m\]\]:\[\e[0;34m\]\]\w\[\e[0m\] \$ '
+	if command -v tput >/dev/null 2>&1; then
+		RST="\[$(tput sgr0)\]"
+		RED="\[$(tput setaf 1)\]"
+		GRE="\[$(tput setaf 2)\]"
+		BLU="\[$(tput setaf 4)\]"
+		YEL="\[$(tput setaf 3)\]"
+		MAG="\[$(tput setaf 5)\]"
+		CYA="\[$(tput setaf 6)\]"
+		WHI="\[$(tput setaf 7)\]"
+	else
+		RST="\[\e[0m\]"
+		RED="\[\e[0;31m\]"
+		GRE="\[\e[0;32m\]"
+		YEL="\[\e[0;33m\]"
+		BLU="\[\e[0;34m\]"
+		MAG="\[\e[0;35m\]"
+		CYA="\[\e[0;36m\]"
+		WHI="\[\e[0;37m\]"
+	fi
+
+	if [ "$UID" -eq 0 ]; then
+		PS1="$RED\u$RST@$RED\h$RST:$BLU\w$RST \$ "
+	else
+		PS1="$GRE\u$RST@$MAG\h$RST:$BLU\w$RST \$ "
+	fi
 	;;
 *)
 	PS1='\u@\h:\w \$ '
