@@ -1,5 +1,11 @@
 " encoding=utf-8
 
+" Lazy load Neovim configurations
+if has('nvim')
+  lua require("lazyinit")
+  finish
+endif
+
 set nocompatible
 
 set encoding=utf-8
@@ -7,7 +13,7 @@ set t_Co=256
 syntax on
 colorscheme slate
 
-set mouse= " disable mouse
+set mouse=a " disable mouse
 let g:mapleader=" "
 let g:maplocalleader="\\"
 
@@ -30,12 +36,6 @@ set ruler " show ruler
 set ignorecase " ignore case
 set smartcase " don't ignore case with capitals
 set hlsearch " highlight search
-
-" Lazy load Neovim configurations
-if has('nvim')
-  lua require("lazyinit")
-  finish
-endif
 
 call mkdir(expand('~/.local/state/vim/backup'), 'p')
 set backupdir=~/.local/state/vim/backup

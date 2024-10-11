@@ -3,3 +3,20 @@
 -- Add any additional options here
 
 vim.g.bigfile_size = 500 * 1024 -- 500 KB
+
+-- vim.opt.mouse = ""
+
+vim.opt.list = true
+vim.opt.listchars = {
+  eol = "↩",
+  trail = "·",
+  multispace = "· ",
+  tab = "→ ",
+  extends = "»",
+  precedes = "«",
+}
+
+-- vim.opt.relativenumber = false
+vim.opt.cursorcolumn = true
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "both"
