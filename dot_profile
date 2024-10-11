@@ -4,10 +4,24 @@
 PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
-command -v less >/dev/null 2>&1 && PAGER=less
-command -v nvim >/dev/null 2>&1 && VISUAL=vim
-command -v nvim >/dev/null 2>&1 && EDITOR=vim
+PAGER="less"
+EDITOR="vim"
+VISUAL="vim"
+# TERM="xterm-256color"
+# [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && TERM="screen-256color"
+# [ -n "$TMUX" ] && TERM="tmux-256color"
 
 XDG_CONFIG_HOME="$HOME/.config"
+
+# HOMEBREW_VERBOSE=1
+HOMEBREW_PREFIX="/usr/local"
+HOMEBREW_NO_INSTALL_FROM_API=1
+
+# LESS="-g -i -M -R -S -w -X -z-4"
+# command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&
+# 	LESSPIPE="$(command -v src-hilite-lesspipe.sh)" && LESSOPEN="| ${LESSPIPE} %s"
+
+# command -v tmux >/dev/null 2>&1 &&
+# 	[ -z "$TMUX" ] && [ -n "$SSH_TTY" ] && tmux attach -t ssh || tmux new -s ssh
 
 # vim: ft=sh

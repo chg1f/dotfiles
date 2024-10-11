@@ -17,9 +17,6 @@ zmodule zsh-users/zsh-history-substring-search # Fish-like history search (up ar
 zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
 zmodule direnv
-# ASDF_DATA_DIR="$HOME/.asdf"
-# ASDF_DIR="$(brew --prefix asdf)"
-# zmodule asdf
 zmodule joke/zim-chezmoi
 zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
 

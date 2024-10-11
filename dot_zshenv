@@ -4,8 +4,7 @@
 source "$HOME/.profile"
 
 ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-# GITHUB_USERNAME=chg1f
 
-HOMEBREW_NO_INSTALL_FROM_API=1
+[[ -r "$HOME/.bash_aliases" ]] && source "$HOME/.bash_aliases"
 
 # vim: ft=zsh

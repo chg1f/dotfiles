@@ -106,16 +106,18 @@
     # ==================================================
     status                  # exit code of the last command
     command_execution_time  # duration of the last command
-    background_jobs         # presence of background jobs
-    ip                      # ip address and bandwidth usage for a specified network interface
-    context                 # user@hostname
-    # ==================================================
-    newline
+
     direnv                  # direnv status (https://direnv.net/)
     virtualenv              # python virtual environment (https://docs.python.org/3/library/venv.html)
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
     node_version            # node.js version
     go_version              # go version (https://golang.org)
+
+    background_jobs         # presence of background jobs
+    ip                      # ip address and bandwidth usage for a specified network interface
+    context                 # user@hostname
+    # ==================================================
+    newline
   )
 
   # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
