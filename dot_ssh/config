@@ -7,7 +7,7 @@ Host *
   ServerAliveCountMax 30
   StrictHostKeyChecking ask
   HostkeyAlgorithms +ssh-rsa
-  PreferredAuthentications publickey
+  # PreferredAuthentications publickey
   # IdentitiesOnly yes
   AddKeysToAgent ask
   # UseKeychain yes
