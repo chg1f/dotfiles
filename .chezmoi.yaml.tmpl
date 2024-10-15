@@ -20,11 +20,8 @@ age:
   symmetric: true
   identity: "~/.ssh/gh.id_rsa"
 
-{{ if eq .chezmoi.os "darwin" -}}
 hooks:
   re-add:
     pre:
-      command: "brew"
-      args: ["bundle", "dump", "--file", ".config/Brewfile", "--force"]
-{{- else if eq .chezmoi.os "linux" -}}
-{{ end -}}
+      command: "packages"
+      args: ["dump"]
