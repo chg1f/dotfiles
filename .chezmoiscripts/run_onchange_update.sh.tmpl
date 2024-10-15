@@ -1,6 +1,0 @@
-#!bash
-
-{{- if eq .chezmoi.os "darwin" -}}
-brew bundle --file .config/Brewfile
-{{- else if eq .chezmoi.os "linux" -}}
-{{ end -}}

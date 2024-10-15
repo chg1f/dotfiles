@@ -42,6 +42,8 @@ network-manager-applet
 networkmanager
 nmap
 nodejs
+noto-fonts-cjk-tc-vf
+noto-fonts-emoji
 npm
 ntfs-3g
 nvidia-settings
