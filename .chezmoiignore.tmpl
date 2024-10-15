@@ -1,10 +1,11 @@
 README.md
 *.local
-
-{{- if eq .chezmoi.os "darwin" -}}
+{{- if ne .chezmoi.os "darwin" }}
+Brewfile
+{{- else if ne .chezmoi.os "linux" }}
 i3/*
 yay/*
 pacman/*
-{{- else if eq .chezmoi.os "linux" -}}
-Brewfile
-{{ end -}}
+.[Xx]*
+.dmrc
+{{- end }}

@@ -1,3 +1,4 @@
+age
 base
 base-devel
 bash-completion
@@ -42,7 +43,7 @@ network-manager-applet
 networkmanager
 nmap
 nodejs
-noto-fonts-cjk-tc-vf
+noto-fonts-cjk
 noto-fonts-emoji
 npm
 ntfs-3g
