@@ -1,11 +1,12 @@
 README.md
-#*.local
 {{- if ne .chezmoi.os "darwin" }}
 Brewfile
 {{- else if ne .chezmoi.os "linux" }}
-i3/*
-yay/*
-pacman/*
-.[Xx]*
+	{{- if ne (index .chezmoi.osRelease "id") "arch" }}
+**/i3
+**/yay
+**/pacman
+.[xX]*
 .dmrc
+	{{- end }}
 {{- end }}
