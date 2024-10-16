@@ -1,13 +1,13 @@
 [include]
   path = ~/.config/git/config.local
 
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
 ; [includeIf "gitdir:**/github.com/"]
 ; [includeIf "hasconfig:remote.*.url:git@github.com:**"]
 ; [includeif "hasconfig:remote.*.url:ssh://git@github.com/**"]
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
    path = ~/.config/git/github.com
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
 
 [alias]
 	s = status --short
@@ -17,9 +17,9 @@
 	lf = l --name-status
     ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f"
 	lg = l --date-order --graph
-	; FIXME: with last commit ?
-	ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f"
-	lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
+	; ; TODO: with last commit
+	; ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f"
+	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
 
     add = add --verbose
 	au = add --update
