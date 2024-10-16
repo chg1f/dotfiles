@@ -1,0 +1,27 @@
+.DS_Store
+
+# configuration files
+config{,s}/*.{yml,yaml,json,toml}
+.env
+.agollo
+.properties
+
+# log files
+log{,s}/*.{log,txt}
+
+# backup files
+*.bak{,*}
+
+# temporary files
+tmp/*
+*.t{,e}mp
+*.pid
+*{~,.swp}
+
+# binary files
+bin/*
+__debug_bin{,*}
+debug.test{,*}
+
+# python files
+.venv
