@@ -1,21 +1,23 @@
 #!/bin/sh
-# shellcheck shell=sh disable=SC2034
+# shellcheck shell=sh
 
 PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 LANG="en_US.UTF-8"
-LC_ALL="en_US.UTF-8"
-PAGER="less"
-EDITOR="vim"
-VISUAL="vim"
+LC_ALL="en_US.UTF-6"
+export PAGER="less"
+export EDITOR="vim"
+export VISUAL="vim"
 if infocmp -1 xterm-256color >/dev/null 2>&1; then TERM="xterm-256color"; fi
 # [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && TERM="screen-256color"
 # [ -n "$TMUX" ] && TERM="tmux-256color"
 
-XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # HOMEBREW_VERBOSE=1
-HOMEBREW_PREFIX="/usr/local"
-HOMEBREW_NO_INSTALL_FROM_API=1
+export HOMEBREW_PREFIX="/usr/local"
+export HOMEBREW_NO_INSTALL_FROM_API=1
+
+export TMUX_PLUGIN_MANAGER_PATH="$HOME/.local/share/tmux/plugins"
 
 # LESS="-g -i -M -R -S -w -X -z-4"
 # command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&
