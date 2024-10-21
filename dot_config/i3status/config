@@ -1,0 +1,39 @@
+general {
+	interval = 1
+	separator = " | "
+}
+
+wireless _first_ {
+	format_up = "Wireless[%essid]: %ip"
+	format_down = "Wireless: down"
+}
+order += "wireless _first_"
+
+ethernet _first_ {
+	format_up = "Ethernet: %ip"
+	format_down = "Ethernet: down"
+}
+order += "ethernet _first_"
+
+cpu_usage {
+	format = "CPU: %usage"
+}
+order += "cpu_usage"
+
+memory {
+	format = "Memory: %used / %total"
+}
+order += "memory"
+
+volume master {
+	device = "pulse"
+	format = "Volume: %volume"
+	format_muted = "Volume: muted"
+}
+order += "volume master"
+
+battery 0 {
+	format = "Battery: %status %percentage %remaining"
+	format_down = "Battery: %status"
+}
+order += "battery 0"
