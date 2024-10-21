@@ -2,11 +2,11 @@ README.md
 {{- if ne .chezmoi.os "darwin" }}
 Brewfile
 {{- else if ne .chezmoi.os "linux" }}
-	{{- if ne (index .chezmoi.osRelease "id") "arch" }}
-**/i3
+{{- if ne (index .chezmoi.osRelease "id") "arch" }}
+**/i3{,status}
 **/yay
-**/pacman
-.[xX]*
+.xinitrc
+.Xresources
 .dmrc
-	{{- end }}
+{{- end }}
 {{- end }}
