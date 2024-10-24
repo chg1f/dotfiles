@@ -10,44 +10,37 @@
    path = ~/.config/git/github.com
 
 [alias]
+	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
+	tags = tag --list --sort=committerdate
+	graph = log --graph --abbrev-commit --decorate --date=relative
+
 	s = status --short
 
-	l = log --date-order --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-	lp = l -p
-	lf = l --name-status
-    ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f"
-	lg = l --date-order --graph
-	; ; TODO: with last commit
-	; ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f"
-	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f"
+	l = log --date-order --verbose ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
+	ls = log --name-status
+    ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f" ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f" ; last commit?
+	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f" ; last commit?
 
-    add = add --verbose
-	au = add --update
-	aa = add --all
+	add = add --verbose
+	a = add --update
+	A = add --all
 
 	commit = commit --verbose
-	cm = commit -m
+	c = commit --message
 	ca = commit --amend --reuse-message=HEAD
-	wip = commit -m "wip"
 
 	push = push --verbose
-	p = push --set-upstream origin "$(git-branch-current 2>/dev/null)"
-	pa = "!f() { git push --all && git push --tags --no-verify; }; f"
+	p = push --set-upstream origin
 
 	fetch = fetch --verbose
-	fa = fetch --all
-	fp = fetch --all --prune
+	f = fetch --all
 
 	rebase = rebase --verbose
-	; r = rebase origin/main
 	ra = rebase --abort
 	rc = rebase --continue
 	rs = rebase --skip
 
-	tags = tag --list
-	branches = branch --list --all --verbose ; TODO git branch --list --all --format "$%(refname)%(HEAD)"
-
-	whoami = "!f() { printf \"%s<%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 
 [pull]
   rebase = true
