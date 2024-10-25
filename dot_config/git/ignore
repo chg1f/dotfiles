@@ -3,7 +3,7 @@
 # configuration files
 config{,s}/*.{yml,yaml,json,toml}
 .env
-.agollo
+.a[gp]ollo
 .properties
 
 # log files
