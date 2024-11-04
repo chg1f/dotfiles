@@ -12,12 +12,20 @@ if infocmp -1 xterm-256color >/dev/null 2>&1; then TERM="xterm-256color"; fi
 # [ -n "$TMUX" ] && TERM="tmux-256color"
 
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
 
 # HOMEBREW_VERBOSE=1
 export HOMEBREW_PREFIX="/usr/local"
 export HOMEBREW_NO_INSTALL_FROM_API=1
 
-export TMUX_PLUGIN_MANAGER_PATH="$HOME/.local/share/tmux/plugins"
+# TODO: LS_COLORS
+# https://github.com/trapd00r/LS_COLORS
+# https://gist.github.com/thomd/7667642
+# https://geoff.greer.fm/lscolors/
+# https://linux.die.net/man/5/dir_colors
 
 # LESS="-g -i -M -R -S -w -X -z-4"
 # command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&

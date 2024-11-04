@@ -27,4 +27,5 @@ debug.test*
 .venv
 
 # golang files
-go.work{,.sum}
+go.work
+go.work.sum

@@ -19,13 +19,12 @@ alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOC
 alias PATH='echo -e ${PATH//:/\\n}'
 
 if ls --color=auto >/dev/null 2>&1; then
-	COLORFLAG="--color=auto"
+	__COLOR_ARGS="--color=auto"
 else
-	COLORFLAG="-G"
+	__COLOR_ARGS="-G"
 fi
-
-alias ls="ls $COLORFLAG"
+alias ls="ls $__COLOR_ARGS"
 alias la="ls -a"
 alias ll="ls -l"
 
-unset COLORFLAG
+# unset COLORFLAG

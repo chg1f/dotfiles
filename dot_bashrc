@@ -26,7 +26,6 @@ case "$TERM" in
 		CYA="\[\e[0;36m\]"
 		WHI="\[\e[0;37m\]"
 	fi
-
 	if [ "$UID" -eq 0 ]; then
 		PS1="$RED\u$RST@$RED\h$RST:$BLU\w$RST \$ "
 	else
