@@ -3,9 +3,10 @@
 
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
-; [includeIf "gitdir:**/github.com/"]
 ; [includeIf "hasconfig:remote.*.url:git@github.com:**"]
 ; [includeif "hasconfig:remote.*.url:ssh://git@github.com/**"]
+[includeIf "gitdir:**/github.com/"]
+   path = ~/.config/git/github.com
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
    path = ~/.config/git/github.com
 
@@ -16,30 +17,21 @@
 	graph = log --graph --abbrev-commit --decorate --date=relative
 
 	s = status --short
-
-	l = log --date-order --verbose ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-	ls = log --name-status
+	l = log --date-order ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
+	ls = l --name-status
     ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f" ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f" ; last commit?
 	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f" ; last commit?
-
-	add = add --verbose
-	a = add --update
-	A = add --all
-
-	commit = commit --verbose
-	c = commit --message
-	ca = commit --amend --reuse-message=HEAD
-
-	push = push --verbose
-	p = push --set-upstream origin
-
-	fetch = fetch --verbose
-	f = fetch --all
-
-	rebase = rebase --verbose
-	ra = rebase --abort
-	rc = rebase --continue
-	rs = rebase --skip
+	; L = reflog --date=relative
+	; Ls = L --name-status
+	a = add -v --update
+	A = add -v --all
+	c = commit -v -m
+	ca = commit -v --amend --reuse-message=HEAD
+	p = push -v --set-upstream origin
+	f = fetch -v --all
+	ra = rebase -v --abort
+	rc = rebase -v --continue
+	rs = rebase -v --skip
 
 
 [pull]

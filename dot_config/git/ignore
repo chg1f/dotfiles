@@ -10,7 +10,7 @@ config{,s}/*.{yml,yaml,json,toml}
 log{,s}/*.{log,txt}
 
 # backup files
-*.bak{,*}
+*.bak
 
 # temporary files
 tmp/*
@@ -20,8 +20,11 @@ tmp/*
 
 # binary files
 bin/*
-__debug_bin{,*}
-debug.test{,*}
+__debug_bin*
+debug.test*
 
 # python files
 .venv
+
+# golang files
+go.work{,.sum}

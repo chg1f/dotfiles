@@ -39,6 +39,11 @@ plugins = vim.list_extend(plugins, {
 					target = "%1.go",
 					context = "file",
 				},
+				-- {
+				-- 	pattern = "(.*)/(.*).go$",
+				-- 	target = "%1/types.go",
+				-- 	context = "",
+				-- },
 			},
 		},
 	},
