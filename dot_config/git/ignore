@@ -1,13 +1,18 @@
 .DS_Store
 
 # configuration files
-config{,s}/*.{yml,yaml,json,toml}
 .env
-.a[gp]ollo
 .properties
+.a[gp]ollo
+config{,s}/*.{yml,yaml,json,toml}
 
 # log files
 log{,s}/*.{log,txt}
+
+# local files
+*-local.{yml,yaml,json,toml}
+*.local.{yml,yaml,json,toml}
+*.{yml,yaml,json,toml}.local
 
 # backup files
 *.bak

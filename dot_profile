@@ -10,6 +10,11 @@ export VISUAL="vim"
 if infocmp -1 xterm-256color >/dev/null 2>&1; then TERM="xterm-256color"; fi
 # [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && TERM="screen-256color"
 # [ -n "$TMUX" ] && TERM="tmux-256color"
+# TODO: LS_COLORS
+# https://github.com/trapd00r/LS_COLORS
+# https://gist.github.com/thomd/7667642
+# https://geoff.greer.fm/lscolors/
+# https://linux.die.net/man/5/dir_colors
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
@@ -21,11 +26,10 @@ export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
 export HOMEBREW_PREFIX="/usr/local"
 export HOMEBREW_NO_INSTALL_FROM_API=1
 
-# TODO: LS_COLORS
-# https://github.com/trapd00r/LS_COLORS
-# https://gist.github.com/thomd/7667642
-# https://geoff.greer.fm/lscolors/
-# https://linux.die.net/man/5/dir_colors
+export LEFTHOOK=1
+# export LEFTHOOK_VERBOSE=1
+# export LEFTHOOK_OUTPUT="meta,summary,success,failure,execution,execution_out,execution_info,skips"
+export LEFTHOOK_QUIET=meta,execution
 
 # LESS="-g -i -M -R -S -w -X -z-4"
 # command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&

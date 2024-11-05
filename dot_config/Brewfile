@@ -26,6 +26,8 @@ brew "chezmoi"
 brew "choose-rust"
 brew "cmake"
 brew "colima", args: ["HEAD"], restart_service: true
+brew "node"
+brew "commitlint"
 brew "curl"
 brew "delve"
 brew "direnv"
@@ -77,7 +79,6 @@ brew "utf8proc", args: ["HEAD"]
 brew "neovim", args: ["HEAD"]
 brew "nghttp2"
 brew "nmap"
-brew "node"
 brew "openssh"
 brew "perl"
 brew "pip-completion"
