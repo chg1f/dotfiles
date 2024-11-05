@@ -1,7 +1,7 @@
-Include /Users/chongiofai/.colima/ssh_config
+Include ~/.ssh/config.d/*
 
 Host *
-  SetEnv TERM=xterm-256color
+  SetEnv TERM=screen-256color
   # User root
   # Port 22
   TCPKeepAlive yes
@@ -14,8 +14,6 @@ Host *
   AddKeysToAgent ask
   # UseKeychain yes
   PubkeyAcceptedAlgorithms +ssh-rsa
-
-Include ~/.ssh/config.d/*
 
 Host github.com
   Hostname github.com
