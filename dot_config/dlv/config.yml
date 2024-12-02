@@ -14,7 +14,7 @@ source-list-tab-color: ""
 stacktrace-function-color: ""
 stacktrace-basename-color: ""
 debug-info-directories:
-    - /usr/lib/debug/.build-id
+  - /usr/lib/debug/.build-id
 position: ""
 tab: ""
 trace-show-timestamp: false
