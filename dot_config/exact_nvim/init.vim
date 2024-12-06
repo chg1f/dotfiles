@@ -2,6 +2,8 @@
 
 " Lazy load Neovim configurations
 if has('nvim')
+  let g:bigfile_size=200000 " set 200Kb big file
+
   lua require("lazyinit")
   finish
 endif
@@ -13,7 +15,7 @@ set t_Co=256
 syntax on
 colorscheme slate
 
-set mouse=a " disable mouse
+set mouse= " disable mouse
 set clipboard=unnamedplus " use system clipboard
 let g:mapleader=" "
 let g:maplocalleader="\\"

@@ -2,10 +2,13 @@
 -- Default options that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 -- Add any additional options here
 
-vim.g.bigfile_size = 500 * 1024 -- 500 KB
+vim.g.autoformat = false
+vim.g.minipairs_disable = true
 
 vim.opt.mouse = ""
-vim.opt.relativenumber = false
+-- vim.opt.clipboard = "unnamedplus"
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 vim.opt.list = true
 vim.opt.listchars = {
@@ -17,7 +20,9 @@ vim.opt.listchars = {
 	precedes = "«",
 }
 
--- vim.opt.relativenumber = false
+vim.opt.relativenumber = false
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
+
+vim.g.bigfile_size = 500 * 1024 -- 500 KB
