@@ -1,10 +1,5 @@
 ---@class LazyVimPlugin
 return {
-  {
-    "uloco/bluloco.nvim",
-    dependencies = { "rktjmp/lush.nvim" },
-  },
-  {
-    "EdenEast/nightfox.nvim",
-  },
+	"catppuccin/nvim",
+	"EdenEast/nightfox.nvim",
 }
