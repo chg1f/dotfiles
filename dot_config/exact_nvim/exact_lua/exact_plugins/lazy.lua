@@ -30,6 +30,7 @@ return {
 		},
 	},
 	{ "nvimdev/dashboard-nvim", enabled = false },
+	{ "folke/flash.nvim", enabled = false },
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		opts = {
@@ -176,7 +177,7 @@ return {
 		opts = {
 			defaults = {
 				prompt_prefix = " ",
-				selection_caret = " ",
+				selection_caret = "> ",
 			},
 			pickers = {
 				builtin = {
