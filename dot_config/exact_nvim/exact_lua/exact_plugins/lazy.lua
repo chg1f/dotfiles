@@ -3,7 +3,8 @@ return {
 	{
 		"LazyVim/LazyVim",
 		opts = {
-			colorscheme = "tokyonight-night",
+			-- colorscheme = "tokyonight-night",
+			colorscheme = "gruvbox",
 			news = {
 				lazyvim = false,
 				neovim = false,
@@ -29,16 +30,10 @@ return {
 			install_root = vim.fn.stdpath("data") .. "/mason",
 		},
 	},
-	{ "nvimdev/dashboard-nvim", enabled = false },
-	{ "folke/flash.nvim", enabled = false },
 	{
-		"lukas-reineke/indent-blankline.nvim",
+		"folke/snacks.nvim",
 		opts = {
-			enabled = false,
-			indent = {
-				char = "│",
-				tab_char = "║",
-			},
+			dashboard = { enabled = false },
 		},
 	},
 	{
@@ -59,6 +54,7 @@ return {
 		opts = function()
 			return {
 				options = {
+					-- icons = false,
 					component_separators = "",
 					section_separators = "",
 				},
@@ -89,6 +85,18 @@ return {
 						"selectioncount",
 					},
 					lualine_x = {
+						LazyVim.lualine.pretty_path({
+							modified_sign = "*",
+							readonly_icon = "!",
+						}),
+						"filesize",
+						-- "encoding",
+						-- {
+						-- 	"fileformat",
+						-- 	symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
+						-- },
+					},
+					lualine_y = {
 						{
 							"diff",
 							symbols = {
@@ -110,21 +118,9 @@ return {
 							"branch",
 							icons_enabled = false,
 						},
-						LazyVim.lualine.pretty_path({
-							modified_sign = "*",
-							readonly_icon = "!",
-						}),
 						-- LazyVim.lualine.root_dir({
 						-- 	icon = "",
 						-- }),
-					},
-					lualine_y = {
-						"filesize",
-						-- "encoding",
-						-- {
-						-- 	"fileformat",
-						-- 	symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
-						-- },
 					},
 					lualine_z = {
 						{
@@ -153,57 +149,6 @@ return {
 				delete = { text = "_" },
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
-			},
-		},
-	},
-	{
-		"nvim-telescope/telescope.nvim",
-		keys = {
-			{
-				"<leader>?",
-				function()
-					require("telescope.builtin").builtin()
-				end,
-				desc = "Telescope",
-			},
-			-- {
-			-- 	"<leader><space>",
-			-- 	function()
-			-- 		require("telescope.builtin").resume()
-			-- 	end,
-			-- 	desc = "Resume",
-			-- },
-		},
-		opts = {
-			defaults = {
-				prompt_prefix = " ",
-				selection_caret = "> ",
-			},
-			pickers = {
-				builtin = {
-					include_extensions = true,
-					use_default_opts = true,
-				},
-				find_files = {
-					-- hidden = true,
-					-- no_ignore = true,
-					-- no_ignore_parent = true,
-				},
-				colorscheme = {
-					-- enable_preview = true,
-				},
-				lsp_definitions = {
-					jump_type = "vsplit",
-				},
-				lsp_references = {
-					jump_type = "vsplit",
-				},
-				lsp_implementations = {
-					jump_type = "vsplit",
-				},
-				lsp_type_definitions = {
-					jump_type = "vsplit",
-				},
 			},
 		},
 	},
@@ -256,6 +201,135 @@ return {
 				-- 		},
 				-- 	},
 				-- },
+			},
+		},
+	},
+	-- {
+	-- 	"stevearc/conform.nvim",
+	-- 	opts = {
+	-- 		formatters = {
+	-- 			sqlfluff = {
+	-- 				args = { "format", "--dialect=ansi", "-" },
+	-- 			},
+	-- 		},
+	-- 		formatters_by_ft = {
+	-- 			sql = { "sqlfluff" },
+	-- 		},
+	-- 	},
+	-- },
+	{
+		"folke/which-key.nvim",
+		opts = {
+			preset = "helix",
+			win = {
+				col = 1, -- position of the floating window
+			},
+		},
+	},
+	{
+		"monaqa/dial.nvim",
+		keys = {
+			-- {
+			-- 	"<C-a>",
+			-- 	function()
+			-- 		return require("lazyvim.plugins.extras.editor.dial").dial(true)
+			-- 	end,
+			-- 	expr = true,
+			-- 	desc = "Increment",
+			-- 	mode = { "n", "v" },
+			-- },
+			-- {
+			-- 	"g<C-a>",
+			-- 	function()
+			-- 		return require("lazyvim.plugins.extras.editor.dial").dial(true, true)
+			-- 	end,
+			-- 	expr = true,
+			-- 	desc = "Increment",
+			-- 	mode = { "n", "v" },
+			-- },
+		},
+	},
+	{
+		"ibhagwan/fzf-lua",
+		keys = {
+			{
+				"<leader><space>",
+				function()
+					require("fzf-lua").resume()
+				end,
+				desc = "Resume",
+			},
+			{
+				"<leader>?",
+				function()
+					require("fzf-lua").builtin()
+				end,
+				desc = "Features",
+			},
+			{
+				"<leader>h",
+				function()
+					require("fzf-lua").help_tags()
+				end,
+				desc = "Help",
+			},
+		},
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		keys = {
+			{
+				"<leader><space>",
+				function()
+					require("telescope.builtin").resume()
+				end,
+				desc = "Resume",
+			},
+			{
+				"<leader>?",
+				function()
+					require("telescope.builtin").builtin()
+				end,
+				desc = "Features",
+			},
+			{
+				"<leader>h",
+				function()
+					require("telescope.builtin").help_tags()
+				end,
+				desc = "Help",
+			},
+		},
+		opts = {
+			defaults = {
+				prompt_prefix = " ",
+				selection_caret = "> ",
+			},
+			pickers = {
+				builtin = {
+					include_extensions = true,
+					use_default_opts = true,
+				},
+				find_files = {
+					-- hidden = true,
+					-- no_ignore = true,
+					-- no_ignore_parent = true,
+				},
+				colorscheme = {
+					-- enable_preview = true,
+				},
+				lsp_definitions = {
+					jump_type = "vsplit",
+				},
+				lsp_references = {
+					jump_type = "vsplit",
+				},
+				lsp_implementations = {
+					jump_type = "vsplit",
+				},
+				lsp_type_definitions = {
+					jump_type = "vsplit",
+				},
 			},
 		},
 	},

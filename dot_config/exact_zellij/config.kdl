@@ -9,12 +9,12 @@ keybinds clear-defaults=true {
         bind "F1" { SwitchToMode "Locked"; }
         bind "Ctrl a" { SwitchToMode "Tmux"; }
 
-        bind "Ctrl n" { GoToNextTab; }
-        bind "Ctrl p" { GoToPreviousTab; }
-        // bind "Ctrl h" { MoveFocus "Left"; }
-        // bind "Ctrl j" { MoveFocus "Down"; }
-        // bind "Ctrl k" { MoveFocus "Up"; }
-        // bind "Ctrl l" { MoveFocus "Right"; }
+        bind "Alt n" { GoToNextTab; }
+        bind "Alt p" { GoToPreviousTab; }
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt l" { MoveFocus "Right"; }
     }
     tmux {
         bind "[" { SwitchToMode "Scroll"; }

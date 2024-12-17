@@ -37,10 +37,10 @@ local config = {
 		{ key = "-", mods = "SUPER", action = wezterm.action.DecreaseFontSize },
 		{ key = "0", mods = "SUPER", action = wezterm.action.ResetFontSize },
 
-		{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
+		{ key = "c", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
 		{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-		{ key = "[", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
-		{ key = "]", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "p", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
+		{ key = "n", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
 	},
 	-- mouse_bindings = {
 	--   {

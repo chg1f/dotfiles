@@ -2,8 +2,6 @@
 
 " Lazy load Neovim configurations
 if has('nvim')
-  let g:bigfile_size=200000 " set 200Kb big file
-
   lua require("lazyinit")
   finish
 endif
