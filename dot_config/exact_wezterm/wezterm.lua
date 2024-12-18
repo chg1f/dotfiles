@@ -9,7 +9,8 @@ local config = {
 	front_end = "WebGpu",
 	webgpu_power_preference = "HighPerformance",
 
-	color_scheme = "Tokyo Night",
+	-- color_scheme = "Tokyo Night",
+	color_scheme = "GruvboxDarkHard",
 	font = wezterm.font_with_fallback({
 		{ family = "JetBrains Mono NL" },
 		{ family = "Noto Sans CJK TC" },

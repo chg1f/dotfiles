@@ -24,7 +24,6 @@ brew "unbound"
 brew "gnutls"
 brew "cask"
 brew "chezmoi"
-brew "choose-rust"
 brew "cmake"
 brew "cmake-docs"
 brew "colima", args: ["HEAD"], restart_service: true

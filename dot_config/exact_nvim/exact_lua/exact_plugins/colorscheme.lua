@@ -3,7 +3,7 @@ return {
 	{
 		"ellisonleao/gruvbox.nvim",
 		opts = {
-			-- contrast = "hard",
+			contrast = "hard",
 		},
 	},
 	{ "catppuccin/nvim" },

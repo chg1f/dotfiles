@@ -54,7 +54,7 @@ return {
 		opts = function()
 			return {
 				options = {
-					-- icons = false,
+					icons_enabled = false,
 					component_separators = "",
 					section_separators = "",
 				},
@@ -79,6 +79,13 @@ return {
 						},
 					},
 					lualine_c = {
+						{
+							"fileformat",
+							icons_enabled = true,
+							symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
+						},
+						"encoding",
+						"filesize",
 						"progress",
 						"location",
 						"searchcount",
@@ -89,12 +96,7 @@ return {
 							modified_sign = "*",
 							readonly_icon = "!",
 						}),
-						"filesize",
-						-- "encoding",
-						-- {
-						-- 	"fileformat",
-						-- 	symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
-						-- },
+						LazyVim.lualine.root_dir(),
 					},
 					lualine_y = {
 						{
@@ -116,16 +118,11 @@ return {
 						},
 						{
 							"branch",
-							icons_enabled = false,
 						},
-						-- LazyVim.lualine.root_dir({
-						-- 	icon = "",
-						-- }),
 					},
 					lualine_z = {
 						{
 							"filetype",
-							icons_enabled = false,
 						},
 					},
 				},
