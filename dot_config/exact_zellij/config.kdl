@@ -9,6 +9,11 @@ keybinds clear-defaults=true {
         bind "F1" { SwitchToMode "Locked"; }
         bind "Ctrl a" { SwitchToMode "Tmux"; }
 
+		bind "Alt [" { SwitchToMode "Scroll"; }
+
+        bind "Alt s" "Alt -" "Alt _" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "Alt v" "Alt |" "Alt \\" { NewPane "Right"; SwitchToMode "Normal"; }
+
         bind "Alt n" { GoToNextTab; }
         bind "Alt p" { GoToPreviousTab; }
         bind "Alt h" { MoveFocus "Left"; }

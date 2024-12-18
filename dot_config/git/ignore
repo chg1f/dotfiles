@@ -10,9 +10,7 @@ config{,s}/*.{yml,yaml,json,toml}
 log{,s}/*.{log,txt}
 
 # local files
-*-local.{yml,yaml,json,toml}
-*.local.{yml,yaml,json,toml}
-*.{yml,yaml,json,toml}.local
+*[-.]local[-.]*
 
 # backup files
 *.bak
@@ -34,3 +32,5 @@ debug.test*
 # golang files
 go.work
 go.work.sum
+
+.lazy.lua

@@ -38,7 +38,7 @@ local config = {
 		{ key = "-", mods = "SUPER", action = wezterm.action.DecreaseFontSize },
 		{ key = "0", mods = "SUPER", action = wezterm.action.ResetFontSize },
 
-		{ key = "c", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
+		{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
 		{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
 		{ key = "p", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
 		{ key = "n", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },

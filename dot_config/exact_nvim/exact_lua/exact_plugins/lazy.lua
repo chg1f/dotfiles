@@ -201,19 +201,6 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"stevearc/conform.nvim",
-	-- 	opts = {
-	-- 		formatters = {
-	-- 			sqlfluff = {
-	-- 				args = { "format", "--dialect=ansi", "-" },
-	-- 			},
-	-- 		},
-	-- 		formatters_by_ft = {
-	-- 			sql = { "sqlfluff" },
-	-- 		},
-	-- 	},
-	-- },
 	{
 		"folke/which-key.nvim",
 		opts = {

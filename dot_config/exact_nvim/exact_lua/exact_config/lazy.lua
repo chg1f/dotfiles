@@ -23,6 +23,7 @@ require("lazy").setup({
 	},
 	root = vim.fn.stdpath("data") .. "/lazy", -- directory where plugins will be installed
 	lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json", -- lockfile generated after running update.
+	local_spec = true, -- use a local spec file
 	defaults = {
 		lazy = true, -- plugins lazy loaded by default
 		version = false, -- always use the latest git commit
