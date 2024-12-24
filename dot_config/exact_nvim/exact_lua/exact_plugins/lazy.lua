@@ -3,7 +3,6 @@ return {
 	{
 		"LazyVim/LazyVim",
 		opts = {
-			-- colorscheme = "tokyonight-night",
 			colorscheme = "gruvbox",
 			news = {
 				lazyvim = false,
@@ -201,6 +200,29 @@ return {
 			},
 		},
 	},
+	-- {
+	-- 	"mfussenegger/nvim-lint",
+	-- 	opts = {
+	-- 		linters = {
+	-- 			sqlfluff = {
+	-- 				args = { "lint", "--format=json", "--dialect=mysql" },
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
+	-- {
+	-- 	"stevearc/conform.nvim",
+	-- 	opts = function(_, opts)
+	-- 		local sql_ft = { "sql", "mysql", "plsql" }
+	-- 		opts.formatters.sqlfluff = {
+	-- 			args = { "fix", "--dialect=mysql", "-" },
+	-- 		}
+	-- 		for _, ft in ipairs(sql_ft) do
+	-- 			opts.formatters_by_ft[ft] = opts.formatters_by_ft[ft] or {}
+	-- 			table.insert(opts.formatters_by_ft[ft], "sqlfluff")
+	-- 		end
+	-- 	end,
+	-- },
 	{
 		"folke/which-key.nvim",
 		opts = {
