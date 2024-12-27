@@ -8,7 +8,7 @@ re-add)
 		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
 	fi
 	if command -v brew >/dev/null 2>&1; then
-		brew bundle dump --force --file "$XDG_CONFIG_HOME/homebrew/Brewfile"
+		brew bundle dump --force
 	fi
 	;;
 apply)
@@ -16,7 +16,7 @@ apply)
 		yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
 	fi
 	if command -v brew >/dev/null 2>&1; then
-		brew bundle --force --file "$XDG_CONFIG_HOME/homebrew/Brewfile"
+		brew bundle --force
 	fi
 	;;
 *)
