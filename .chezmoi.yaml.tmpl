@@ -7,25 +7,12 @@ git:
   autoCommit: true
   # autoPush: true
 
-{{- if ne .chezmoi.os "darwin" }}
 hooks:
   re-add:
     pre:
-      command: "brew"
-      args: ["bundle", "dump", "--force", "$HOME/.config/homebrew/Brewfile"]
+      command: "chezmoi-package"
+      args: ["re-add"]
   apply:
 	pre:
-	  command: "brew"
-	  args: ["bundle", "--file", "$HOME/.config/homebrew/Brewfile"]
-{{- end }}
-{{- if and (ne .chezmoi.os "linux") (ne (index .chezmoi.osRelease "id") "arch") }}
-hooks:
-  re-add:
-    pre:
-      command: "yay"
-      args: ["-Qqe"]
-	apply:
-	  pre:
-	    command: "yay"
-	    args: ["-S", "--needed", "- < $HOME/.config/yay/pkglist.txt"]
-{{- end }}
+	  command: "chezmoi-package"
+	  args: ["apply"]
