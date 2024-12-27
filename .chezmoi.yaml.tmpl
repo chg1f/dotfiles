@@ -7,21 +7,25 @@ git:
   autoCommit: true
   # autoPush: true
 
-# diff:
-#   command: "delta"
-#   pager: "delta"
-
-merge:
-  command: "nvim"
-  args: ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]
-
-encryption: "age"
-age:
-  symmetric: true
-  identity: "~/.ssh/gh.id_rsa"
-
+{{- if ne .chezmoi.os "darwin" }}
 hooks:
   re-add:
     pre:
-      command: "packages"
-      args: ["dump"]
+      command: "brew"
+      args: ["bundle", "dump", "--force", "$HOME/.config/homebrew/Brewfile"]
+  apply:
+	pre:
+	  command: "brew"
+	  args: ["bundle", "--file", "$HOME/.config/homebrew/Brewfile"]
+{{- end }}
+{{- if and (ne .chezmoi.os "linux") (ne (index .chezmoi.osRelease "id") "arch") }}
+hooks:
+  re-add:
+    pre:
+      command: "yay"
+      args: ["-Qqe"]
+	apply:
+	  pre:
+	    command: "yay"
+	    args: ["-S", "--needed", "- < $HOME/.config/yay/pkglist.txt"]
+{{- end }}
