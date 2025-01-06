@@ -4,27 +4,19 @@
 PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
-# export TERM="xterm-256color"
-# [ -n "$TMUX" ] && export TERM="tmux-256color"
-# if infocmp -1 xterm-256color >/dev/null 2>&1; then TERM="xterm-256color"; fi
-# [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] && TERM="screen-256color"
 export PAGER="less"
 export EDITOR="vim"
 export VISUAL="vim"
-
-# TODO: LS_COLORS
-# https://github.com/trapd00r/LS_COLORS
-# https://gist.github.com/thomd/7667642
-# https://geoff.greer.fm/lscolors/
-# https://linux.die.net/man/5/dir_colors
+export TERM="xterm-256color"
 
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
 
+# HOMEBREW_VERBOSE=1
 export HOMEBREW_PREFIX="/usr/local"
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
-# HOMEBREW_VERBOSE=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_FROM_API=1
