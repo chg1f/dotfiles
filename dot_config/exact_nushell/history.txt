@@ -1,6 +1,0 @@
-ls -al
-ls
-l
-l -al
-ls -al
-gi
