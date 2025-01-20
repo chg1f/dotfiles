@@ -43,13 +43,13 @@
 [merge]
   tool = nvimdiff
 
-[pager]
-  diff = delta
-  reflog = delta
-  show = delta
-  log = delta
-
-[delta]
-  side-by-side = true
+; [pager]
+;   diff = delta
+;   reflog = delta
+;   show = delta
+;   log = delta
+;
+; [delta]
+;   side-by-side = true
 
 # vim: ft=gitconfig
