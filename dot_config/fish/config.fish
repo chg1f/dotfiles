@@ -3,8 +3,8 @@
 set -x PATH $HOME/.local/bin /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
 set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
-set -x PAGER less
-set -x MANPAGER "col -bx | bat -p"
+# set -x PAGER less
+set -x PAGER "col -bx | bat -p"
 set -x MANPAGER "col -bx | bat -p -l man"
 set -x EDITOR vim
 set -x VISUAL vim
@@ -20,9 +20,13 @@ set -x HOMEBREW_NO_INSTALL_FROM_API 1
 set -x TMUX_PLUGIN_MANAGER_PATH $XDG_DATA_HOME/tmux/plugins
 set -x FZF_DEFAULT_OPTS "--height=50% --layout=reverse --cycle --bind ctrl-f:preview-page-down,ctrl-b:preview-page-up,ctrl-e:preview-down,ctrl-y:preview-up"
 
+alias cat="bat -p"
+alias vi="vim"
+# alias vim="nvim"
 alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
 alias NLH="LEFTHOOK=0"
 
+# fisher update
 if status is-interactive
     fish_vi_key_bindings
     bind -M insert \b suppress-autosuggestion
@@ -36,11 +40,13 @@ if status is-interactive
     # set -U --append __done_exclude '^git (?!push|pull|fetch)'
 
     set -U tide_prompt_add_newline_before true
-    set -U tide_left_prompt_items status pwd git newline character vi_mode
+    set -U tide_prompt_transient_enabled true
+    set -U tide_left_prompt_items vi_mode pwd direnv git newline character
     set -U tide_status_icon
     set -U tide_status_icon_failure
     set -U tide_status_color green
     set -U tide_status_color_failure red
+    set -U tide_pwd_icon_unwritable RO
     set -U tide_pwd_markers .git package.json pyproject.toml go.work go.mod Cargo.toml build.zig
     set -U tide_git_icon
     set -U tide_git_color_branch cyan
@@ -52,9 +58,9 @@ if status is-interactive
     set -U tide_git_color_untracked brred
     set -U tide_git_color_upstream brcyan
     set -U tide_character_icon \#
-    set -U tide_character_vi_icon_default
-    set -U tide_character_vi_icon_replace
-    set -U tide_character_vi_icon_visual
+    set -U tide_character_vi_icon_default \#
+    set -U tide_character_vi_icon_replace \#
+    set -U tide_character_vi_icon_visual \#
     set -U tide_character_color brblack
     set -U tide_character_color_failure brblack
     set -U tide_vi_mode_icon_insert
@@ -65,7 +71,7 @@ if status is-interactive
     set -U tide_vi_mode_color_replace red
     set -U tide_vi_mode_icon_visual \[v\]
     set -U tide_vi_mode_color_visual brred
-    set -U tide_right_prompt_items jobs direnv python node go rustc zig context
+    set -U tide_right_prompt_items status jobs python node go rustc zig context
     set -U tide_jobs_icon jobs
     set -U tide_jobs_color yellow
     set -U tide_direnv_icon direnv

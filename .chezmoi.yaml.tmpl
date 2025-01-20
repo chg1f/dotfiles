@@ -10,9 +10,9 @@ git:
 hooks:
   re-add:
     pre:
-      command: "chezmoi-package"
+      command: "chezmoi-packages"
       args: ["re-add"]
   apply:
-	pre:
-	  command: "chezmoi-package"
-	  args: ["apply"]
+    pre:
+      command: "chezmoi-packages"
+      args: ["apply"]
