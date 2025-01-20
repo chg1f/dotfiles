@@ -5,7 +5,7 @@ local config = {
 	exit_behavior_messaging = "Verbose",
 
 	window_close_confirmation = "NeverPrompt",
-	window_padding = { left = 0.5, right = 0.5, top = 0.5, bottom = 0.5 },
+	window_padding = { left = 5, right = 5, top = 5, bottom = 5 },
 
 	enable_tab_bar = true,
 	hide_tab_bar_if_only_one_tab = true,
