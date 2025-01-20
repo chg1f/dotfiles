@@ -3,9 +3,9 @@
 set -x PATH $HOME/.local/bin /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
 set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
-# set -x PAGER less
-set -x PAGER "col -bx | bat -p"
+set -x PAGER less
 set -x MANPAGER "col -bx | bat -p -l man"
+# set -x LESS "-g -i -M -R -S -w -X -z-4"
 set -x EDITOR vim
 set -x VISUAL vim
 set -x XDG_CONFIG_HOME $HOME/.config
@@ -20,14 +20,14 @@ set -x HOMEBREW_NO_INSTALL_FROM_API 1
 set -x TMUX_PLUGIN_MANAGER_PATH $XDG_DATA_HOME/tmux/plugins
 set -x FZF_DEFAULT_OPTS "--height=50% --layout=reverse --cycle --bind ctrl-f:preview-page-down,ctrl-b:preview-page-up,ctrl-e:preview-down,ctrl-y:preview-up"
 
-alias cat="bat -p"
-alias vi="vim"
-# alias vim="nvim"
-alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
-alias NLH="LEFTHOOK=0"
-
 # fisher update
 if status is-interactive
+    alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
+    alias NLH="LEFTHOOK=0"
+    alias cat="bat -p"
+    alias vi="vim"
+    # alias vim="nvim"
+
     fish_vi_key_bindings
     bind -M insert \b suppress-autosuggestion
     bind -M insert \cl accept-autosuggestion
