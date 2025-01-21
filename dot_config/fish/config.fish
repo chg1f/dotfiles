@@ -5,7 +5,7 @@ set -x LANG en_US.UTF-8
 set -x LC_ALL en_US.UTF-8
 set -x PAGER less
 set -x MANPAGER "col -bx | bat -p -l man"
-# set -x LESS "-g -i -M -R -S -w -X -z-4"
+set -x LESS "--quit-if-one-screen --ignore-case --RAW-CONTROL-CHARS --silent --window=-4 --no-init --no-keypad --no-hilite-search --no-hilite-unread"
 set -x EDITOR vim
 set -x VISUAL vim
 set -x XDG_CONFIG_HOME $HOME/.config
@@ -24,9 +24,9 @@ set -x FZF_DEFAULT_OPTS "--height=50% --layout=reverse --cycle --bind ctrl-f:pre
 if status is-interactive
     alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
     alias NLH="LEFTHOOK=0"
-    alias cat="bat -p"
     alias vi="vim"
     # alias vim="nvim"
+    # alias cat="bat -p"
 
     fish_vi_key_bindings
     bind -M insert \b suppress-autosuggestion
@@ -91,4 +91,5 @@ if status is-interactive
     set -U tide_context_color_default green
     set -U tide_context_color_root red
     set -U tide_context_color_ssh yellow
+    tide reload
 end

@@ -1,55 +1,57 @@
 [include]
-  path = ~/.config/git/config.local
+	path = ~/.config/git/config.local
 
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
 ; [includeIf "hasconfig:remote.*.url:git@github.com:**"]
 ; [includeif "hasconfig:remote.*.url:ssh://git@github.com/**"]
 [includeIf "gitdir:**/github.com/"]
-   path = ~/.config/git/github.com
+	path = ~/.config/git/github.com
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
-   path = ~/.config/git/github.com
+	path = ~/.config/git/github.com
 
 [alias]
-	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
-	branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
-	tags = tag --list --sort=committerdate
+	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 	graph = log --graph --abbrev-commit --decorate --date=relative
-
-	s = status --short
-	l = log --date-order ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-	ls = l --name-status
-    ; lf = "!f() { git logf --name-status -n ${1:-1}; }; f" ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f" ; last commit?
+	; tags = tag --list --sort=committerdate
+	; branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
+	; s = status --short
+	; l = log --date-order ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
+	; ls = l --name-status
+	; lf = "!f() { git logf --name-status -n ${1:-1}; }; f" ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f" ; last commit?
 	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f" ; last commit?
 	; L = reflog --date=relative
 	; Ls = L --name-status
-	a = add -v --update
-	A = add -v --all
-	c = commit -v -m
-	ca = commit -v --amend --reuse-message=HEAD
-	p = push -v --set-upstream origin
-	f = fetch -v --all
-	ra = rebase -v --abort
-	rc = rebase -v --continue
-	rs = rebase -v --skip
-
+	; a = add -v --update
+	; A = add -v --all
+	; c = commit -v -m
+	; ca = commit -v --amend --reuse-message=HEAD
+	; p = push -v --set-upstream origin
+	; f = fetch -v --all
+	; ra = rebase -v --abort
+	; rc = rebase -v --continue
+	; rs = rebase -v --skip
 
 [pull]
-  rebase = true
+	rebase = true
 
 [diff]
-  tool = nvimdiff
+	; tool = nvimdiff
+	; external = delta
+	external = difft --syntax-highlight on --sort-paths --skip-unchanged --display=side-by-side
 
 [merge]
-  tool = nvimdiff
+	; tool = nvimdiff
+	conflictstyle = zdiff3
 
 ; [pager]
-;   diff = delta
-;   reflog = delta
-;   show = delta
-;   log = delta
-;
-; [delta]
-;   side-by-side = true
+; 	diff = delta
+; 	reflog = delta
+; 	show = delta
+; 	log = delta
+
+[delta]
+	line-numbers = true
+	; side-by-side = true
 
 # vim: ft=gitconfig

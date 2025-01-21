@@ -57,6 +57,7 @@ brew "git-flow"
 brew "gnu-sed"
 brew "libassuan"
 brew "gnupg"
+brew "go@1.22", link: true
 brew "gomplate"
 brew "netpbm"
 brew "librsvg"
