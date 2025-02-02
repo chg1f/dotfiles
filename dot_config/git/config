@@ -1,18 +1,12 @@
 [include]
 	path = ~/.config/git/config.local
 
-[url "ssh://git@github.com/"]
-	insteadOf = https://github.com/
-; [includeIf "hasconfig:remote.*.url:git@github.com:**"]
-; [includeif "hasconfig:remote.*.url:ssh://git@github.com/**"]
-[includeIf "gitdir:**/github.com/"]
-	path = ~/.config/git/github.com
-[includeIf "hasconfig:remote.*.url:https://github.com/**"]
-	path = ~/.config/git/github.com
+[pull]
+	rebase = true
 
 [alias]
-	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 	graph = log --graph --abbrev-commit --decorate --date=relative
+	; whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 	; tags = tag --list --sort=committerdate
 	; branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
 	; s = status --short
@@ -32,8 +26,6 @@
 	; rc = rebase -v --continue
 	; rs = rebase -v --skip
 
-[pull]
-	rebase = true
 
 [diff]
 	; tool = nvimdiff
@@ -49,9 +41,9 @@
 ; 	reflog = delta
 ; 	show = delta
 ; 	log = delta
-
-[delta]
-	line-numbers = true
-	; side-by-side = true
+;
+; [delta]
+; 	line-numbers = true
+; 	side-by-side = true
 
 # vim: ft=gitconfig
