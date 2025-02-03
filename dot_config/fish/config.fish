@@ -2,27 +2,29 @@
 
 # set -x PATH $HOME/.local/bin /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
 # eval "$(/opt/homebrew/bin/brew shellenv)"
-fish_add_path ~/.local/bin
+fish_add_path "~/.local/bin"
 
-set -x LANG en_US.UTF-8
-set -x LC_ALL en_US.UTF-8
-set -x EDITOR vim
-set -x VISUAL vim
-set -x PAGER less
+set -x LANG "en_US.UTF-8"
+set -x LC_ALL "en_US.UTF-8"
+set -x EDITOR "vim"
+set -x VISUAL "vim"
+set -x PAGER "less"
 
-set -x XDG_CONFIG_HOME $HOME/.config
-set -x XDG_CACHE_HOME $HOME/.cache
-set -x XDG_DATA_HOME $HOME/.local/share
-set -x XDG_STATE_HOME $HOME/.local/state
+set -x XDG_CONFIG_HOME "$HOME/.config"
+set -x XDG_CACHE_HOME "$HOME/.cache"
+set -x XDG_DATA_HOME "$HOME/.local/share"
+set -x XDG_STATE_HOME "$HOME/.local/state"
 
 set -x LESS "-R -F --mouse"
+set -x LESSHISTFILE "$XDG_STATE_HOME/lesshst"
 set -x MANPAGER "col -bx | bat -p -l man"
-set -x HOMEBREW_BUNDLE_FILE $XDG_CONFIG_HOME/homebrew/Brewfile
+set -x HOMEBREW_BUNDLE_FILE "$XDG_CONFIG_HOME/homebrew/Brewfile"
 set -x HOMEBREW_NO_AUTO_UPDATE 1
 set -x HOMEBREW_NO_ENV_HINTS 1
 set -x HOMEBREW_NO_INSTALL_FROM_API 1
-set -x TMUX_PLUGIN_MANAGER_PATH $XDG_DATA_HOME/tmux/plugins
+set -x TMUX_PLUGIN_MANAGER_PATH "$XDG_DATA_HOME/tmux/plugins"
 set -x FZF_DEFAULT_OPTS "--height=50% --layout=reverse --cycle --bind ctrl-f:preview-page-down,ctrl-b:preview-page-up,ctrl-e:preview-down,ctrl-y:preview-up"
+set -x GOPATH "$XDG_DATA_HOME/go"
 
 if status is-interactive
     set -U fish_greeting
