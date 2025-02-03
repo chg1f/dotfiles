@@ -2,14 +2,16 @@ README.md
 
 
 {{- if ne .chezmoi.os "linux" }}
-
-.Xresources
 .barh_aliases
 .bashrc
-.config/direnv
-
-.profile
 .inputrc
+
+
+.Xresources
+.config/curlrc
+.config/dlv
+.config/bat
+
 
 {{- if ne (index .chezmoi.osRelease "id") "arch" }}
 .config/i3
