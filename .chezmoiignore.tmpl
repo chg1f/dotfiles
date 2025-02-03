@@ -1,15 +1,26 @@
 README.md
-*.local
-{{- if ne .chezmoi.os "darwin" }}
-Brewfile
-{{- end }}
+
+
 {{- if ne .chezmoi.os "linux" }}
+
+.Xresources
+.barh_aliases
+.bashrc
+.config/direnv
+
+.profile
+.inputrc
+
 {{- if ne (index .chezmoi.osRelease "id") "arch" }}
 .config/i3
 .config/i3status
 .config/yay
 .xinitrc
-.Xresources
 .dmrc
 {{- end }}
+
+{{- end }}
+
+{{- if ne .chezmoi.os "darwin" }}
+.config/homebrew
 {{- end }}
