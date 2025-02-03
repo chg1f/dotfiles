@@ -1,16 +1,13 @@
 README.md
-
-
-{{- if ne .chezmoi.os "linux" }}
-.barh_aliases
-.bashrc
-.inputrc
-
+{{- if ne .chezmoi.os "darwin" }}
+.config/homebrew
+{{- end }}
+{{- if eq .chezmoi.os "linux" }}
+*
+!.bashrc
+!.inputrc
 
 .Xresources
-.config/curlrc
-.config/dlv
-.config/bat
 
 
 {{- if ne (index .chezmoi.osRelease "id") "arch" }}
@@ -23,6 +20,3 @@ README.md
 
 {{- end }}
 
-{{- if ne .chezmoi.os "darwin" }}
-.config/homebrew
-{{- end }}
