@@ -3,17 +3,16 @@
 # configuration files
 .env
 .properties
-.a[gp]ollo
-config{,s}/*.{yml,yaml,json,toml}
 
 # log files
-log{,s}/*.{log,txt}
+log{,s}/*
+*.log
 
 # local files
-*[-.]local[-.]*
+*.local
 
 # backup files
-*.bak
+*.{backup,bak}
 
 # temporary files
 tmp/*
@@ -33,4 +32,5 @@ debug.test*
 go.work
 go.work.sum
 
+# vim files
 .lazy.lua

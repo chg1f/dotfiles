@@ -1,9 +1,3 @@
-[include]
-	path = ~/.config/git/config.local
-
-[pull]
-	rebase = true
-
 [alias]
 	graph = log --graph --abbrev-commit --decorate --date=relative
 	; whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
@@ -26,6 +20,8 @@
 	; rc = rebase -v --continue
 	; rs = rebase -v --skip
 
+[pull]
+	rebase = true
 
 [diff]
 	; tool = nvimdiff
@@ -45,5 +41,23 @@
 ; [delta]
 ; 	line-numbers = true
 ; 	side-by-side = true
+
+[include]
+	path = ~/.config/git/config.local
+
+;[url "ssh://git@github.com/"]
+;	insteadOf = https://github.com/
+
+[includeIf "gitdir:**/github.com/"]
+	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:git@github.com:**"]
+	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = ~/.config/git/github.com
+
+[includeif "hasconfig:remote.*.url:ssh://git@github.com/**"]
+	path = ~/.config/git/github.com
 
 # vim: ft=gitconfig
