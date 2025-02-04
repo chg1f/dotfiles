@@ -6,9 +6,9 @@ fish_add_path "~/.local/bin"
 
 set -x LANG "en_US.UTF-8"
 set -x LC_ALL "en_US.UTF-8"
-set -x EDITOR "vim"
-set -x VISUAL "vim"
-set -x PAGER "less"
+set -x EDITOR vim
+set -x VISUAL vim
+set -x PAGER less
 
 set -x XDG_CONFIG_HOME "$HOME/.config"
 set -x XDG_CACHE_HOME "$HOME/.cache"
@@ -95,5 +95,11 @@ end
 
 alias PX="HTTP_PROXY=http://127.0.0.1:2981 HTTPS_PROXY=http://127.0.0.1:2981 SOCKS_PROXY=socks5://127.0.0.1:2910 ALL_PROXY=socks5://127.0.0.1:2910"
 alias NLH="LEFTHOOK=0"
+
+alias ls="eza --group-directories-first --git --color=always"
+alias ll="ls -l"
+alias la="ll -a"
+alias lr="ll -T"
+alias l="la"
 
 # vim:ft=fish
