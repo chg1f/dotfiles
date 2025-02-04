@@ -6,17 +6,15 @@ README.md
 *
 !.bashrc
 !.inputrc
-
+{{- if eq (index .chezmoi.osRelease "id") "arch" }}
+{{- end }}
+{{- end }}
 .Xresources
-
-
-{{- if ne (index .chezmoi.osRelease "id") "arch" }}
 .config/i3
 .config/i3status
 .config/yay
-.xinitrc
+.config/zellij
+.config/zsh
 .dmrc
-{{- end }}
-
-{{- end }}
-
+.xinitrc
+.zshenv
