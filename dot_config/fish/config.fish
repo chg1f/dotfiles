@@ -1,7 +1,7 @@
 # encoding=utf-8
 
 # set -x PATH $HOME/.local/bin /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
-# eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(/opt/homebrew/bin/brew shellenv)"
 fish_add_path "~/.local/bin"
 
 set -x LANG "en_US.UTF-8"
@@ -93,7 +93,7 @@ if status is-interactive
     # tide reload
 end
 
-alias PX="HTTP_PROXY=http://127.0.0.1:2918 HTTPS_PROXY=http://127.0.0.1:2918 SOCKS_PROXY=socks5://127.0.0.1:2980 ALL_PROXY=socks5://127.0.0.1:2980"
+alias PX="HTTP_PROXY=http://127.0.0.1:2981 HTTPS_PROXY=http://127.0.0.1:2981 SOCKS_PROXY=socks5://127.0.0.1:2910 ALL_PROXY=socks5://127.0.0.1:2910"
 alias NLH="LEFTHOOK=0"
 
 # vim:ft=fish
