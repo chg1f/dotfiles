@@ -16,6 +16,9 @@ set -x XDG_DATA_HOME "$HOME/.local/share"
 set -x XDG_STATE_HOME "$HOME/.local/state"
 
 set -x LESS "-R -F --mouse"
+# set -x LESS="-g -i -M -R -S -w -X -z-4"
+# command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&
+# 	LESSPIPE="$(command -v src-hilite-lesspipe.sh)" && LESSOPEN="| ${LESSPIPE} %s"
 set -x LESSHISTFILE "$XDG_STATE_HOME/lesshst"
 set -x MANPAGER "col -bx | bat -p -l man"
 set -x HOMEBREW_BUNDLE_FILE "$XDG_CONFIG_HOME/homebrew/Brewfile"
@@ -90,6 +93,7 @@ if status is-interactive
     # tide reload
 end
 
-alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
+alias PX="HTTP_PROXY=http://127.0.0.1:2918 HTTPS_PROXY=http://127.0.0.1:2918 SOCKS_PROXY=socks5://127.0.0.1:2980 ALL_PROXY=socks5://127.0.0.1:2980"
+alias NLH="LEFTHOOK=0"
 
 # vim:ft=fish

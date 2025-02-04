@@ -3,7 +3,7 @@
   email = chongiofai@gmail.com
 
 [core]
-  sshCommand = ssh -i ~/.ssh/gh.id_rsa
+  sshCommand = ssh -i ~/.ssh/github.id_ed25519
 
 [init]
   defaultBranch = main
