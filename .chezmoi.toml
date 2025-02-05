@@ -1,0 +1,26 @@
+verbose = true
+
+[git]
+autoAdd = true
+autoCommit = true
+# autoPush = true
+
+[update]
+apply = false
+
+# [diff]
+# command = "difft"
+
+[merge]
+command = "nvim"
+args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
+
+# [hooks.re-add]
+# command = "chezmoi-packages"
+# args = ["re-add"]
+
+# [hooks.apply]
+# command = "chezmoi-packages"
+# args = ["apply"]
+
+# vim: ft=toml
