@@ -40,7 +40,9 @@ if status is-interactive
 
     set -U tide_prompt_add_newline_before true
     set -U tide_prompt_transient_enabled true
-    set -U tide_left_prompt_items vi_mode pwd direnv git newline character
+    set -U tide_left_prompt_items vi_mode shlvl pwd direnv git newline character
+    set -U tide_shlvl_icon
+    set -U tide_shlvl_threshold 1
     set -U tide_status_icon
     set -U tide_status_icon_failure
     set -U tide_status_color green
@@ -90,7 +92,6 @@ if status is-interactive
     set -U tide_context_color_default green
     set -U tide_context_color_root red
     set -U tide_context_color_ssh yellow
-    # tide reload
 end
 
 alias PX="HTTP_PROXY=http://127.0.0.1:2981 HTTPS_PROXY=http://127.0.0.1:2981 SOCKS_PROXY=socks5://127.0.0.1:2910 ALL_PROXY=socks5://127.0.0.1:2910"
