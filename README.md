@@ -1,5 +1,6 @@
 # Quick Start
 
-## Apply Dotfiles
-`sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME`
-
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init ssh $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
+```

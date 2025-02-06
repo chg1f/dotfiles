@@ -8,8 +8,8 @@ autoCommit = true
 [update]
 apply = false
 
-# [diff]
-# command = "difft"
+[diff]
+command = "difft"
 
 [merge]
 command = "nvim"

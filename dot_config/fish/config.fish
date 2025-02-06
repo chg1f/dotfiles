@@ -1,7 +1,7 @@
 # encoding=utf-8
 
 # set -x PATH $HOME/.local/bin /usr/local/bin /usr/bin /bin /usr/local/sbin /usr/sbin /sbin
-eval "$(/opt/homebrew/bin/brew shellenv)"
+test -x /opt/homebrew/bin/brew && eval "$(/opt/homebrew/bin/brew shellenv)"
 fish_add_path "~/.local/bin"
 
 set -x LANG "en_US.UTF-8"
