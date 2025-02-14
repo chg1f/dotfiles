@@ -200,16 +200,14 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"mfussenegger/nvim-lint",
-	-- 	opts = {
-	-- 		linters = {
-	-- 			sqlfluff = {
-	-- 				args = { "lint", "--format=json", "--dialect=mysql" },
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
+	{
+		"mfussenegger/nvim-lint",
+		opts = {
+			linter_by_ft = {
+				go = { "golangcilint" },
+			},
+		},
+	},
 	-- {
 	-- 	"stevearc/conform.nvim",
 	-- 	opts = function(_, opts)

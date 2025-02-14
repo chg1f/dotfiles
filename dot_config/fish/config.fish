@@ -40,9 +40,10 @@ if status is-interactive
 
     set -U tide_prompt_add_newline_before true
     set -U tide_prompt_transient_enabled true
-    set -U tide_left_prompt_items vi_mode shlvl pwd direnv git newline character
+    set -U tide_left_prompt_items vi_mode shlvl direnv pwd git newline character
     set -U tide_shlvl_icon
     set -U tide_shlvl_threshold 1
+    set -U tide_shlvl_color grey
     set -U tide_status_icon
     set -U tide_status_icon_failure
     set -U tide_status_color green
@@ -76,8 +77,8 @@ if status is-interactive
     set -U tide_jobs_icon jobs
     set -U tide_jobs_color yellow
     set -U tide_direnv_icon direnv
-    set -U tide_direnv_color green
-    set -U tide_direnv_color_denied red
+    set -U tide_direnv_color brgreen
+    set -U tide_direnv_color_denied brred
     set -U tide_python_icon python
     set -U tide_python_color brblack
     set -U tide_node_icon node
@@ -94,7 +95,7 @@ if status is-interactive
     set -U tide_context_color_ssh yellow
 end
 
-alias PX="HTTP_PROXY=http://127.0.0.1:2981 HTTPS_PROXY=http://127.0.0.1:2981 SOCKS_PROXY=socks5://127.0.0.1:2910 ALL_PROXY=socks5://127.0.0.1:2910"
+alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
 alias NLH="LEFTHOOK=0"
 
 alias ls="eza --group-directories-first --git --color=always"
@@ -102,5 +103,7 @@ alias ll="ls -l"
 alias la="ll -a"
 alias lr="ll -T"
 alias l="la"
+
+alias http="http --check-status -pHBhbm"
 
 # vim:ft=fish
