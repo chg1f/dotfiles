@@ -21,6 +21,7 @@ set -x LESS "-R -F --mouse"
 # 	LESSPIPE="$(command -v src-hilite-lesspipe.sh)" && LESSOPEN="| ${LESSPIPE} %s"
 set -x LESSHISTFILE "$XDG_STATE_HOME/lesshst"
 set -x MANPAGER "col -bx | bat -p -l man"
+set -x HOMEBREW_PREFIX $(brew --prefix)
 set -x HOMEBREW_BUNDLE_FILE "$XDG_CONFIG_HOME/homebrew/Brewfile"
 set -x HOMEBREW_NO_AUTO_UPDATE 1
 set -x HOMEBREW_NO_ENV_HINTS 1
