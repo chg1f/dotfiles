@@ -37,6 +37,8 @@ if status is-interactive
     bind -M insert \b suppress-autosuggestion
     bind -M insert \cl accept-autosuggestion
     bind -M visual v edit_command_buffer
+    # bind -M visual -m insert i end-selection repaint-mode
+    # bind -M visual -m insert I end-selection beginning-of-line repaint-mode
     fzf_configure_bindings --directory=\cf --git_status=\cs --git_log=\cg --variables=
 
     set -U tide_prompt_add_newline_before true
@@ -94,6 +96,17 @@ if status is-interactive
     set -U tide_context_color_default green
     set -U tide_context_color_root red
     set -U tide_context_color_ssh yellow
+
+    # function starship_transient_prompt_func
+    #     starship module character
+    # end
+    # function starship_transient_rprompt_func
+    #     starship module $argv status
+    #     starship module $argv cmd_duration
+    #     starship module time
+    # end
+    # starship init fish | source
+    # enable_transience
 end
 
 alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
