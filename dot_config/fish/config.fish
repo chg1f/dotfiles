@@ -15,8 +15,7 @@ set -x XDG_CACHE_HOME "$HOME/.cache"
 set -x XDG_DATA_HOME "$HOME/.local/share"
 set -x XDG_STATE_HOME "$HOME/.local/state"
 
-set -x LESS "-R -F --mouse"
-# set -x LESS="-g -i -M -R -S -w -X -z-4"
+set -x LESS "-g -i -w -M -R -F -X --mouse"
 # command -v src-hilite-lesspipe.sh >/dev/null 2>&1 &&
 # 	LESSPIPE="$(command -v src-hilite-lesspipe.sh)" && LESSOPEN="| ${LESSPIPE} %s"
 set -x LESSHISTFILE "$XDG_STATE_HOME/lesshst"
