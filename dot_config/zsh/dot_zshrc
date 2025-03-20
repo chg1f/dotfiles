@@ -1,58 +1,95 @@
-#!zsh
+#!/bin/zsh
 # shellcheck shell=bash source=/dev/null disable=SC2034
+
+PATH="$HOME/.local/bin:$XDG_DATA_HOME/nvim/mason/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+(( ${+commands[brew]} )) && eval "$(brew shellenv)"
+
 
 LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 EDITOR="vim"
 VISUAL="vim"
-PAGER="less"
 
-export LESS="-g -i -w -M -R -F -X --mouse"
-export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
+if (( ${+commands[less]} )); then
+	PAGER="less"
+	export LESS="-g -i -w -M -R -F -X"
+	export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
+fi
+
+
+# export HISTFILE="$XDG_STATE_HOME/zsh/history"
+
 export MANPAGER="col -bx | bat -p -l man"
-export HOMEBREW_PREFIX="$(brew --prefix)"
+
+# Set editor default keymap to vi (`-v`)
+bindkey -v
+zmodload -F zsh/terminfo +p:terminfo
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
+export ZIM_HOME="$XDG_DATA_HOME/zim"
+export ZIM_CONFIG_FILE="$ZDOTDIR/.zimrc"
+[[ -s "$(brew --prefix)/opt/zimfw/share/zimfw.zsh" ]] && \
+	source "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" init -q
+[[ -s "$ZIM_HOME/init.zsh" ]] && \
+	source "$ZIM_HOME/init.zsh"
+
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+bindkey '^l' autosuggest-accept
+bindkey '^h' autosuggest-clear
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+[[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
+	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
+
+(( ${+commands[starship]} )) && eval "$(starship init zsh)"
+
 export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_FROM_API=1
-export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
-export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --cycle --bind ctrl-f:preview-page-down,ctrl-b:preview-page-up,ctrl-e:preview-down,ctrl-y:preview-up"
+
+
+
+if (( ${+commands[tmux]} )); then
+	export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
+fi
+
+if (( ${+commands[direnv]} )); then
+	eval "$(direnv hook zsh)"
+	if [[ -z ${NO_COLOR} && ${+DIRENV_LOG_FORMAT} -eq 0 ]]; then
+		export DIRENV_LOG_FORMAT=$'\E[2mdirenv: %s\E[0m'
+	fi
+fi
+
+if (( ${+commands[sk]} )); then
+	[[ -s "$(brew --prefix)/opt/sk/share/zsh/site-functions/completion.zsh" ]] && \
+		source "$(brew --prefix)/opt/sk/share/zsh/site-functions/completion.zsh"
+	[[ -s "$(brew --prefix)/opt/sk/share/zsh/site-functions/key-bindings.zsh" ]] && \
+		source "$(brew --prefix)/opt/sk/share/zsh/site-functions/key-bindings.zsh"
+	# skim-cd-widget
+	bindkey -r "^[c"
+	# skim-file-widget
+	bindkey -r "^T"
+	bindkey "^F" skim-file-widget
+	export SKIM_CTRL_T_COMMAND="bfs -mindepth 1 -exclude -name .git || fd || rg --files || find ."
+	export SKIM_CTRL_T_OPTS="--preview 'if [[ -d {} ]]; then eza {}; else bat {}; fi'"
+	# skim-history-widget
+	export SKIM_CTRL_R_OPTS="--reverse"
+fi
+
 export GOPATH="$XDG_DATA_HOME/go"
 
-# # Set editor default keymap to vi (`-v`)
-# bindkey -v
-# zmodload -F zsh/terminfo +p:terminfo
-# bindkey -M vicmd 'k' history-substring-search-up
-# bindkey -M vicmd 'j' history-substring-search-down
-# autoload -Uz edit-command-line
-# zle -N edit-command-line
-# bindkey -M vicmd 'v' edit-command-line
-#
-# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-# bindkey '^l' autosuggest-accept
-# bindkey '^h' autosuggest-clear
-
-export ZIM_HOME="$(brew --prefix)/share/zim"
-export ZIM_CONFIG_FILE="$ZDOTDIR/.zimrc"
-# Install modules and update Zim # Define zmodule
-[[ -s "$ZIM_HOME/zimfw.zsh" ]] && source "$ZIM_HOME/zimfw.zsh" init -q
-# Source Zim
-[[ -s "$ZIM_HOME/init.zsh" ]] && source "$ZIM_HOME/init.zsh"
-
-# if command -v starship 2>&1 /dev/null ; then
-# fi
-eval "$(starship init zsh)"
-
-# if command -v zsh-autosuggestions &> /dev/null; then
-#   ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-#   ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-#   ZSH_AUTOSUGGEST_USE_ASYNC=true
-#   source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
-# fi
-
 alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
-alias NLH="LEFTHOOK=0"
-
-alias http="http --check-status -pHBhbm"
+(( ${+commands[lefthook]} )) && {
+	alias NLH="LEFTHOOK=0"
+}
+(( ${+commands[http]} )) && {
+	alias http="http --check-status -pHBhbm"
+}
 
 # vim: set ft=zsh

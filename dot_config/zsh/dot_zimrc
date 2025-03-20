@@ -3,10 +3,10 @@
 zmodule environment # Sets sane Zsh built-in environment options.
 zmodule utility # Aliases and functions for common utilities.
 zmodule input # Friendly key bindings for Zsh.
-# zstyle ':zim:git' aliases-prefix 'g'
-# zmodule git # Aliases for git.
-zmodule ssh # SSH agent management.
-zmodule fzf # Fuzzy finder for Zsh.
+zstyle ':zim:git' aliases-prefix 'g'
+zmodule git # Aliases for git.
+# zmodule ssh # SSH agent management.
+# zmodule fzf # Fuzzy finder for Zsh.
 zmodule exa # Modern replacement for ls.
 
 zmodule zsh-users/zsh-completions --fpath src # Additional completion definitions for Zsh.
@@ -15,8 +15,7 @@ zmodule zsh-users/zsh-syntax-highlighting # Fish-like syntax highlighting for Zs
 zmodule zsh-users/zsh-history-substring-search # Fish-like history search (up arrow) for Zsh.
 zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
-zmodule direnv
-zmodule joke/zim-chezmoi
-# zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
+# zmodule direnv
+# zmodule joke/zim-chezmoi
 
 # vim: set ft=zsh
