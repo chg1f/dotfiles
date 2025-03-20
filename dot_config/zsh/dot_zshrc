@@ -101,15 +101,4 @@ if (( ${+commands[http]} )); then
 	alias http="http --check-status -pHBhbm"
 fi
 
-[[ -d "$ZDOTDIR/aliases" ]] && \
-	for f in "$ZDOTDIR/aliases/"*.zsh; do
-		[[ -s "$f" ]] && source "$f"
-	done
-# for f in "$ZDOTDIR/functions/"*.zsh; do
-# 	[[ -s "$f" ]] && source "$f"
-# done
-# for f in "$ZDOTDIR/completions/"*.zsh; do
-# 	[[ -s "$f" ]] && source "$f"
-# done
-
 # vim: set ft=zsh

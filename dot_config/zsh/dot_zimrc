@@ -1,8 +1,10 @@
 #!/bin/zsh
+#
+# zmodules=("directory" "environment" "fasd" "history" "input" "utility" "meta" "syntax-highlighting" "history-substring-search" "prompt" "completion" "tmux" "autosuggestions")
 
-zmodule environment # Sets sane Zsh built-in environment options.
-zmodule utility # Aliases and functions for common utilities.
-zmodule input # Friendly key bindings for Zsh.
+# zmodule environment # Sets sane Zsh built-in environment options.
+# zmodule utility # Aliases and functions for common utilities.
+# zmodule input # Friendly key bindings for Zsh.
 zstyle ':zim:git' aliases-prefix 'g'
 zmodule git # Aliases for git.
 # zmodule ssh # SSH agent management.
@@ -17,5 +19,19 @@ zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
 # zmodule direnv
 # zmodule joke/zim-chezmoi
+
+zmodule "directory"
+# zmodule "environment"
+# zmodule "input"
+zmodule "history"
+# zmodule "utility"
+zmodule "fasd"
+zmodule "meta"
+zmodule "syntax-highlighting"
+zmodule "history-substring-search"
+zmodule "prompt"
+# zmodule "completion"
+zmodule "tmux"
+zmodule "autosuggestions"
 
 # vim: set ft=zsh

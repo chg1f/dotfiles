@@ -26,7 +26,7 @@
 [diff]
 	; tool = nvimdiff
 	; external = delta
-	external = difft --syntax-highlight on --sort-paths --skip-unchanged --display=side-by-side
+	external = difft --sort-paths --skip-unchanged --syntax-highlight=on --display=side-by-side
 
 [merge]
 	; tool = nvimdiff
