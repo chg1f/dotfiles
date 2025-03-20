@@ -8,7 +8,6 @@ PATH="$XDG_DATA_HOME/nvim/mason/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 for prefix in "/opt/homebrew" "/usr/local" "/home/linuxbrew/.linuxbrew"; do
 	if [[ -x "${prefix}/bin/brew" ]]; then
 		eval "$(${prefix}/bin/brew shellenv)"
-
 		break
 	fi
 done
@@ -101,5 +100,16 @@ alias NLH="LEFTHOOK=0"
 if (( ${+commands[http]} )); then
 	alias http="http --check-status -pHBhbm"
 fi
+
+[[ -d "$ZDOTDIR/aliases" ]] && \
+	for f in "$ZDOTDIR/aliases/"*.zsh; do
+		[[ -s "$f" ]] && source "$f"
+	done
+# for f in "$ZDOTDIR/functions/"*.zsh; do
+# 	[[ -s "$f" ]] && source "$f"
+# done
+# for f in "$ZDOTDIR/completions/"*.zsh; do
+# 	[[ -s "$f" ]] && source "$f"
+# done
 
 # vim: set ft=zsh

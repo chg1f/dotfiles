@@ -189,10 +189,10 @@ truncation_symbol = ".../"
 format = "([$read_only]($read_only_style) )[$path]($style) "
 repo_root_format = "([$read_only]($read_only_style) )[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style) "
 read_only = "RO"
-read_only_style = "bold bridgt-red"
+read_only_style = "bold bg:red"
 before_repo_root_style = "bright-black"
-repo_root_style = "bold bright-cyan"
-style = "cyan"
+repo_root_style = "bold blue"
+style = "blue"
 use_os_path_sep = true
 use_logical_path = true
 
@@ -343,7 +343,7 @@ disabled = false
 ignore_submodules = false
 
 [git_status]
-format = "([$ahead_behind](bold bright-yellow))([$all_status](bright-blue)) "
+format = "([$ahead_behind](bold bright-yellow))([$all_status](bright-cyan)) "
 up_to_date = "U"
 diverged = "D"
 ahead = "A${count}"
