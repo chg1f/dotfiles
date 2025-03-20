@@ -10,6 +10,13 @@ autoCommit = true
 
 [diff]
 command = "difft"
+args = [
+  "--skip-unchanged",
+  "--sort-paths",
+  "--color=always",
+  "--syntax-highlight=on",
+  "--display=side-by-side",
+]
 
 [merge]
 command = "nvim"

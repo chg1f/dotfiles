@@ -12,11 +12,8 @@ update)
 	"$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" all
 	;;
 re-add)
-	if command -v yay >/dev/null 2>&1; then
-		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
-	fi
 	if command -v brew >/dev/null 2>&1; then
-		brew bundle dump --force
+		brew bundle dump --force --no-restart
 	fi
 	;;
 apply)
