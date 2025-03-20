@@ -3,7 +3,7 @@
 # $all is shorthand for $username$hostname$localip$shlvl$singularity$kubernetes$nats$directory$vcsh$fossil_branch$fossil_metrics$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$pijul_channel$docker_context$package$bun$c$cmake$cobol$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$gleam$golang$gradle$haskell$haxe$helm$java$julia$kotlin$lua$mojo$nim$nodejs$ocaml$odin$opa$perl$php$pulumi$purescript$python$quarto$raku$rlang$red$ruby$rust$scala$solidity$swift$terraform$typst$vlang$vagrant$zig$buf$guix_shell$nix_shell$conda$meson$spack$memory_usage$aws$gcloud$openstack$azure$direnv$env_var$crystal$custom$sudo$cmd_duration$line_break$jobs$battery$time$status$container$os$shell$character
 "$schema" = "https://starship.rs/config-schema.json"
 right_format = "$direnv$status$cmd_duration$time"
-format = "$directory$git_branch$git_commit$git_state$git_metrics$git_status$fill$all$line_break$character"
+format = "$directory$git_branch$git_commit$git_status$git_metrics$git_state$fill$all$line_break$character"
 continuation_prompt = "[∙](bright-black) "
 scan_timeout = 30
 command_timeout = 500
@@ -181,20 +181,20 @@ detect_files = [
 detect_folders = []
 
 [directory]
+disabled = false
+home_symbol = "~"
 truncation_length = 5
 truncate_to_repo = false
-fish_style_pwd_dir_length = 0
-use_logical_path = true
-format = "[$read_only]($read_only_style)[$path]($style) "
-repo_root_format = "[$read_only]($read_only_style)[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style) "
+truncation_symbol = ".../"
+format = "([$read_only]($read_only_style) )[$path]($style) "
+repo_root_format = "([$read_only]($read_only_style) )[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style) "
+read_only = "RO"
+read_only_style = "bold bridgt-red"
+before_repo_root_style = "bright-black"
+repo_root_style = "bold bright-cyan"
 style = "cyan"
-repo_root_style = "cyan bold"
-disabled = false
-read_only = "RO "
-read_only_style = "red"
-truncation_symbol = "..."
-home_symbol = "~"
 use_os_path_sep = true
+use_logical_path = true
 
 [directory.substitutions]
 
@@ -284,7 +284,7 @@ detect_folders = []
 
 [fill]
 style = ""
-symbol = ""
+symbol = " "
 disabled = false
 
 [fossil_branch]
@@ -316,7 +316,7 @@ detect_env_vars = []
 [git_branch]
 format = "[$symbol$branch(:$remote_branch)]($style) "
 symbol = ""
-style = "blue"
+style = "bold purple"
 truncation_length = 10
 truncation_symbol = "..."
 only_attached = false
@@ -327,7 +327,7 @@ disabled = false
 [git_commit]
 commit_hash_length = 7
 format = '[\($hash$tag\)]($style) '
-style = "blue"
+style = "purple"
 only_detached = true
 disabled = false
 tag_symbol = " "
@@ -338,11 +338,31 @@ tag_max_candidates = 0
 added_style = "bold green"
 deleted_style = "bold red"
 only_nonzero_diffs = true
-format = "([+$added]($added_style) )([-$deleted]($deleted_style) )"
+format = "([+$added]($added_style)[-$deleted]($deleted_style)) "
 disabled = false
 ignore_submodules = false
 
+[git_status]
+format = "([$ahead_behind](bold bright-yellow))([$all_status](bright-blue)) "
+up_to_date = "U"
+diverged = "D"
+ahead = "A${count}"
+behind = "B${count}"
+conflicted = "c${count}"
+untracked = "u${count}"
+stashed = 's${count}'
+modified = "m${count}"
+staged = "a${count}"
+renamed = "r${count}"
+deleted = "d${count}"
+typechanged = ""
+ignore_submodules = false
+disabled = false
+
 [git_state]
+disabled = false
+format = '[$state($progress_current/$progress_total)]($style) '
+style = "bold bg:bright-purple"
 rebase = "REBASING"
 merge = "MERGING"
 revert = "REVERTING"
@@ -350,27 +370,6 @@ cherry_pick = "CHERRY-PICKING"
 bisect = "BISECTING"
 am = "AM"
 am_or_rebase = "AM/REBASE"
-style = "bold yellow"
-format = '\([$state( $progress_current/$progress_total)]($style)\) '
-disabled = false
-
-[git_status]
-format = '([\[$all_status$ahead_behind\]]($style) )'
-style = "bold blue"
-stashed = '\$'
-ahead = "A"
-behind = "B"
-up_to_date = ""
-diverged = "d"
-conflicted = "c"
-deleted = "d"
-renamed = "r"
-modified = "m"
-staged = "a"
-untracked = "u"
-typechanged = "t"
-ignore_submodules = false
-disabled = false
 
 [gleam]
 format = " [$symbol($version )]($style)"
@@ -708,7 +707,7 @@ Void = "  "
 Windows = "🪟 "
 
 [package]
-format = "is [$symbol$version]($style) "
+format = "[$symbol$version]($style) "
 symbol = "package "
 style = "208 bold"
 display_private = false
@@ -773,7 +772,7 @@ detect_folders = []
 pyenv_version_name = false
 pyenv_prefix = "pyenv "
 python_binary = ["python", "python3", "python2"]
-format = 'via [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 version_format = "v${raw}"
 style = "yellow bold"
 symbol = "python "
