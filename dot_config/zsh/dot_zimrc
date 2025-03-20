@@ -1,5 +1,4 @@
 #!/bin/zsh
-# shellcheck shell=bash
 
 zmodule environment # Sets sane Zsh built-in environment options.
 zmodule utility # Aliases and functions for common utilities.
@@ -18,6 +17,6 @@ zmodule zsh-users/zsh-autosuggestions # Fish-like autosuggestions for Zsh.
 
 zmodule direnv
 zmodule joke/zim-chezmoi
-zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
+# zmodule romkatv/powerlevel10k --use degit # Prmopts for Powerlevel10k.
 
 # vim: set ft=zsh
