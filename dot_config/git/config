@@ -10,6 +10,9 @@
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
 	path = ~/.config/git/github.com
 
+;[url "git@github.com:"]
+;	insteadOf = https://github.com/
+
 [core]
 	excludesfile = ~/.gitignore
 	autocrlf = input
@@ -24,51 +27,29 @@
 	diff = true
 
 [color "branch"]
-	current = 214
-	local = 67
-	remote = 34
-
-[color "diff"]
-	meta = 214
-	frag = 67
-	old = 160
-	new = 34
-	whitespace = 160 reverse
+	current = 4
+	local = 2
+	remote = 1
+	upstream = 5
+	plain = 7
 
 [color "status"]
-	added = 214
-	changed = 34
-	untracked = 67
-
+	added = 10
+	changed = 11
+	untracked = 8
+	unmerged = 9
 
 [alias]
+	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 	graph = log --graph --abbrev-commit --decorate --date=relative
-	; whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
-	; tags = tag --list --sort=committerdate
-	; branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
-	; s = status --short
-	; l = log --date-order ; --pretty=format:'%C(yellow)%h%C(reset) [%<|(20)%ar] %an %m %s %C(bold yellow)%<(10)%d%C(reset)'
-	; ls = l --name-status
-	; lf = "!f() { git logf --name-status -n ${1:-1}; }; f" ls = "!f() { git ls-tree -r --name-only ${1:-HEAD}; }; f" ; last commit?
-	; lr = "!f() { git ls-tree -r --name-only ${1:-HEAD} | tree --fromfile; }; f" ; last commit?
-	; L = reflog --date=relative
-	; Ls = L --name-status
-	; a = add -v --update
-	; A = add -v --all
-	; c = commit -v -m
-	; ca = commit -v --amend --reuse-message=HEAD
-	; p = push -v --set-upstream origin
-	; f = fetch -v --all
-	; ra = rebase -v --abort
-	; rc = rebase -v --continue
-	; rs = rebase -v --skip
+	tags = tag --list --sort=committerdate
+	branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
+	ls = ls-files
 
 [pull]
 	rebase = true
 
 [diff]
-	; tool = nvimdiff
-	; external = delta
 	external = difft --sort-paths --skip-unchanged --syntax-highlight=on --display=side-by-side
 
 [merge]
@@ -86,6 +67,4 @@
 ; 	side-by-side = true
 
 
-;[url "ssh://git@github.com/"]
-;	insteadOf = https://github.com/
 

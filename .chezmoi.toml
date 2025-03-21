@@ -6,7 +6,7 @@ autoCommit = true
 # autoPush = true
 
 [update]
-# apply = false
+apply = false
 
 [diff]
 command = "difft"
