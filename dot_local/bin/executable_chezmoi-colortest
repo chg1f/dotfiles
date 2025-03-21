@@ -120,5 +120,5 @@ case $1 in
 256) color256 ;;
 ansi) ansi ;;
 rainbow) rainbow ;;
-*) echo "Usage: $0 {16|256|rainbow}" ;;
+*) echo "Usage: $0 {16|256|ansi|rainbow}" ;;
 esac
