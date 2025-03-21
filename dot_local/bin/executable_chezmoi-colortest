@@ -4,7 +4,11 @@
 # https://wiki.archlinux.org/title/Bash/Prompt_customization
 # curl https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/bin/scripts/test-fonts.sh | bash
 
-colortest16() {
+test() {
+	printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
+}
+
+ansi() {
 	# bash < <(curl -fsSL https://raw.githubusercontent.com/pablopunk/colortest/master/colortest)
 	for b in 0 {30..37}; do
 		for a in 0 1; do
@@ -16,20 +20,40 @@ colortest16() {
 	done
 }
 
-colortest256() {
-	for i in {1..8}; do
+color16() {
+	println() {
+		printf "$(tput sgr0)$(tput setaf "$1")%8s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
+		printf "$(tput setaf 0)$(tput setab $(($1 + 8))) * $(tput sgr0)$(tput setaf $(($1 + 8)))%-3d%-s$(tput sgr0)" "$(($1 + 8))" "BRIGHT-$2"
+		printf "\n"
+	}
+	println 0 "BLACK"
+	println 1 "RED"
+	println 2 "GREEN"
+	println 3 "YELLOW"
+	println 4 "BLUE"
+	println 5 "PURPLE"
+	println 6 "CYAN"
+	println 7 "WHITE"
+}
+
+color256() {
+	for i in {0..15}; do
 		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
-		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$((i + 8))"
 	done
 	printf "\n"
 
-	for i in {16..27}; do
-		while [[ $i -lt 256 ]]; do
-			printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
-			i=$((i + 12))
-		done
-		printf "\n"
+	for i in {16..231}; do
+		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
+
+		if ((i % 36 == 15)); then
+			printf "\n"
+		fi
 	done
+
+	for i in {232..255}; do
+		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
+	done
+	printf "\n"
 }
 
 rainbow() {
@@ -92,12 +116,9 @@ rainbow() {
 
 case $1 in
 # fonts) fonts ;;
-16)
-	colortest16
-	;;
-256)
-	rainbow
-	colortest256
-	;;
-*) echo "Usage: $0 {16|256|fonts}" ;;
+16) color16 ;;
+256) color256 ;;
+ansi) ansi ;;
+rainbow) rainbow ;;
+*) echo "Usage: $0 {16|256|rainbow}" ;;
 esac

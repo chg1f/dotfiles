@@ -1,3 +1,46 @@
+[include]
+	path = ~/.config/git/config.local
+
+; [includeIf "gitdir:**/github.com/"]
+; 	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = ~/.config/git/github.com
+
+[core]
+	excludesfile = ~/.gitignore
+	autocrlf = input
+	editor = vim
+
+[color]
+	ui = auto
+	diff = true
+
+[color]
+	ui = auto
+	diff = true
+
+[color "branch"]
+	current = 214
+	local = 67
+	remote = 34
+
+[color "diff"]
+	meta = 214
+	frag = 67
+	old = 160
+	new = 34
+	whitespace = 160 reverse
+
+[color "status"]
+	added = 214
+	changed = 34
+	untracked = 67
+
+
 [alias]
 	graph = log --graph --abbrev-commit --decorate --date=relative
 	; whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
@@ -42,18 +85,7 @@
 ; 	line-numbers = true
 ; 	side-by-side = true
 
-[include]
-	path = ~/.config/git/config.local
 
 ;[url "ssh://git@github.com/"]
 ;	insteadOf = https://github.com/
-
-[includeIf "gitdir:**/github.com/"]
-	path = ~/.config/git/github.com
-
-[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
-	path = ~/.config/git/github.com
-
-[includeIf "hasconfig:remote.*.url:https://github.com/**"]
-	path = ~/.config/git/github.com
 

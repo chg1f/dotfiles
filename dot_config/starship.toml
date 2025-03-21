@@ -343,19 +343,19 @@ disabled = false
 ignore_submodules = false
 
 [git_status]
-format = "([$ahead_behind](bold bright-yellow))([$all_status](bright-cyan)) "
+format = "([$ahead_behind](bold bright-yellow) )([$all_status](bright-cyan)) "
 up_to_date = "U"
 diverged = "D"
 ahead = "A${count}"
 behind = "B${count}"
 conflicted = "c${count}"
-untracked = "u${count}"
-stashed = 's${count}'
 modified = "m${count}"
+typechanged = "t"
 staged = "a${count}"
-renamed = "r${count}"
 deleted = "d${count}"
-typechanged = ""
+renamed = "r${count}"
+stashed = 's${count}'
+untracked = "?${count}"
 ignore_submodules = false
 disabled = false
 
