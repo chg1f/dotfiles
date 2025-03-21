@@ -1,21 +1,49 @@
 #!/bin/zsh
 # shellcheck shell=bash source=/dev/null disable=SC2034
 
-LANG="en_US.UTF-8"
+export PATH="$HOME/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# export LANG="en_US.UTF-8"
+# export LC_ALL="en_US.UTF-8"
+# export TERM="xterm-256color"
+
+typeset -gU path
+path=(
+	"/usr/local/bin"
+	"/usr/bin"
+	"/bin"
+	"/usr/local/sbin"
+	"/usr/sbin"
+	"/sbin"
+)
+if ! (( ${+commands[brew]} )); then
+	local prefix
+	for prefix in "/opt/homebrew" "/home/linuxbrew/.linuxbrew"; do
+		if [[ -x "${prefix}/bin/brew" ]]; then
+			eval "$(${prefix}/bin/brew shellenv)"
+
+			break
+		fi
+	done
+fi
+
+export ZIM_HOME="$XDG_DATA_HOME/zim"
+export ZIM_CONFIG_FILE="$ZDOTDIR/.zimrc"
+[[ -s "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" ]] && \
+	source "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" init -q
+[[ -s "$ZIM_HOME/init.zsh" ]] && \
+	source "$ZIM_HOME/init.zsh"
+
+path[1,0]="$HOME/.local/bin"
+
+
+
+
+export LANG="en_US.UTF-8"
 export LC_ALL="en_US.UTF-8"
-
-PATH="$XDG_DATA_HOME/nvim/mason/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-for prefix in "/opt/homebrew" "/usr/local" "/home/linuxbrew/.linuxbrew"; do
-	if [[ -x "${prefix}/bin/brew" ]]; then
-		eval "$(${prefix}/bin/brew shellenv)"
-		break
-	fi
-done
-PATH="$HOME/.local/bin:$PATH"
-
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 if (( ${+commands[nvim]} )); then
-	export EDITOR="nvim"
-	export VISUAL="nvim"
+	export EDITOR="${+commands[nvim]}"
+	export VISUAL="${+commands[nvim]}"
 elif (( ${+commands[vim]} )); then
 	export EDITOR="vim"
 	export VISUAL="vim"
@@ -23,20 +51,24 @@ elif (( ${+commands[vi]} )); then
 	export EDITOR="vi"
 	export VISUAL="vi"
 fi
+export MANPAGER="col -bx | bat -p -l man"
+export LESS="-g -i -w -M -R -F -X"
+export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
+export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ENV_HINTS=1
+export HOMEBREW_NO_INSTALL_FROM_API=1
+export DIRENV_LOG_FORMAT=$'\E[2mdirenv: %s\E[0m'
+export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
+export GOPATH="$XDG_DATA_HOME/go"
 
-if (( ${+commands[less]} )); then
-	export PAGER="less"
-	export LESS="-g -i -w -M -R -F -X"
-	export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
-fi
-
-if (( ${+commands[col]} )); then
-	if (( ${+commands[bat]} )); then
-		export MANPAGER="col -bx | bat -p -l man"
-	fi
-fi
-
-# export HISTFILE="$XDG_STATE_HOME/zsh/history"
+# utils=$(fd -L gnubin $(brew --prefix)/opt/)
+# for formula in "coreutils" "findutils"; do
+# 	if [[ -d "$HOMEBREW_PREFIX/opt/$formula/libexec/gnubin" ]] && [[ -d "$HOMEBREW_PREFIX/opt/$formula/libexec/gnuman" ]]; then
+# 		path[1,0]="$HOMEBREW_PREFIX/opt/$formula/libexec/gnubin"
+# 		manpath[1,0]="$HOMEBREW_PREFIX/opt/$formula/libexec/gnuman"
+# 	fi
+# done
 
 # Set editor default keymap to vi (`-v`)
 bindkey -v
@@ -47,58 +79,8 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd 'v' edit-command-line
 
-export ZIM_HOME="$XDG_DATA_HOME/zim"
-export ZIM_CONFIG_FILE="$ZDOTDIR/.zimrc"
-[[ -s "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" ]] && \
-	source "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" init -q
-[[ -s "$ZIM_HOME/init.zsh" ]] && \
-	source "$ZIM_HOME/init.zsh"
-
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-bindkey '^l' autosuggest-accept
-bindkey '^h' autosuggest-clear
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-[[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
-	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
-
-if (( ${+commands[starship]} )); then
-	eval "$(starship init zsh)"
-fi
-
-if (( ${+commands[direnv]} )); then
-	eval "$(direnv hook zsh)"
-fi
-
-if (( ${+commands[sk]} )); then
-	[[ -s "$HOMEBREW_PREFIX/opt/sk/share/zsh/site-functions/completion.zsh" ]] && \
-		source "$HOMEBREW_PREFIX/opt/sk/share/zsh/site-functions/completion.zsh"
-	[[ -s "$HOMEBREW_PREFIX/opt/sk/share/zsh/site-functions/key-bindings.zsh" ]] && \
-		source "$HOMEBREW_PREFIX/opt/sk/share/zsh/site-functions/key-bindings.zsh"
-	# skim-cd-widget
-	bindkey -r "^[c"
-	# skim-file-widget
-	bindkey -r "^T"
-	bindkey "^F" skim-file-widget
-	# skim-history-widget
-fi
-
-export HOMEBREW_BUNDLE_FILE="$XDG_CONFIG_HOME/homebrew/Brewfile"
-export HOMEBREW_NO_AUTO_UPDATE=1
-export HOMEBREW_NO_ENV_HINTS=1
-export HOMEBREW_NO_INSTALL_FROM_API=1
-export DIRENV_LOG_FORMAT=$'\E[2mdirenv: %s\E[0m'
-export SKIM_CTRL_T_COMMAND="bfs -mindepth 1 -exclude -name .git || fd || rg --files || find ."
-export SKIM_CTRL_T_OPTS="--preview 'if [[ -d {} ]]; then eza {}; else bat {}; fi'"
-export SKIM_CTRL_R_OPTS="--reverse"
-export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
-export GOPATH="$XDG_DATA_HOME/go"
-
 alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
 alias NLH="LEFTHOOK=0"
-if (( ${+commands[http]} )); then
-	alias http="http --check-status -pHBhbm"
-fi
+alias http="http --check-status -pHBhbm"
 
 # vim: set ft=zsh

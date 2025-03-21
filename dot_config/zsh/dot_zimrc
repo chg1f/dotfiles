@@ -1,37 +1,42 @@
 #!/bin/zsh
-#
 
-zmodule 'environment' # Sets sane Zsh built-in environment options.
-zmodule 'utility' # Aliases and functions for common utilities.
-zmodule 'input' # Friendly key bindings for Zsh.
+zmodule 'environment'
+zmodule 'utility'
+zmodule 'input'
+# zmodule 'run-help'
+
+zmodule 'direnv'
+zmodule 'exa'
+zmodule 'git'
 zstyle ':zim:git' aliases-prefix 'g'
-zmodule 'git' # Aliases for git.
-# zmodule ssh # SSH agent management.
-# zmodule fzf # Fuzzy finder for Zsh.
-zmodule 'exa' # Modern replacement for ls.
+# zmodule ssh
+zmodule 'fzf'
+FZF_CTRL_R_OPTS="--reverse"
+bindkey -r "^[c"
+bindkey -r "^T"
+bindkey "^F" fzf-file-widget
+# bindkey "^G" fzf-search-widget
 
-zmodule 'zsh-users/zsh-completions' --fpath src # Additional completion definitions for Zsh.
-zmodule 'completion' # Enables and configures smart and extensive tab completion.
-zmodule 'zsh-users/zsh-syntax-highlighting' # Fish-like syntax highlighting for Zsh.
-zmodule 'zsh-users/zsh-history-substring-search' # Fish-like history search (up arrow) for Zsh.
+zmodule 'zsh-users/zsh-completions' --fpath src
+zmodule 'zsh-users/zsh-syntax-highlighting'
+zmodule 'zsh-users/zsh-history-substring-search'
 zmodule 'zsh-users/zsh-autosuggestions' # Fish-like autosuggestions for Zsh.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+bindkey '^l' autosuggest-accept
+bindkey '^h' autosuggest-clear
+ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+ZSH_AUTOSUGGEST_STRATEGY=("history" "completion")
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+[[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
+	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
+zmodule 'completion'
+zstyle ':zim:completion' dumpfile ${XDG_STATE_HOME}/zsh/zcompdump
+zstyle ':completion::complete:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache
 
+zmodule 'joke/zim-chezmoi'
+zmodule 'joke/zim-starship'
+# zmodule 'kiesman99/zim-zoxide'
 
-# zmodule 'directory'
-# zmodule direnv
-# zmodule joke/zim-chezmoi
-
-# # zmodule 'environment'
-# # zmodule 'input'
-# zmodule 'history'
-# # zmodule 'utility'
-# zmodule 'fasd'
-# zmodule 'meta'
-# zmodule 'syntax-highlighting'
-# zmodule 'history-substring-search'
-# zmodule 'prompt'
-# # zmodule 'completion'
 # zmodule 'tmux'
-# zmodule 'autosuggestions'
 
 # vim: set ft=zsh

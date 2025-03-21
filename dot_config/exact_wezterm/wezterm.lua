@@ -1,5 +1,8 @@
 local wezterm = require("wezterm")
 local config = {
+	initial_cols = 100,
+	initial_rows = 30,
+
 	automatically_reload_config = true,
 	exit_behavior = "CloseOnCleanExit",
 	exit_behavior_messaging = "Verbose",
