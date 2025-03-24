@@ -3,7 +3,6 @@
 zmodule 'environment'
 zmodule 'utility'
 zmodule 'input'
-# zmodule 'run-help'
 
 zmodule 'direnv'
 zmodule 'exa'
@@ -11,27 +10,20 @@ zmodule 'git'
 zstyle ':zim:git' aliases-prefix 'g'
 # zmodule ssh
 zmodule 'fzf'
-FZF_CTRL_R_OPTS="--reverse"
-bindkey -r "^[c"
-bindkey -r "^T"
-bindkey "^F" fzf-file-widget
-# bindkey "^G" fzf-search-widget
 
 zmodule 'zsh-users/zsh-completions' --fpath src
-zmodule 'zsh-users/zsh-syntax-highlighting'
-zmodule 'zsh-users/zsh-history-substring-search'
-zmodule 'zsh-users/zsh-autosuggestions' # Fish-like autosuggestions for Zsh.
-ZSH_AUTOSUGGEST_MANUAL_REBIND=1
-bindkey '^l' autosuggest-accept
-bindkey '^h' autosuggest-clear
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-ZSH_AUTOSUGGEST_STRATEGY=("history" "completion")
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-[[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
-	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
 zmodule 'completion'
 zstyle ':zim:completion' dumpfile ${XDG_STATE_HOME}/zsh/zcompdump
 zstyle ':completion::complete:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache
+zmodule 'zsh-users/zsh-syntax-highlighting'
+zmodule 'zsh-users/zsh-history-substring-search'
+zmodule 'zsh-users/zsh-autosuggestions'
+# ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+# ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+# ZSH_AUTOSUGGEST_STRATEGY=("history" "completion")
+# ZSH_AUTOSUGGEST_USE_ASYNC=true
+# [[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
+# 	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
 
 zmodule 'joke/zim-chezmoi'
 zmodule 'joke/zim-starship'
