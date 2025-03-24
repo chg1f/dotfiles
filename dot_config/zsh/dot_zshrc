@@ -25,7 +25,7 @@ export ZIM_HOME="$XDG_DATA_HOME/zim"
 EDITOR="vim"
 VISUAL="vim"
 PAGER="less"
-HISTFILE="$XDG_STATE_HOME/zsh/history"
+export HISTFILE="$XDG_STATE_HOME/zsh/history"
 
 export MANPAGER="col -bx | bat -p -l man"
 export LESS="-g -i -w -M -R -F -X"

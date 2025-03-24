@@ -12,9 +12,9 @@ zstyle ':zim:git' aliases-prefix 'g'
 zmodule 'fzf'
 
 zmodule 'zsh-users/zsh-completions' --fpath src
+zstyle ':zim:completion' dumpfile "${XDG_STATE_HOME}/zsh/zcompdump"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 zmodule 'completion'
-zstyle ':zim:completion' dumpfile ${XDG_STATE_HOME}/zsh/zcompdump
-zstyle ':completion::complete:*' cache-path ${XDG_CACHE_HOME}/zsh/zcompcache
 zmodule 'zsh-users/zsh-syntax-highlighting'
 zmodule 'zsh-users/zsh-history-substring-search'
 zmodule 'zsh-users/zsh-autosuggestions'
