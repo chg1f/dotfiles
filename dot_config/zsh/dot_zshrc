@@ -25,7 +25,7 @@ export ZIM_HOME="$XDG_DATA_HOME/zim"
 EDITOR="vim"
 VISUAL="vim"
 PAGER="less"
-export HISTFILE="$XDG_STATE_HOME/zsh/history"
+export HISTFILE="$XDG_STATE_HOME/zhistory"
 # (( ${+commands[gdircolors]} )) && eval "$(gdircolors -b ~/.dircolors)"
 
 export MANPAGER="col -bx | bat -p -l man"
