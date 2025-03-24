@@ -1,16 +1,13 @@
 README.md
 *.local
 {{- if ne .chezmoi.os "darwin" }}
-.config/homebrew
+# .config/homebrew
 {{- end }}
 {{- if eq .chezmoi.os "linux" }}
 *
 {{- end }}
 
-.Xresources
-.config/i3
-.config/i3status
-.config/yay
-.config/zellij
 .dmrc
 .xinitrc
+.config/i3*
+.config/yay

@@ -26,6 +26,7 @@ EDITOR="vim"
 VISUAL="vim"
 PAGER="less"
 export HISTFILE="$XDG_STATE_HOME/zsh/history"
+# (( ${+commands[gdircolors]} )) && eval "$(gdircolors -b ~/.dircolors)"
 
 export MANPAGER="col -bx | bat -p -l man"
 export LESS="-g -i -w -M -R -F -X"
