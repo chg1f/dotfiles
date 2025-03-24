@@ -13,11 +13,6 @@
 ;[url "git@github.com:"]
 ;	insteadOf = https://github.com/
 
-[core]
-	excludesfile = ~/.gitignore
-	autocrlf = input
-	editor = vim
-
 [color]
 	ui = auto
 	diff = true
@@ -40,13 +35,13 @@
 	unmerged = 9
 
 [alias]
-	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 	graph = log --graph --abbrev-commit --decorate --date=relative
 	tags = tag --list --sort=committerdate
 	branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
 	aliases = config --get-regexp alias
-	amend = commit --amend --reuse-message=HEAD
-	ls = ls-files
+	; amend = commit --amend --reuse-message=HEAD
+	; ls = ls-files
 
 [pull]
 	rebase = true
@@ -54,9 +49,9 @@
 [diff]
 	external = difft --sort-paths --skip-unchanged --syntax-highlight=on --display=side-by-side
 
-[merge]
-	; tool = nvimdiff
-	conflictstyle = zdiff3
+; [merge]
+; 	; tool = nvimdiff
+; 	conflictstyle = zdiff3
 
 ; [pager]
 ; 	diff = delta

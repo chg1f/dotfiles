@@ -343,7 +343,7 @@ disabled = false
 ignore_submodules = false
 
 [git_status]
-format = "([$ahead_behind](bold bright-yellow) )([$all_status](bright-cyan)) "
+format = "([$ahead_behind](bold bright-yellow) )([$conflicted$modified](bright-cyan) )([$typechanged$staged$deleted$renamed$stashed$untracked](cyan) )"
 up_to_date = "U"
 diverged = "D"
 ahead = "A${count}"

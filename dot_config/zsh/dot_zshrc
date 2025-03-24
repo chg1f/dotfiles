@@ -36,7 +36,7 @@ export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_NO_ENV_HINTS=1
 export HOMEBREW_NO_INSTALL_FROM_API=1
 export TMUX_PLUGIN_MANAGER_PATH="$XDG_DATA_HOME/tmux/plugins"
-export DIRENV_LOG_FORMAT=$"\E[2mdirenv: %s\E[0m"
+export DIRENV_LOG_FORMAT=$'\E[2mdirenv: %s\E[0m'
 export FZF_CTRL_R_OPTS="--reverse"
 export GOPATH="$XDG_DATA_HOME/go"
 
