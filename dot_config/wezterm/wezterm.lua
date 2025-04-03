@@ -38,10 +38,10 @@ local config = {
 
 		{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
 		{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-		{ key = "p", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
-		{ key = "n", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "[", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
+		{ key = "]", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
 	},
-	-- mouse_bindings = {
+	-- mouse_bindi,ngs = {
 	--   {
 	--     event = { Up = { streak = 1, button = "Left" } },
 	--     mods = "CTRL",
