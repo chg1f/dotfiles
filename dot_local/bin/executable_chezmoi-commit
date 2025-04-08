@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -ex
+
+if command -v yay >/dev/null 2>&1; then
+	yay -Qqe >"$HOME/.config/yay/pkglist.txt"
+fi
+if command -v brew >/dev/null 2>&1; then
+	brew bundle dump --force --no-restart
+fi
+if command -v chezmoi >/dev/null 2>&1; then
+	chezmoi re-add
+fi

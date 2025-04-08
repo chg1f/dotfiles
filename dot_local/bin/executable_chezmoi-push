@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -ex
+
+if command -v chezmoi >/dev/null 2>&1; then
+	chezmoi git push origin main
+fi

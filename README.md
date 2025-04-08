@@ -25,14 +25,14 @@ sh -c "$(curl -fsSL get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
 ### Apply
 
 ```bash
-chezmoi update --init
-chezmoi apply
+chezmoi pull
+chezmoi rebase
 ```
 
 ### Commit
 
 ```bash
-chezmoi re-add
-chezmoi git push origin main
+chezmoi commit
+chezmoi push
 ```
 
