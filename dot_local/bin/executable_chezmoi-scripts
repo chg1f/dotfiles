@@ -3,36 +3,6 @@
 set -ex
 
 case "$1" in
-install)
-	shift
-
-	if ! command -v brew >/dev/null 2>&1; then
-		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-	fi
-	;;
-
-update)
-	shift
-
-	if command -v chezmoi >/dev/null 2>&1; then
-		chezmoi update --init # --apply
-	fi
-	# if command -v yay >/dev/null 2>&1; then
-	# 	yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
-	# fi
-	if command -v brew >/dev/null 2>&1; then
-		brew update
-		brew bundle
-		brew upgrade
-	fi
-	if [[ -x "$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" ]]; then
-		"$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" all
-	fi
-	if command -v nvim >/dev/null 2>&1; then
-		nvim --headless "+Lazy! sync" +qa
-	fi
-	;;
-
 re-add)
 	shift
 

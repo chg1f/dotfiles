@@ -3,10 +3,10 @@ verbose = true
 [git]
 autoAdd = true
 autoCommit = true
-# autoPush = true
+autoPush = false
 
 [update]
-apply = true
+apply = false
 
 [diff]
 command = "difft"
