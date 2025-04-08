@@ -43,8 +43,8 @@ re-add)
 		brew bundle dump --force --no-restart
 	fi
 	if command -v chezmoi >/dev/null 2>&1; then
-		chezmoi re-add
 		chezmoi diff
+		chezmoi re-add
 	fi
 	;;
 
