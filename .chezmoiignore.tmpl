@@ -1,16 +1,9 @@
-{{- .chezmoi.args }}
-
 README.md
 +.local
-
-
-{{- if ne .chezmoi.os "darwin" }}
-# .config/homebrew
-{{- end }}
-{{- if eq .chezmoi.os "linux" }}
+{{- if (has "--one-shot" .chezmoi.args) }}
 *
+!.inputrc
 {{- end }}
-
 .dmrc
 .xinitrc
 .config/i3*
