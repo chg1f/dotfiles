@@ -1,5 +1,9 @@
+{{- .chezmoi.args }}
+
 README.md
 +.local
+
+
 {{- if ne .chezmoi.os "darwin" }}
 # .config/homebrew
 {{- end }}

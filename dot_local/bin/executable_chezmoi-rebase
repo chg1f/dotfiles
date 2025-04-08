@@ -2,9 +2,14 @@
 
 set -ex
 
-if command -v chezmoi >/dev/null 2>&1; then
-	chezmoi apply
-fi
+case "$1" in
+"hooks.apply.*") ;;
+*)
+	if command -v chezmoi >/dev/null 2>&1; then
+		chezmoi apply
+	fi
+	;;
+esac
 
 if command -v yay >/dev/null 2>&1; then
 	yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
