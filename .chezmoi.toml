@@ -23,11 +23,11 @@ command = "nvim"
 args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
 
 [hooks.re-add.pre]
-command = "chezmoi-commit"
-args = ["hooks.re-add.pre"]
+command = "chezmoi-scripts"
+args = ["--inline", "--commit"]
 
 [hooks.apply.post]
-command = "chezmoi-rebase"
-args = ["hooks.apply.post"]
+command = "chezmoi-scripts"
+args = ["--inline", "--apply"]
 
 # vim: ft=toml

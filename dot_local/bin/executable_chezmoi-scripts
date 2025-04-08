@@ -2,24 +2,91 @@
 
 set -ex
 
-case "$1" in
-re-add)
-	shift
+for arg in "$@"; do
+	case $arg in
+	--inline)
+		CHEZMOI_SCRIPTS_INLINE=true
+		;;
+	--fetch)
+		CHEZMOI_SCRIPTS_FETCH=true
+		;;
+	--apply)
+		CHEZMOI_SCRIPTS_APPLY=true
+		;;
+	--commit)
+		CHEZMOI_SCRIPTS_COMMIT=true
+		;;
+	--upload)
+		CHEZMOI_SCRIPTS_UPLOAD=true
+		;;
+	--help | *)
+		echo "Usage: $0 [--fetch] [--apply] [--commit] [--upload]"
+		exit 0
+		;;
+	esac
+done
 
-	# if command -v yay >/dev/null 2>&1; then
-	# 	yay -Qqe >"$HOME/.config/yay/pkglist.txt"
-	# fi
+if [[ -n "$CHEZMOI_SCRIPTS_FETCH" ]]; then
+	echo "Fetching ..."
+
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		chezmoi update --init
+	fi
+
+	if command -v brew >/dev/null 2>&1; then
+		brew update
+	fi
+fi
+
+if [[ -n "$CHEZMOI_SCRIPTS_APPLY" ]]; then
+	echo "Applying ..."
+
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		chezmoi apply
+	fi
+
+	if command -v yay >/dev/null 2>&1; then
+		yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
+	fi
+
+	if command -v brew >/dev/null 2>&1; then
+		brew bundle
+		brew upgrade
+	fi
+
+	if command -v nvim >/dev/null 2>&1; then
+		nvim --headless "+Lazy! sync" +qa
+	fi
+
+	if [[ -x "$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" ]]; then
+		"$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" all
+	fi
+
+	if command -v zimfw >/dev/null 2>&1; then
+		zimfw update
+	fi
+fi
+
+if [[ -n "$CHEZMOI_SCRIPTS_COMMIT" ]]; then
+	echo "Committing ..."
+
+	if command -v yay >/dev/null 2>&1; then
+		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
+	fi
+
 	if command -v brew >/dev/null 2>&1; then
 		brew bundle dump --force --no-restart
 	fi
-	if command -v chezmoi >/dev/null 2>&1; then
-		chezmoi diff
+
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
 		chezmoi re-add
 	fi
-	;;
+fi
 
-*)
-	echo "Usage: chezmoi-package [update|re-add]"
-	;;
+if [[ -n "$CHEZMOI_SCRIPTS_UPLOAD" ]]; then
+	echo "Uploading ..."
 
-esac
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		chezmoi git push origin main
+	fi
+fi
