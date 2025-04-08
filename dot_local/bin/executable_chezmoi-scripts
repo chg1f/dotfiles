@@ -44,6 +44,7 @@ re-add)
 	fi
 	if command -v chezmoi >/dev/null 2>&1; then
 		chezmoi re-add
+		chezmoi diff
 	fi
 	;;
 
