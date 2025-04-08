@@ -4,12 +4,16 @@ set -ex
 
 case "$1" in
 install)
+	shift
+
 	if ! command -v brew >/dev/null 2>&1; then
 		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	fi
 	;;
 
 update)
+	shift
+
 	if command -v chezmoi >/dev/null 2>&1; then
 		chezmoi update --init # --apply
 	fi
@@ -30,6 +34,8 @@ update)
 	;;
 
 re-add)
+	shift
+
 	# if command -v yay >/dev/null 2>&1; then
 	# 	yay -Qqe >"$HOME/.config/yay/pkglist.txt"
 	# fi
