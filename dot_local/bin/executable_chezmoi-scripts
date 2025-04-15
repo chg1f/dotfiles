@@ -1,9 +1,12 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 for arg in "$@"; do
 	case $arg in
+	--debug)
+		set -x
+		;;
 	--inline)
 		CHEZMOI_SCRIPTS_INLINE=true
 		;;
@@ -25,6 +28,30 @@ for arg in "$@"; do
 		;;
 	esac
 done
+
+if [[ -n "$CHEZMOI_SCRIPTS_COMMIT" ]]; then
+	echo "Committing ..."
+
+	if command -v yay >/dev/null 2>&1; then
+		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
+	fi
+
+	if command -v brew >/dev/null 2>&1; then
+		brew bundle dump --force --no-restart
+	fi
+
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		chezmoi re-add
+	fi
+fi
+
+if [[ -n "$CHEZMOI_SCRIPTS_UPLOAD" ]]; then
+	echo "Uploading ..."
+
+	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		chezmoi git push origin main
+	fi
+fi
 
 if [[ -n "$CHEZMOI_SCRIPTS_FETCH" ]]; then
 	echo "Fetching ..."
@@ -64,29 +91,5 @@ if [[ -n "$CHEZMOI_SCRIPTS_APPLY" ]]; then
 
 	if command -v zimfw >/dev/null 2>&1; then
 		zimfw update
-	fi
-fi
-
-if [[ -n "$CHEZMOI_SCRIPTS_COMMIT" ]]; then
-	echo "Committing ..."
-
-	if command -v yay >/dev/null 2>&1; then
-		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
-	fi
-
-	if command -v brew >/dev/null 2>&1; then
-		brew bundle dump --force --no-restart
-	fi
-
-	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
-		chezmoi re-add
-	fi
-fi
-
-if [[ -n "$CHEZMOI_SCRIPTS_UPLOAD" ]]; then
-	echo "Uploading ..."
-
-	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
-		chezmoi git push origin main
 	fi
 fi
