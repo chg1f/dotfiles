@@ -6,7 +6,7 @@ right_format = "$direnv$status$cmd_duration$time"
 format = "$directory$git_branch$git_commit$git_status$git_metrics$git_state$fill$all$line_break$character"
 continuation_prompt = "[∙](bright-black) "
 scan_timeout = 30
-command_timeout = 500
+command_timeout = 1000
 add_newline = true
 follow_symlinks = true
 

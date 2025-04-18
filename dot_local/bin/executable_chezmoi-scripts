@@ -33,14 +33,20 @@ if [[ -n "$CHEZMOI_SCRIPTS_COMMIT" ]]; then
 	echo "Committing ..."
 
 	if command -v yay >/dev/null 2>&1; then
+		echo "Dumping yay packages ..."
+
 		yay -Qqe >"$HOME/.config/yay/pkglist.txt"
 	fi
 
 	if command -v brew >/dev/null 2>&1; then
+		echo "Dumping brew packages ..."
+
 		brew bundle dump --force --no-restart
 	fi
 
 	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		echo "Committing chezmoi state ..."
+
 		chezmoi re-add
 	fi
 fi
@@ -49,6 +55,8 @@ if [[ -n "$CHEZMOI_SCRIPTS_UPLOAD" ]]; then
 	echo "Uploading ..."
 
 	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		echo "Uploading chezmoi state ..."
+
 		chezmoi git push origin main
 	fi
 fi
@@ -57,10 +65,14 @@ if [[ -n "$CHEZMOI_SCRIPTS_FETCH" ]]; then
 	echo "Fetching ..."
 
 	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		echo "Fetching chezmoi state ..."
+
 		chezmoi update --init
 	fi
 
 	if command -v brew >/dev/null 2>&1; then
+		echo "Fetching brew packages ..."
+
 		brew update
 	fi
 fi
@@ -69,27 +81,39 @@ if [[ -n "$CHEZMOI_SCRIPTS_APPLY" ]]; then
 	echo "Applying ..."
 
 	if [[ -z "$CHEZMOI_SCRIPTS_INLINE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		echo "Applying chezmoi state ..."
+
 		chezmoi apply
 	fi
 
 	if command -v yay >/dev/null 2>&1; then
+		echo "Applying yay packages ..."
+
 		yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
 	fi
 
 	if command -v brew >/dev/null 2>&1; then
+		echo "Applying brew packages ..."
+
 		brew bundle
 		brew upgrade
 	fi
 
-	if command -v nvim >/dev/null 2>&1; then
-		nvim --headless "+Lazy! sync" +qa
+	if command -v zimfw >/dev/null 2>&1; then
+		echo "Updating zsh plugins ..."
+
+		zimfw update
 	fi
 
 	if [[ -x "$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" ]]; then
+		echo "Updating tmux plugins ..."
+
 		"$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" all
 	fi
 
-	if command -v zimfw >/dev/null 2>&1; then
-		zimfw update
+	if command -v nvim >/dev/null 2>&1; then
+		echo "Updating nvim plugins ..."
+
+		nvim --headless "+Lazy! sync" +qa
 	fi
 fi
