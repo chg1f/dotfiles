@@ -6,6 +6,7 @@ for arg in "$@"; do
 	case $arg in
 	--debug)
 		echo "[!] Running in debug mode"
+		CHEZMOI_SCRIPTS_DEBUG_MODE=true
 		set -x
 		;;
 	--inline)
