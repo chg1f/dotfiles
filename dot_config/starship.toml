@@ -104,7 +104,7 @@ format = "[LATENCY: $duration]($style) "
 style = "bold yellow"
 min_time = 1000
 show_milliseconds = true
-show_notifications = true
+show_notifications = false
 min_time_to_notify = 60000
 disabled = false
 
