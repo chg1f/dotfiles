@@ -4,6 +4,7 @@ return {
 		"LazyVim/LazyVim",
 		opts = {
 			colorscheme = "gruvbox",
+			-- colorscheme = "cyberdream",
 			news = {
 				lazyvim = false,
 				neovim = false,
@@ -253,88 +254,4 @@ return {
 			-- },
 		},
 	},
-	{
-		"ibhagwan/fzf-lua",
-		keys = {
-			{
-				"<leader><space>",
-				function()
-					require("fzf-lua").resume()
-				end,
-				desc = "Resume",
-			},
-			{
-				"<leader>?",
-				function()
-					require("fzf-lua").builtin()
-				end,
-				desc = "Features",
-			},
-			{
-				"<leader>h",
-				function()
-					require("fzf-lua").help_tags()
-				end,
-				desc = "Help",
-			},
-		},
-	},
-	-- {
-	-- 	"nvim-telescope/telescope.nvim",
-	-- 	keys = {
-	-- 		{
-	-- 			"<leader><space>",
-	-- 			function()
-	-- 				require("telescope.builtin").resume()
-	-- 			end,
-	-- 			desc = "Resume",
-	-- 		},
-	-- 		{
-	-- 			"<leader>?",
-	-- 			function()
-	-- 				require("telescope.builtin").builtin()
-	-- 			end,
-	-- 			desc = "Features",
-	-- 		},
-	-- 		{
-	-- 			"<leader>h",
-	-- 			function()
-	-- 				require("telescope.builtin").help_tags()
-	-- 			end,
-	-- 			desc = "Help",
-	-- 		},
-	-- 	},
-	-- 	opts = {
-	-- 		defaults = {
-	-- 			prompt_prefix = " ",
-	-- 			selection_caret = "> ",
-	-- 		},
-	-- 		pickers = {
-	-- 			builtin = {
-	-- 				include_extensions = true,
-	-- 				use_default_opts = true,
-	-- 			},
-	-- 			find_files = {
-	-- 				-- hidden = true,
-	-- 				-- no_ignore = true,
-	-- 				-- no_ignore_parent = true,
-	-- 			},
-	-- 			colorscheme = {
-	-- 				-- enable_preview = true,
-	-- 			},
-	-- 			lsp_definitions = {
-	-- 				jump_type = "vsplit",
-	-- 			},
-	-- 			lsp_references = {
-	-- 				jump_type = "vsplit",
-	-- 			},
-	-- 			lsp_implementations = {
-	-- 				jump_type = "vsplit",
-	-- 			},
-	-- 			lsp_type_definitions = {
-	-- 				jump_type = "vsplit",
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
 }

@@ -57,7 +57,10 @@ bindkey -r "^[c"
 alias PX="HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
 # alias PX="SSH_PROXY=\"ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p'\" HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
 alias NLH="LEFTHOOK=0"
-alias http="http --check-status -pHBhbm"
 # alias ssh="ssh -o '$SSH_PROXY'"
+alias -g Q="1>/dev/null 2>/dev/null"
+alias -g Q1="1>/dev/null"
+alias -g Q2="2>/dev/null"
+alias http="http --check-status -pHBhbm"
 
 # vim: set ft=zsh
