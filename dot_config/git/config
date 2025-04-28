@@ -1,17 +1,17 @@
 [include]
 	path = ~/.config/git/config.local
 
-; [includeIf "gitdir:**/github.com/"]
-; 	path = ~/.config/git/github.com
-
-[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+[includeIf "gitdir:**/github.com/"]
 	path = ~/.config/git/github.com
 
 [includeIf "hasconfig:remote.*.url:https://github.com/**"]
 	path = ~/.config/git/github.com
 
-;[url "git@github.com:"]
-;	insteadOf = https://github.com/
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+	path = ~/.config/git/github.com
+
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
 
 [color]
 	ui = auto
@@ -49,19 +49,18 @@
 [diff]
 	external = difft --sort-paths --skip-unchanged --syntax-highlight=on --display=side-by-side
 
-; [merge]
-; 	; tool = nvimdiff
-; 	conflictstyle = zdiff3
+# [merge]
+# 	; tool = nvimdiff
+# 	conflictstyle = zdiff3
+#
+# [pager]
+# 	diff = delta
+# 	reflog = delta
+# 	show = delta
+# 	log = delta
+#
+# [delta]
+# 	line-numbers = true
+# 	side-by-side = true
 
-; [pager]
-; 	diff = delta
-; 	reflog = delta
-; 	show = delta
-; 	log = delta
-;
-; [delta]
-; 	line-numbers = true
-; 	side-by-side = true
-
-
-
+# vim: ft=gitconfig
