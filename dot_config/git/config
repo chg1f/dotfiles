@@ -1,6 +1,9 @@
 [include]
 	path = ~/.config/git/config.local
 
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
+
 [includeIf "gitdir:**/github.com/"]
 	path = ~/.config/git/github.com
 
@@ -9,9 +12,6 @@
 
 [includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
 	path = ~/.config/git/github.com
-
-# [url "git@github.com:"]
-# 	insteadOf = https://github.com/
 
 [color]
 	ui = auto
