@@ -13,12 +13,10 @@ return {
 				}
 			end,
 			colors = {
-				bg = "#141414",
-				bg_alt = "#31322c",
-				bg_highlight = "#3c4048",
-				fg = "#fffef8",
+				bg = "#000000",
+				fg = "#ffffff",
 
-				gray = "#5c4f55",
+				gray = "#31322c",
 				red = "#ab1d22",
 				green = "#2a6e4f",
 				yellow = "#d6bc46",

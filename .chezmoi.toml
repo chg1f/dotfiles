@@ -8,19 +8,19 @@ autoPush = false
 [update]
 apply = false
 
-[diff]
-command = "difft"
-args = [
-  "--skip-unchanged",
-  "--sort-paths",
-  "--color=always",
-  "--syntax-highlight=on",
-  "--display=side-by-side",
-]
+# [diff]
+# command = "difft"
+# args = [
+#   "--skip-unchanged",
+#   "--sort-paths",
+#   "--color=always",
+#   "--syntax-highlight=on",
+#   "--display=side-by-side",
+# ]
 
-[merge]
-command = "nvim"
-args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
+# [merge]
+# command = "nvim"
+# args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
 
 [hooks.update.pre]
 command = "chezmoi-scripts"
