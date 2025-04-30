@@ -1,5 +1,5 @@
 ---@class LazyVimPlugin
-return {
+local M = {
 	{
 		"LazyVim/LazyVim",
 		opts = {
@@ -26,21 +26,52 @@ return {
 	},
 	{
 		"mason.nvim",
-		cmd = {
-			"Mason",
-			"MasonInstall",
-			"MasonUpdate",
-		},
-		opts = {
-			install_root = vim.fn.stdpath("data") .. "/mason",
-		},
-	},
-	{
-		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		cmd = {
-			"MasonToolsInstallSync",
-			"MasonToolsUpdateSync",
-		},
+		enabled = false,
+		-- cmd = {
+		-- 	"MasonUpdate",
+		-- 	"MasonUpgrade",
+		-- },
+		-- init = function()
+		-- 	vim.api.nvim_create_user_command("MasonUpgrade", function()
+		-- 		local platform = require("mason-core.platform")
+		--
+		-- 		local upgrade = function()
+		-- 			local registry = require("mason-registry")
+		-- 			local packages = registry.get_installed_packages()
+		--
+		-- 			local notify = require("mason-core.notify")
+		-- 			notify("Upgrading packages...")
+		--
+		-- 			for _, pkg in ipairs(packages) do
+		-- 				pkg:check_new_version(function(ok, version)
+		-- 					if ok then
+		-- 						if version.latest_version ~= version.current_version then
+		-- 							pkg:install({ version = version.latest_version }):once("completed", function()
+		-- 								notify("Upgraded " .. pkg.name .. " to version " .. version.latest_version)
+		-- 							end)
+		-- 						else
+		-- 							notify(pkg.name .. " is already up to date")
+		-- 						end
+		-- 					else
+		-- 						notify("Failed to check for new version of " .. pkg.name, vim.log.levels.ERROR)
+		-- 					end
+		-- 				end)
+		-- 			end
+		-- 		end
+		--
+		-- 		if platform.is_headless then
+		-- 			local a = require("mason-core.async")
+		-- 			a.run_blocking(function()
+		-- 				upgrade()
+		-- 			end)
+		-- 		else
+		-- 			upgrade()
+		-- 		end
+		-- 	end, { force = true })
+		-- end,
+		-- opts = {
+		-- 	install_root = vim.fn.stdpath("data") .. "/mason",
+		-- },
 	},
 	{
 		"folke/snacks.nvim",
@@ -49,15 +80,25 @@ return {
 		},
 	},
 	{
+		"folke/which-key.nvim",
+		opts = {
+			preset = "helix",
+			win = {
+				col = 1, -- position of the floating window
+			},
+		},
+	},
+	{
 		"akinsho/bufferline.nvim",
 		opts = {
 			options = {
 				indicator = { style = "underline" },
-				left_trunc_marker = "»",
-				right_trunc_marker = "«",
+				left_trunc_marker = ">>",
+				right_trunc_marker = "<<",
 				always_show_bufferline = true,
 				show_buffer_icons = false,
 				show_buffer_close_icons = false,
+				sort_by = "insert_after_current",
 			},
 		},
 	},
@@ -127,26 +168,6 @@ return {
 			}
 		end,
 	},
-	-- {
-	-- 	"lewis6991/gitsigns.nvim",
-	-- 	opts = {
-	-- 		signs = {
-	-- 			add = { text = "+" },
-	-- 			change = { text = "~" },
-	-- 			changedelete = { text = "~" },
-	-- 			delete = { text = "_" },
-	-- 			topdelete = { text = "‾" },
-	-- 			untracked = { text = ":" },
-	-- 		},
-	-- 		signs_staged = {
-	-- 			add = { text = "+" },
-	-- 			change = { text = "~" },
-	-- 			delete = { text = "_" },
-	-- 			topdelete = { text = "‾" },
-	-- 			changedelete = { text = "~" },
-	-- 		},
-	-- 	},
-	-- },
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
@@ -199,34 +220,48 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"mfussenegger/nvim-lint",
-	-- 	opts = {
-	-- 		linter_by_ft = {
-	-- 			go = { "golangcilint" },
-	-- 		},
-	-- 	},
-	-- },
-	-- {
-	-- 	"stevearc/conform.nvim",
-	-- 	opts = function(_, opts)
-	-- 		local sql_ft = { "sql", "mysql", "plsql" }
-	-- 		opts.formatters.sqlfluff = {
-	-- 			args = { "fix", "--dialect=mysql", "-" },
-	-- 		}
-	-- 		for _, ft in ipairs(sql_ft) do
-	-- 			opts.formatters_by_ft[ft] = opts.formatters_by_ft[ft] or {}
-	-- 			table.insert(opts.formatters_by_ft[ft], "sqlfluff")
-	-- 		end
-	-- 	end,
-	-- },
 	{
-		"folke/which-key.nvim",
+		"mfussenegger/nvim-lint",
 		opts = {
-			preset = "helix",
-			win = {
-				col = 1, -- position of the floating window
+			linter_by_ft = {
+				zsh = { "zsh" },
+				go = { "golangcilint" },
+				typescript = { "biomejs" },
+				javascript = { "biomejs" },
+				json = { "biomejs" },
+				sql = { "sqlfluff" },
+			},
+			linters = {
+				sqlfluff = {
+					args = {
+						"lint",
+						"--format=json",
+						"--dialect=mysql",
+						"--disable-progress-bar",
+					},
+				},
+			},
+		},
+	},
+	{
+		"stevearc/conform.nvim",
+		opts = {
+			formatters_by_ft = {
+				lua = { "stylua" },
+				sh = { "shfmt" },
+				sql = { "sqlfluff" },
+			},
+			formatters = {
+				sqlfluff = {
+					args = {
+						"format",
+						"--dialect=mysql",
+						"--disable-progress-bar",
+					},
+				},
 			},
 		},
 	},
 }
+
+return M
