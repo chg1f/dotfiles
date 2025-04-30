@@ -26,8 +26,20 @@ return {
 	},
 	{
 		"mason.nvim",
+		cmd = {
+			"Mason",
+			"MasonInstall",
+			"MasonUpdate",
+		},
 		opts = {
 			install_root = vim.fn.stdpath("data") .. "/mason",
+		},
+	},
+	{
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		cmd = {
+			"MasonToolsInstallSync",
+			"MasonToolsUpdateSync",
 		},
 	},
 	{
@@ -68,87 +80,73 @@ return {
 						},
 					},
 					lualine_b = {
+						"filetype",
 						{
 							"diagnostics",
 							symbols = {
-								error = LazyVim.config.icons.diagnostics.Error,
-								warn = LazyVim.config.icons.diagnostics.Warn,
-								info = LazyVim.config.icons.diagnostics.Info,
-								hint = LazyVim.config.icons.diagnostics.Hint,
+								error = "E",
+								warn = "W",
+								info = "I",
+								hint = "H",
 							},
 						},
 					},
 					lualine_c = {
-						{
-							"fileformat",
-							icons_enabled = true,
-							symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
-						},
-						"encoding",
-						"filesize",
 						"progress",
 						"location",
 						"searchcount",
 						"selectioncount",
 					},
 					lualine_x = {
+						{
+							"diff",
+							symbols = {
+								added = "+",
+								removed = "-",
+								modified = "~",
+							},
+						},
+						"branch",
+					},
+					lualine_y = {
+						"filesize",
 						LazyVim.lualine.pretty_path({
 							modified_sign = "*",
 							readonly_icon = "!",
 						}),
-						LazyVim.lualine.root_dir(),
-					},
-					lualine_y = {
-						{
-							"diff",
-							symbols = {
-								added = LazyVim.config.icons.git.added,
-								modified = LazyVim.config.icons.git.modified,
-								removed = LazyVim.config.icons.git.removed,
-							},
-							source = function()
-								if vim.b.gitsigns_status_dict then
-									return {
-										added = vim.b.gitsigns_status_dict.added,
-										modified = vim.b.gitsigns_status_dict.changed,
-										removed = vim.b.gitsigns_status_dict.removed,
-									}
-								end
-							end,
-						},
-						{
-							"branch",
-						},
 					},
 					lualine_z = {
+						"encoding",
 						{
-							"filetype",
+							"fileformat",
+							icons_enabled = true,
+							symbols = { unix = "LF", dos = "CRLF", mac = "CR" },
 						},
 					},
 				},
 			}
 		end,
 	},
-	{
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			signs = {
-				add = { text = "+" },
-				change = { text = "~" },
-				changedelete = { text = "~" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				untracked = { text = ":" },
-			},
-			signs_staged = {
-				add = { text = "+" },
-				change = { text = "~" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-			},
-		},
-	},
+	-- {
+	-- 	"lewis6991/gitsigns.nvim",
+	-- 	opts = {
+	-- 		signs = {
+	-- 			add = { text = "+" },
+	-- 			change = { text = "~" },
+	-- 			changedelete = { text = "~" },
+	-- 			delete = { text = "_" },
+	-- 			topdelete = { text = "‾" },
+	-- 			untracked = { text = ":" },
+	-- 		},
+	-- 		signs_staged = {
+	-- 			add = { text = "+" },
+	-- 			change = { text = "~" },
+	-- 			delete = { text = "_" },
+	-- 			topdelete = { text = "‾" },
+	-- 			changedelete = { text = "~" },
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"neovim/nvim-lspconfig",
 		opts = {
@@ -201,14 +199,14 @@ return {
 			},
 		},
 	},
-	{
-		"mfussenegger/nvim-lint",
-		opts = {
-			linter_by_ft = {
-				go = { "golangcilint" },
-			},
-		},
-	},
+	-- {
+	-- 	"mfussenegger/nvim-lint",
+	-- 	opts = {
+	-- 		linter_by_ft = {
+	-- 			go = { "golangcilint" },
+	-- 		},
+	-- 	},
+	-- },
 	-- {
 	-- 	"stevearc/conform.nvim",
 	-- 	opts = function(_, opts)
@@ -229,29 +227,6 @@ return {
 			win = {
 				col = 1, -- position of the floating window
 			},
-		},
-	},
-	{
-		"monaqa/dial.nvim",
-		keys = {
-			-- {
-			-- 	"<C-a>",
-			-- 	function()
-			-- 		return require("lazyvim.plugins.extras.editor.dial").dial(true)
-			-- 	end,
-			-- 	expr = true,
-			-- 	desc = "Increment",
-			-- 	mode = { "n", "v" },
-			-- },
-			-- {
-			-- 	"g<C-a>",
-			-- 	function()
-			-- 		return require("lazyvim.plugins.extras.editor.dial").dial(true, true)
-			-- 	end,
-			-- 	expr = true,
-			-- 	desc = "Increment",
-			-- 	mode = { "n", "v" },
-			-- },
 		},
 	},
 }

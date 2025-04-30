@@ -62,5 +62,7 @@ alias -g Q="1>/dev/null 2>/dev/null"
 alias -g Q1="1>/dev/null"
 alias -g Q2="2>/dev/null"
 alias http="http --check-status -pHBhbm"
+alias SHPX="SSH_OPTIONS=\"ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p\""
+alias ssh="ssh -o \"\$SSH_OPTIONS\""
 
 # vim: set ft=zsh

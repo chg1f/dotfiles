@@ -86,7 +86,7 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 		if command -v nvim >/dev/null 2>&1; then
 			echo "[*] Updating nvim plugins ..."
 
-			nvim --headless "+Lazy! sync" +qa
+			nvim --headless "+Lazy! sync" "+TSUpdate" "+MasonUpdate" "+MasonToolsUpdateSync" "+qa"
 		fi
 		;;
 	commit)
