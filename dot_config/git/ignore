@@ -12,9 +12,8 @@ log{,s}/*
 *.local
 
 # temporary files
-{bak,backup}/*
 *.{bak,backup}
-{tmp,temp}/*
+tmp/*
 *.{tmp,temp}
 *.pid
 *{~,.swp}
