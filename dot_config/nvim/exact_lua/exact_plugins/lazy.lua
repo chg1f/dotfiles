@@ -3,8 +3,7 @@ local M = {
 	{
 		"LazyVim/LazyVim",
 		opts = {
-			colorscheme = "gruvbox",
-			-- colorscheme = "cyberdream",
+			colorscheme = "cyberdream",
 			news = {
 				lazyvim = false,
 				neovim = false,
