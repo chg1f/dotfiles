@@ -1,0 +1,22 @@
+Include ~/.ssh/config.local
+
+Host *
+  SetEnv TERM=screen-256color
+  # User root
+  # Port 22
+  TCPKeepAlive yes
+  ServerAliveInterval 60
+  ServerAliveCountMax 30
+  StrictHostKeyChecking ask
+  HostkeyAlgorithms +ssh-rsa
+  # PreferredAuthentications publickey
+  # IdentitiesOnly yes
+  AddKeysToAgent ask
+  # UseKeychain yes
+  PubkeyAcceptedAlgorithms +ssh-rsa
+
+Host github.com
+  Hostname github.com
+  IdentityFile ~/.ssh/github.id_ed25519
+  # ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p
+
