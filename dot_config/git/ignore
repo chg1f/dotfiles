@@ -11,12 +11,11 @@ log{,s}/*
 # local files
 *.local
 
-# backup files
-*.{backup,bak}
-
 # temporary files
-tmp/*
-*.t{,e}mp
+{bak,backup}/*
+*.{bak,backup}
+{tmp,temp}/*
+*.{tmp,temp}
 *.pid
 *{~,.swp}
 
@@ -34,3 +33,5 @@ go.work.sum
 
 # vim files
 .lazy.lua
+
+# vim: ft=gitignore
