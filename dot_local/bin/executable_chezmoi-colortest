@@ -4,10 +4,6 @@
 # https://wiki.archlinux.org/title/Bash/Prompt_customization
 # curl https://raw.githubusercontent.com/ryanoasis/nerd-fonts/master/bin/scripts/test-fonts.sh | bash
 
-test() {
-	printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
-}
-
 ansi() {
 	# bash < <(curl -fsSL https://raw.githubusercontent.com/pablopunk/colortest/master/colortest)
 	for b in 0 {30..37}; do
@@ -21,39 +17,44 @@ ansi() {
 }
 
 color16() {
-	println() {
-		printf "$(tput sgr0)$(tput setaf "$1")%8s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
-		printf "$(tput setaf 0)$(tput setab $(($1 + 8))) * $(tput sgr0)$(tput setaf $(($1 + 8)))%-3d%-s$(tput sgr0)" "$(($1 + 8))" "BRIGHT-$2"
+	fill() {
+		printf "$(tput sgr0)$(tput setaf "$1")%14s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
+		printf "$(tput setaf 0)$(tput setab $(($1 + 8))) * $(tput sgr0)$(tput setaf $(($1 + 8)))%-3d%-s$(tput sgr0)" "$(($1 + 8))" "BRIGHT $2"
 		printf "\n"
 	}
-	println 0 "BLACK"
-	println 1 "RED"
-	println 2 "GREEN"
-	println 3 "YELLOW"
-	println 4 "BLUE"
-	println 5 "PURPLE"
-	println 6 "CYAN"
-	println 7 "WHITE"
+	fill 0 "BLACK"
+	fill 1 "RED"
+	fill 2 "GREEN"
+	fill 3 "YELLOW"
+	fill 4 "BLUE"
+	fill 5 "PURPLE/MAGENTA"
+	fill 6 "CYAN"
+	fill 7 "WHITE"
 }
 
 color256() {
+	fill() {
+		printf "$(tput setaf "$1")%3d$(tput setab "$1") $(tput sgr0)" "$1"
+	}
+
 	for i in {0..15}; do
-		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
+		fill "$i"
+	done
+	printf "\n"
+
+	for i in {232..255}; do
+		fill "$i"
 	done
 	printf "\n"
 
 	for i in {16..231}; do
-		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
+		fill "$i"
 
 		if ((i % 36 == 15)); then
 			printf "\n"
 		fi
 	done
 
-	for i in {232..255}; do
-		printf "$(tput setaf "$i")%3d$(tput setab "$i") $(tput sgr0)" "$i"
-	done
-	printf "\n"
 }
 
 rainbow() {

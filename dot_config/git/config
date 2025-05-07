@@ -22,17 +22,23 @@
 	diff = true
 
 [color "branch"]
-	current = 4
-	local = 2
-	remote = 1
-	upstream = 5
-	plain = 7
+	current = blue
+	local = green
+	remote = red
+	upstream = yellow
+	plain = white
 
 [color "status"]
-	added = 10
-	changed = 11
-	untracked = 8
-	unmerged = 9
+	added = brightgreen
+	changed = brightyellow
+	untracked = brightblack
+	unmerged = brightblue
+
+[color "decorate"]
+	branch = magenta
+	remoteBranch = red
+	tag = magenta bold
+	stash = brightblack
 
 [alias]
 	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
