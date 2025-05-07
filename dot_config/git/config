@@ -36,12 +36,6 @@
 
 [alias]
 	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
-	graph = log --graph --abbrev-commit --decorate --date=relative
-	tags = tag --list --sort=committerdate
-	branches = branch --list --all --verbose  --sort=committerdate; branch --list --all --format "%(HEAD)%(refname:short) -> %(upstream:short) %(ahead-behind:HEAD) %(committerdate)"
-	aliases = config --get-regexp alias
-	; amend = commit --amend --reuse-message=HEAD
-	; ls = ls-files
 
 [pull]
 	rebase = true
