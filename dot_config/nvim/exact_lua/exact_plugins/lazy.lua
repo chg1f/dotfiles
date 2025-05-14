@@ -253,7 +253,7 @@ local M = {
 			formatters = {
 				sqlfluff = {
 					args = {
-						"format",
+						"fix",
 						"--dialect=mysql",
 						"--disable-progress-bar",
 					},
