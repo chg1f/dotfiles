@@ -200,18 +200,18 @@ disabled = false
 [directory.substitutions]
 
 [direnv]
-format = "[$symbol$loaded/$allowed]($style) "
+format = "[$symbol($allowed)(/$loaded)]($style) "
 symbol = ""
 style = "yellow"
 detect_extensions = []
 detect_env_vars = ["DIRENV_FILE"]
 detect_files = [".envrc", ".env"]
 detect_folders = []
-allowed_msg = "allowed"
-not_allowed_msg = "not allowed"
-denied_msg = "denied"
-loaded_msg = "loaded"
-unloaded_msg = "unloaded"
+allowed_msg = "A"
+not_allowed_msg = "NA"
+denied_msg = "D"
+loaded_msg = "L"
+unloaded_msg = "NL"
 disabled = false
 
 [docker_context]
@@ -336,19 +336,19 @@ tag_max_candidates = 0
 disabled = false
 
 [git_metrics]
-added_style = "bold green"
-deleted_style = "bold red"
+added_style = "green"
+deleted_style = "red"
 only_nonzero_diffs = true
-format = "([+$added]($added_style)[-$deleted]($deleted_style)) "
+format = "[(+$added)]($added_style)[(-$deleted)]($deleted_style) "
 disabled = false
 ignore_submodules = false
 
 [git_status]
 format = "($ahead_behind )($all_status )"
 up_to_date = "[U](green)"
-diverged = "[D](red)"
-ahead = "[A${count}](yellow)"
-behind = "[B${count}](yellow)"
+diverged = "[D](red bold)"
+ahead = "[A${count}](yellow bold)"
+behind = "[B${count}](yellow bold)"
 conflicted = "[c${count}](red)"
 modified = "[m${count}](yellow)"
 typechanged = "t"
