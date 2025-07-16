@@ -65,4 +65,7 @@ alias http="http --check-status -pHBhbm"
 alias SHPX="SSH_OPTIONS=\"ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p\""
 alias ssh="ssh -o \"\$SSH_OPTIONS\""
 
+alias urlencode="python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))'"
+alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
+
 # vim: set ft=zsh

@@ -184,6 +184,7 @@ local M = {
 							usePlaceholders = true,
 							completeUnimported = true,
 							staticcheck = true,
+							-- experimentalDisabledAnalyses = { "ST1000", "ST1003" },
 							directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
 							semanticTokens = true,
 							gofumpt = true,
@@ -224,13 +225,17 @@ local M = {
 		opts = {
 			linter_by_ft = {
 				zsh = { "zsh" },
-				go = { "golangcilint" },
+				-- go = { "golangcilint" },
 				typescript = { "biomejs" },
 				javascript = { "biomejs" },
 				json = { "biomejs" },
 				sql = { "sqlfluff" },
 			},
 			linters = {
+				-- golangcilint = {
+				-- 	executable = "golangci-lint",
+				-- 	args = { "run", "--out-format=json" },
+				-- },
 				sqlfluff = {
 					args = {
 						"lint",
