@@ -2,8 +2,8 @@
 
 # $all is shorthand for $username$hostname$localip$shlvl$singularity$kubernetes$nats$directory$vcsh$fossil_branch$fossil_metrics$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$pijul_channel$docker_context$package$bun$c$cmake$cobol$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$gleam$golang$gradle$haskell$haxe$helm$java$julia$kotlin$lua$mojo$nim$nodejs$ocaml$odin$opa$perl$php$pulumi$purescript$python$quarto$raku$rlang$red$ruby$rust$scala$solidity$swift$terraform$typst$vlang$vagrant$zig$buf$guix_shell$nix_shell$conda$meson$spack$memory_usage$aws$gcloud$openstack$azure$direnv$env_var$crystal$custom$sudo$cmd_duration$line_break$jobs$battery$time$status$container$os$shell$character
 "$schema" = "https://starship.rs/config-schema.json"
-format = "($status$cmd_duration)$line_break($directory$direnv$git_state$git_branch$git_commit$git_status$git_metrics)$fill($all$localip)( $username@$hostname)( $time)$line_break($character)"
-# right_format = "($username@$hostname )$time"
+format = "($status$cmd_duration)$line_break($directory$direnv$git_state$git_branch$git_commit$git_status$git_metrics)$fill($all$username$hostname$localip$time)$line_break($character)"
+# right_format = "$username@$hostname$time"
 continuation_prompt = "[#](bright-black) "
 scan_timeout = 30
 command_timeout = 500
@@ -16,7 +16,7 @@ follow_symlinks = true
 [profiles]
 
 [aws]
-format = 'on [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
+format = ' [$symbol($profile )(\($region\) )(\[$duration\] )]($style)'
 symbol = "aws  "
 style = "bold yellow"
 disabled = false
@@ -101,8 +101,8 @@ detect_files = ["CMakeLists.txt", "CMakeCache.txt"]
 detect_folders = []
 
 [cmd_duration]
-format = "[LATENCY: $duration]($style) "
-style = "bold yellow"
+format = " [LATENCY: $duration]($style)"
+style = "bold black"
 min_time = 1000
 show_milliseconds = true
 show_notifications = false
@@ -183,7 +183,7 @@ detect_folders = []
 
 [directory]
 home_symbol = "~"
-truncation_length = 5
+truncation_length = 3
 truncate_to_repo = false
 truncation_symbol = "..."
 use_os_path_sep = true
@@ -193,8 +193,8 @@ repo_root_format = "([$read_only]($read_only_style) )[$before_root_path]($before
 read_only = "RO"
 read_only_style = "bold bg:red"
 before_repo_root_style = "blue"
-repo_root_style = "blue bold "
-style = "bright-blue"
+repo_root_style = "blue bold"
+style = "blue"
 disabled = false
 
 [directory.substitutions]
@@ -461,8 +461,8 @@ ssh_only = false
 ssh_symbol = ""
 trim_at = "."
 detect_env_vars = []
-format = "[$ssh_symbol$hostname]($style)"
-style = "yellow"
+format = " [$ssh_symbol$hostname]($style)"
+style = "white"
 disabled = false
 
 [hostname.aliases]
@@ -536,8 +536,8 @@ disabled = false
 
 [localip]
 ssh_only = false
-format = "[$localipv4]($style) "
-style = "green"
+format = " [$localipv4]($style)"
+style = "white"
 disabled = false
 
 [lua]
@@ -913,7 +913,7 @@ style = "blue bold"
 disabled = false
 
 [status]
-format = "[EXIT: $symbol$status]($style) "
+format = "[EXIT: $symbol$status]($style)"
 symbol = ""
 success_symbol = ""
 not_executable_symbol = "!"
@@ -956,7 +956,7 @@ detect_files = []
 detect_folders = [".terraform"]
 
 [time]
-format = "[$time]($style) "
+format = " [$time]($style)"
 style = "bold black"
 use_12hr = false
 utc_time_offset = "local"
@@ -975,7 +975,7 @@ detect_folders = []
 
 [username]
 detect_env_vars = []
-format = "[$user]($style)"
+format = " [$user]($style)"
 style_root = "red bold"
 style_user = "green"
 show_always = true
