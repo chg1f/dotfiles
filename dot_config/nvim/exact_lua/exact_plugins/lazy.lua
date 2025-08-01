@@ -194,6 +194,9 @@ local M = {
 								unusedparams = true,
 								unusedwrite = true,
 								useany = true,
+
+								ST1000 = false,
+								ST1003 = false,
 							},
 							codelenses = {
 								gc_details = false,
