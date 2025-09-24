@@ -1,7 +1,7 @@
 aliases: {}
 substitute-path: []
-max-string-len: 1000
-max-array-values: 1000
+max-string-len: 5000
+max-array-values: 5000
 show-location-expr: false
 source-list-line-color: null
 source-list-arrow-color: ""
@@ -14,7 +14,7 @@ source-list-tab-color: ""
 stacktrace-function-color: ""
 stacktrace-basename-color: ""
 debug-info-directories:
-  - /usr/lib/debug/.build-id
+    - /usr/lib/debug/.build-id
 position: ""
 tab: ""
 trace-show-timestamp: false

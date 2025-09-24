@@ -3,6 +3,7 @@
 # configuration files
 .env
 .properties
+.agollo
 
 # log files
 log{,s}/*
