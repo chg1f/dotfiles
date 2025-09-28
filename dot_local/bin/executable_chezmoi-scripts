@@ -67,7 +67,7 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 		if command -v brew >/dev/null 2>&1; then
 			echo "[*] Applying brew packages ..."
 
-			brew bundle
+			brew bundle || true
 			brew upgrade
 		fi
 
