@@ -17,8 +17,4 @@ Host *
   # UseKeychain yes
   PubkeyAcceptedAlgorithms +ssh-rsa
 
-Host github.com
-  Hostname github.com
-  IdentityFile ~/.ssh/github.id_ed25519
-  # ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p
-
+# vim: ft=sshconfig
