@@ -197,6 +197,7 @@ local M = {
 
 								ST1000 = false,
 								ST1003 = false,
+								QF1008 = false,
 							},
 							codelenses = {
 								gc_details = false,
