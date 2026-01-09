@@ -241,12 +241,7 @@ local M = {
 				-- 	args = { "run", "--out-format=json" },
 				-- },
 				sqlfluff = {
-					args = {
-						"lint",
-						"--format=json",
-						"--dialect=mysql",
-						"--disable-progress-bar",
-					},
+					args = { "lint", "--format=json", "--dialect=mysql" },
 				},
 			},
 		},
@@ -254,6 +249,8 @@ local M = {
 	{
 		"stevearc/conform.nvim",
 		opts = {
+			-- default_format_opts = 5000, -- 5s
+			-- log_level = vim.log.levels.DEBUG,
 			formatters_by_ft = {
 				lua = { "stylua" },
 				sh = { "shfmt" },
@@ -261,11 +258,7 @@ local M = {
 			},
 			formatters = {
 				sqlfluff = {
-					args = {
-						"fix",
-						"--dialect=mysql",
-						"--disable-progress-bar",
-					},
+					args = { "fix", "--dialect=mysql", "--stdin-filename", "$FILENAME", "-" },
 				},
 			},
 		},
