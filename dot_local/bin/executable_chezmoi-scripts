@@ -52,6 +52,8 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 	apply)
 		echo "[!] Applying ..."
 
+		# TODO: init tpm zimfw
+
 		if [[ -z "$CHEZMOI_SCRIPTS_INLINE_MODE" ]] && command -v chezmoi >/dev/null 2>&1; then
 			echo "[*] Applying chezmoi state ..."
 
