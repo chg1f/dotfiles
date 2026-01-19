@@ -24,7 +24,6 @@ local config = {
 		{ family = "JetBrains Mono NL" },
 		{ family = "Noto Sans CJK TC" },
 		{ family = "Noto Sans CJK SC" },
-		{ family = "Noto Emoji" },
 	}),
 
 	disable_default_key_bindings = true,

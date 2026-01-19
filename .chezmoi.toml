@@ -22,16 +22,16 @@ apply = false
 # command = "nvim"
 # args = ["-d", "{{ .Destination }}", "{{ .Source }}", "{{ .Target }}"]
 
-[hooks.update.pre]
-command = "chezmoi-scripts"
-args = ["--inline", "--fetch"]
-
-[hooks.apply.post]
-command = "chezmoi-scripts"
-args = ["--inline", "--apply"]
-
-[hooks.re-add.pre]
-command = "chezmoi-scripts"
-args = ["--inline", "--commit"]
+# [hooks.update.pre]
+# command = "chezmoi-scripts"
+# args = ["--inline", "--fetch"]
+#
+# [hooks.apply.post]
+# command = "chezmoi-scripts"
+# args = ["--inline", "--apply"]
+#
+# [hooks.re-add.pre]
+# command = "chezmoi-scripts"
+# args = ["--inline", "--commit"]
 
 # vim: ft=toml

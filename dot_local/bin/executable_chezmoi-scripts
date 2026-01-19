@@ -6,7 +6,7 @@ for arg in "$@"; do
 	case $arg in
 	--debug)
 		echo "[!] Running in debug mode"
-		CHEZMOI_SCRIPTS_DEBUG_MODE=true
+		# CHEZMOI_SCRIPTS_DEBUG_MODE=true
 		set -x
 		;;
 	--inline)
@@ -34,6 +34,28 @@ done
 
 for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 	case $cmd in
+	# init)
+	# 	echo "[!] Initializing ..."
+	#
+	# 	if command -v brew >/dev/null 2>&1; then
+	# 		echo "[*] Installing Homebrew ..."
+	# 		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+	# 		if command -v chezmoi >/dev/null 2>&1; then
+	# 			echo "[*] Installing chezmoi via Homebrew ..."
+	# 			brew install chezmoi
+	# 		fi
+	# 	else
+	# 		echo "[*] Homebrew is already installed."
+	# 	fi
+	#
+	# 	if command -v chezmoi >/dev/null 2>&1; then
+	# 		if [[ -z "$GITHUB_USERNAME" ]]; then
+	# 			read -rp "Enter your GitHub username: " GITHUB_USERNAME
+	# 		fi
+	# 		chezmoi init --ssh "$GITHUB_USERNAME"
+	# 	fi
+	#
+	# 	;;
 	fetch)
 		echo "[!] Fetching ..."
 
@@ -93,12 +115,6 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 		;;
 	commit)
 		echo "[!] Committing ..."
-
-		if command -v yay >/dev/null 2>&1; then
-			echo "[*] Dumping yay packages ..."
-
-			yay -Qqe >"$HOME/.config/yay/pkglist.txt"
-		fi
 
 		if command -v brew >/dev/null 2>&1; then
 			echo "[*] Dumping brew packages ..."
