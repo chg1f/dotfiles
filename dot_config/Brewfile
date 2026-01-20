@@ -1,7 +1,6 @@
 tap "go-swagger/go-swagger"
 tap "homebrew/cask"
 tap "homebrew/core"
-tap "homebrew/services"
 tap "tidwall/jj"
 brew "age"
 brew "bash"
