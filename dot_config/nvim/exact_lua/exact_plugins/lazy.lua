@@ -29,48 +29,6 @@ local M = {
 		opts = {
 			install_root = vim.fn.stdpath("data") .. "/mason",
 		},
-		-- cmd = {
-		-- 	"MasonUpdate",
-		-- 	"MasonUpgrade",
-		-- },
-		-- init = function()
-		-- 	vim.api.nvim_create_user_command("MasonUpgrade", function()
-		-- 		local platform = require("mason-core.platform")
-		--
-		-- 		local upgrade = function()
-		-- 			local registry = require("mason-registry")
-		-- 			local packages = registry.get_installed_packages()
-		--
-		-- 			local notify = require("mason-core.notify")
-		-- 			notify("Upgrading packages...")
-		--
-		-- 			for _, pkg in ipairs(packages) do
-		-- 				pkg:check_new_version(function(ok, version)
-		-- 					if ok then
-		-- 						if version.latest_version ~= version.current_version then
-		-- 							pkg:install({ version = version.latest_version }):once("completed", function()
-		-- 								notify("Upgraded " .. pkg.name .. " to version " .. version.latest_version)
-		-- 							end)
-		-- 						else
-		-- 							notify(pkg.name .. " is already up to date")
-		-- 						end
-		-- 					else
-		-- 						notify("Failed to check for new version of " .. pkg.name, vim.log.levels.ERROR)
-		-- 					end
-		-- 				end)
-		-- 			end
-		-- 		end
-		--
-		-- 		if platform.is_headless then
-		-- 			local a = require("mason-core.async")
-		-- 			a.run_blocking(function()
-		-- 				upgrade()
-		-- 			end)
-		-- 		else
-		-- 			upgrade()
-		-- 		end
-		-- 	end, { force = true })
-		-- end,
 	},
 	{
 		"folke/snacks.nvim",

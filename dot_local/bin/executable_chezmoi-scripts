@@ -9,10 +9,6 @@ for arg in "$@"; do
 		# CHEZMOI_SCRIPTS_DEBUG_MODE=true
 		set -x
 		;;
-	--inline)
-		echo "[!] Running in inline mode"
-		CHEZMOI_SCRIPTS_INLINE_MODE=true
-		;;
 	--fetch)
 		CHEZMOI_SCRIPTS_COMMANDS="${CHEZMOI_SCRIPTS_COMMANDS}:fetch"
 		;;
@@ -26,11 +22,13 @@ for arg in "$@"; do
 		CHEZMOI_SCRIPTS_COMMANDS="${CHEZMOI_SCRIPTS_COMMANDS}:upload"
 		;;
 	--help | *)
-		echo "Usage: $0  [--help] [--debug] [--inline] [--fetch] [--apply] [--commit] [--upload]"
+		echo "Usage: $0  [--help] [--debug] [--fetch] [--apply] [--commit] [--upload]"
 		exit 0
 		;;
 	esac
 done
+
+need() { command -v "$1" >/dev/null 2>&1; }
 
 for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 	case $cmd in
@@ -57,72 +55,57 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 	#
 	# 	;;
 	fetch)
-		echo "[!] Fetching ..."
-
-		if [[ -z "$CHEZMOI_SCRIPTS_INLINE_MODE" ]] && command -v chezmoi >/dev/null 2>&1; then
-			echo "[*] Fetching chezmoi state ..."
+		if need chezmoi; then
+			echo "Fetching chezmoi updates ..."
 
 			chezmoi update --init
 		fi
-
-		if command -v brew >/dev/null 2>&1; then
-			echo "[*] Fetching brew packages ..."
+		if need brew; then
+			echo "[*] Fetching brew updates..."
 
 			brew update
 		fi
 		;;
 	apply)
-		echo "[!] Applying ..."
-
 		# TODO: init tpm zimfw
 
-		if [[ -z "$CHEZMOI_SCRIPTS_INLINE_MODE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		if need chezmoi; then
 			echo "[*] Applying chezmoi state ..."
 
 			chezmoi apply --no-pager
 		fi
-
-		if command -v yay >/dev/null 2>&1; then
-			echo "[*] Applying yay packages ..."
-
-			yay -S --needed - <"$HOME/.config/yay/pkglist.txt" && yay -Yc
-		fi
-
-		if command -v brew >/dev/null 2>&1; then
+		if need brew; then
 			echo "[*] Applying brew packages ..."
 
 			brew bundle || true
 			brew upgrade
 		fi
-
-		if command -v zimfw >/dev/null 2>&1; then
-			echo "[*] Updating zsh plugins ..."
+		if need zimfw; then
+			echo "[*] Updating zimfw ..."
 
 			zimfw update
 		fi
-
 		if [[ -x "$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" ]]; then
 			echo "[*] Updating tmux plugins ..."
 
 			"$HOMEBREW_PREFIX/opt/tpm/share/tpm/bin/update_plugins" all
 		fi
-
-		if command -v nvim >/dev/null 2>&1; then
+		if need nvim; then
 			echo "[*] Updating nvim plugins ..."
 
-			nvim --headless "+Lazy! sync" "+TSUpdate" "+qa"
+			nvim --headless "+Lazy! sync" "+qa"
 		fi
 		;;
 	commit)
 		echo "[!] Committing ..."
 
-		if command -v brew >/dev/null 2>&1; then
+		if need brew; then
 			echo "[*] Dumping brew packages ..."
 
 			brew bundle dump --force --no-restart
 		fi
 
-		if [[ -z "$CHEZMOI_SCRIPTS_INLINE_MODE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		if need chezmoi; then
 			echo "[*] Committing chezmoi state ..."
 
 			chezmoi re-add --no-pager
@@ -131,7 +114,7 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 	upload)
 		echo "[!] Uploading ..."
 
-		if [[ -z "$CHEZMOI_SCRIPTS_INLINE_MODE" ]] && command -v chezmoi >/dev/null 2>&1; then
+		if need chezmoi; then
 			echo "[*] Uploading chezmoi state ..."
 
 			chezmoi git push origin main
