@@ -4,7 +4,7 @@ zmodule 'environment'
 zmodule 'utility'
 zmodule 'input'
 
-zmodule 'direnv'
+# zmodule 'direnv'
 zmodule 'exa'
 zmodule 'git'
 zstyle ':zim:git' aliases-prefix 'g'
@@ -25,9 +25,10 @@ zmodule 'zsh-users/zsh-autosuggestions'
 # [[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
 # 	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
 
-zmodule 'joke/zim-chezmoi'
-zmodule 'joke/zim-starship'
-# zmodule 'kiesman99/zim-zoxide'
+zmodule 'joke/zim-chezmoi' --if-command chezmoi
+zmodule 'joke/zim-starship' --if-command starship
+zmodule 'kiesman99/zim-zoxide' --if-command zoxide
+zmodule 'joke/zim-mise' --if-command mise
 
 # zmodule 'tmux'
 

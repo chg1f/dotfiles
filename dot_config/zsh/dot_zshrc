@@ -40,6 +40,8 @@ export DIRENV_LOG_FORMAT=$'\E[2mdirenv: %s\E[0m'
 export FZF_CTRL_R_OPTS="--reverse"
 export GOPATH="$XDG_DATA_HOME/go"
 
+export MISE_ENV_FILE=.env
+
 bindkey -v
 zmodload -F zsh/terminfo +p:terminfo
 bindkey -M vicmd 'k' history-substring-search-up
