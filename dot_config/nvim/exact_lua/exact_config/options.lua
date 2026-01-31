@@ -26,3 +26,5 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
 
 vim.g.bigfile_size = 500 * 1024 -- 500 KB
+
+vim.opt.foldclose = ""
