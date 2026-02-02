@@ -4,11 +4,6 @@ set -e
 
 for arg in "$@"; do
 	case $arg in
-	--debug)
-		echo "[!] Running in debug mode"
-		# CHEZMOI_SCRIPTS_DEBUG_MODE=true
-		set -x
-		;;
 	--fetch)
 		CHEZMOI_SCRIPTS_COMMANDS="${CHEZMOI_SCRIPTS_COMMANDS}:fetch"
 		;;
@@ -78,7 +73,11 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 			echo "[*] Applying brew packages ..."
 
 			brew bundle || true
-			brew upgrade
+			# brew update
+			# brew upgrade
+			# brew upgrade --cask
+			# brew autoremove || true
+			# brew cleanup
 		fi
 		if need mise; then
 			echo "[*] Updating mise packages ..."
@@ -118,7 +117,7 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 		if need brew; then
 			echo "[*] Dumping brew packages ..."
 
-			brew bundle dump --force --no-restart
+			brew bundle dump --tap --formula --cask --services --no-restart --force
 		fi
 
 		if need chezmoi; then
