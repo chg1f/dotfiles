@@ -95,6 +95,13 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 
 			nvim --headless "+Lazy! sync" "TSUpdate" "+qa"
 		fi
+		# if need starship; then
+		# 	{
+		# 		starship preset bracketed-segments | dasel -i toml -o json
+		# 		starship preset plain-text-symbols | dasel -i toml -o json
+		# 		cat ~/.config/starship.toml | dasel -i toml -o json
+		# 	} | jq -s 'reduce .[] as $o ({}; . * $o)' | dasel -i json -o toml starship.toml >!
+		# fi
 		;;
 	commit)
 		echo "[!] Committing ..."
