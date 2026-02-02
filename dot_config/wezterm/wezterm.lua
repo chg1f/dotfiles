@@ -21,12 +21,12 @@ local config = {
 	color_scheme = "cyberdream",
 	font_size = 12,
 	font = wezterm.font_with_fallback({
-		-- { family = "JetBrains Mono NL" },
 		{ family = "JetBrainsMono Nerd Font Mono" },
-		-- { family = "Apple Color Emoji" },
-		-- { family = "Twitter Color Emoji" },
-		-- { family = "Noto Sans CJK TC" },
-		-- { family = "Noto Sans CJK SC" },
+		-- { family = "JetBrains Mono NL" },
+		{ family = "Apple Color Emoji" },
+		{ family = "Twitter Color Emoji" },
+		{ family = "Noto Sans CJK TC" },
+		{ family = "Noto Sans CJK SC" },
 	}),
 
 	disable_default_key_bindings = true,
