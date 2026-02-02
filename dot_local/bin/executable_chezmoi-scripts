@@ -80,6 +80,12 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 			brew bundle || true
 			brew upgrade
 		fi
+		if need mise; then
+			echo "[*] Updating mise packages ..."
+
+			mise install
+			mise prune -y || true
+		fi
 		if need zimfw; then
 			echo "[*] Updating zimfw ..."
 
