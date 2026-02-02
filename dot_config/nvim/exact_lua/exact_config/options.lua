@@ -28,3 +28,5 @@ vim.opt.cursorlineopt = "both"
 vim.g.bigfile_size = 500 * 1024 -- 500 KB
 
 vim.opt.foldclose = ""
+vim.opt.viewoptions:remove("folds")
+vim.opt.sessionoptions:remove("folds")
