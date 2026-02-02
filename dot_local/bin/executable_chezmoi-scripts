@@ -84,7 +84,10 @@ for cmd in ${CHEZMOI_SCRIPTS_COMMANDS//:/ }; do
 			echo "[*] Updating mise packages ..."
 
 			mise install
-			mise prune -y || true
+			mise registry update || true
+			mise plugins update || true
+			mise upgrade
+			mise prune -y
 		fi
 		if need zimfw; then
 			echo "[*] Updating zimfw ..."

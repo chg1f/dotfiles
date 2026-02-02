@@ -1,6 +1,6 @@
 [settings]
 # verbose = true
-jobs = 4
+jobs = 8
 env_file = '.env'
 python.uv_venv_auto = true
 pipx.uvx = true
