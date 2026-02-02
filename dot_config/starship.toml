@@ -35,7 +35,8 @@ format = '\[[$symbol($version)]($style)\]'
 symbol = 'cmake '
 
 [cmd_duration]
-format = '\[latency [$duration]($style)\]'
+min_time = 3000
+format = '\[[LATENCY $duration]($style)\]'
 
 [cobol]
 format = '\[[$symbol($version)]($style)\]'
