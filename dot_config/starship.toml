@@ -394,16 +394,14 @@ format = '\[[$symbol$environment]($style)\]'
 symbol = 'spack '
 
 [status]
-format = '\[[$symbol$status$signal_number]($style)\]'
-not_executable_symbol = 'NOT_EXECUTABLE'
-not_found_symbol = 'NOT_FOUND'
-sigint_symbol = 'SIGINT'
-signal_symbol = 'SIGNAL'
-recognize_signal_code = false
-symbol = 'EXIT'
+disabled = false
+success_symbol = ''
+map_symbol = false
+recognize_signal_code = true
+format = '\[[(($common_meaning )$status)](red)[(($signal_name )$signal_number)](yellow)\] '
 pipestatus = true
 pipestatus_separator = "|"
-pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style) '
+pipestatus_format = '\[$pipestatus => [($common_meaning $status)](bright-red)[($signal_name $signal_number)](red)\] '
 
 [sudo]
 format = '\[[as $symbol]($style)\]'
