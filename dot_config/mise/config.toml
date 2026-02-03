@@ -83,9 +83,8 @@ protobuf = "latest"
 # lefthook
 "github:evilmartians/lefthook" = "latest"
 
-# request
-httpie-go = "latest"
-
 # editor / parser helpers
 tree-sitter = "latest"
+hurl = "latest"
+xh = "latest"
 

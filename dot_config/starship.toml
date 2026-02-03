@@ -484,10 +484,10 @@ symbol = 'zig '
 disabled = false
 success_symbol = "[#](bright-black)"
 error_symbol = "[#](bright-black)"
-vimcmd_replace_one_symbol = '[r](bold purple)'
-vimcmd_replace_symbol = '[R](bold purple)'
-vimcmd_symbol = '[c](bold green)'
+vimcmd_symbol = '[#](bold green)'
 vimcmd_visual_symbol = '[v](bold yellow)'
+vimcmd_replace_symbol = '[R](bold purple)'
+vimcmd_replace_one_symbol = '[r](bold blue)'
 
 [directory]
 disabled = false
