@@ -1,6 +1,6 @@
 '$schema' = 'https://starship.rs/config-schema.json'
 continuation_prompt = '[>](bright-black) '
-format = "($status$cmd_duration\n)($directory$git_metrics$git_status$git_branch$git_commit$git_state)$fill($all$username$hostname$localip$time)$line_break($character)"
+format = "($status$cmd_duration\n)($directory$git_metrics$git_status$git_branch$git_commit$git_state)$fill($mise$all$shell$localip$username$hostname$time)$line_break($character)"
 
 [aws]
 format = '\[[$symbol($profile)(\($region\))(\[$duration\])]($style)\]'
@@ -118,11 +118,13 @@ format = '\[[$symbol$account(@$domain)(\($region\))]($style)\]'
 symbol = 'gcp '
 
 [git_branch]
+disabled = false
 format = "[$symbol$branch(:$remote_branch)]($style) "
 symbol = ''
 truncation_symbol = '...'
 
 [git_commit]
+disabled = false
 format = '[($tag(\($hash\)))]($style) '
 only_detached = false
 tag_disabled = false
@@ -135,11 +137,12 @@ added_style = 'green'
 deleted_style = 'red'
 
 [git_state]
+disabled = false
 format = '[$state ($progress_current/$progress_total)]($style)'
 
 [git_status]
+disabled = false
 format = '($stashed )($conflicted$untracked$modified )($staged$renamed$typechanged$deleted )($ahead_behind )'
-
 up_to_date = '[=](bold green)'
 diverged = '[$ahead_count<>$behind_count](bold red)'
 ahead = '[$count>](bold yellow)'
@@ -158,6 +161,7 @@ format = '\[[$symbol($version)]($style)\]'
 symbol = 'gleam '
 
 [golang]
+disabled = false
 format = '\[[$symbol($version)]($style)\]'
 symbol = 'go '
 
@@ -187,7 +191,9 @@ symbol = 'hg '
 truncation_symbol = '...'
 
 [hostname]
-format = '\[[$ssh_symbol($hostname)]($style)\] '
+# disabled = false
+# ssh_only = false
+format = '\[[$ssh_symbol($hostname)]($style)\]'
 ssh_symbol = 'ssh '
 
 [java]
@@ -211,7 +217,10 @@ format = '\[[$symbol$context( \($namespace\))]($style)\]'
 symbol = 'kubernetes '
 
 [localip]
+# disabled = false
+# ssh_only = false
 format = '\[[$localipv4]($style)\]'
+style = 'cyan'
 
 [lua]
 format = '\[[$symbol($version)]($style)\]'
@@ -227,7 +236,11 @@ symbol = 'meson '
 truncation_symbol = '...'
 
 [mise]
-format = '\[[$symbol$health]($style)\]'
+disabled = false
+format = '\[[$symbol( $health)]($style)\]'
+symbol = 'mise'
+healthy_symbol = ''
+unhealthy_symbol = 'unhealthy'
 
 [mojo]
 format = '\[[$symbol($version)]($style)\]'
@@ -362,6 +375,7 @@ format = '\[[$symbol($version)]($style)\]'
 symbol = 'purs '
 
 [python]
+disabled = false
 format = '\[[${symbol}${pyenv_prefix}(${version})(\($virtualenv\))]($style)\]'
 symbol = 'py '
 
@@ -394,7 +408,9 @@ format = '\[[$symbol($version)]($style)\]'
 symbol = 'scala '
 
 [shell]
+disabled = false
 format = '\[[$indicator]($style)\]'
+style = 'cyan'
 
 [singularity]
 format = '\[[$symbol\[$env\]]($style)\]'
@@ -418,6 +434,7 @@ pipestatus_separator = "|"
 pipestatus_format = '\[$pipestatus => [($common_meaning $status)](bright-red)[($signal_name $signal_number)](red)\] '
 
 [sudo]
+disabled = false
 format = '\[[as $symbol]($style)\]'
 symbol = 'sudo '
 
@@ -430,14 +447,20 @@ format = '\[[$symbol$workspace]($style)\]'
 symbol = 'terraform '
 
 [time]
+# disabled = false
 format = '\[[$time]($style)\]'
+style = 'bright-black'
 
 [typst]
 format = '\[[$symbol($version)]($style)\]'
 symbol = 'typst '
 
 [username]
+# disabled = false
+# show_always = true
 format = '\[[$user]($style)\]'
+style_root = 'bold red'
+style_user = 'green'
 
 [vagrant]
 format = '\[[$symbol($version)]($style)\]'
@@ -458,6 +481,7 @@ format = '\[[$symbol($version)]($style)\]'
 symbol = 'zig '
 
 [character]
+disabled = false
 success_symbol = "[#](bright-black)"
 error_symbol = "[#](bright-black)"
 vimcmd_replace_one_symbol = '[r](bold purple)'
@@ -466,10 +490,11 @@ vimcmd_symbol = '[c](bold green)'
 vimcmd_visual_symbol = '[v](bold yellow)'
 
 [directory]
-read_only = 'RO '
+disabled = false
+read_only = 'RO'
 read_only_style = "bold bg:red"
-format = "([$read_only]($read_only_style))[$path]($style) "
-repo_root_format = "([$read_only]($read_only_style))[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style) "
+format = "([$read_only]($read_only_style) )[$path]($style) "
+repo_root_format = "([$read_only]($read_only_style) )[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style) "
 style = "cyan"
 before_repo_root_style = "cyan"
 repo_root_style = "bold cyan"
