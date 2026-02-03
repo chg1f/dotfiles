@@ -17,46 +17,75 @@ urlencode = "python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.
 urldecode = "python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
 
 [tools]
+# language (runtimes)
 go = "1.25.0"
-uv = "latest"
 python = "latest"
-rust = "latest"
+uv = "latest"
 node = "lts"
-protobuf = "latest"
-shfmt = "latest"
-shellcheck = "latest"
+rust = "latest"
+
+# go (toolchain)
 "go:golang.org/x/tools/gopls" = "latest"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
 "go:mvdan.cc/gofumpt" = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
-"go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
-"go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
-"go:github.com/hairyhenderson/gomplate/v3/cmd/gomplate" = "latest"
+"go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "latest"
 "github:go-swagger/go-swagger" = "latest"
-"npm:@vtsls/language-server" = "latest"
-"npm:bash-language-server" = "latest"
-"npm:yaml-language-server" = "latest"
-"npm:typescript" = "latest"
-"npm:typescript-language-server" = "latest"
-"npm:pyright" = "latest"
-"npm:vscode-langservers-extracted" = "latest"
-"npm:markdownlint-cli2" = "latest"
-"npm:markdown-toc" = "latest"
-"github:rust-lang/rust-analyzer" = "latest"
-"github:crate-ci/typos" = "latest"
-"github:tekumara/typos-lsp" = "latest"
-"github:artempyanykh/marksman" = "latest"
-"github:biomejs/biome" = "latest"
-"github:jqlang/jq" = "latest"
-"github:mikefarah/yq" = "latest"
-"github:tamasfe/taplo" = "latest"
-"github:TomWright/dasel" = "latest"
+
+# python3 (tooling)
 "pipx:ruff" = "latest"
 "pipx:sqlfluff" = "latest"
-"github:evilmartians/lefthook" = "latest"
-"go:github.com/tidwall/jj/cmd/jj" = "latest"
+"npm:pyright" = "latest"
+
+# typescript / nodejs (tooling + lsp)
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:@vtsls/language-server" = "latest"
+"github:biomejs/biome" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+
+# rust (tooling)
+"github:rust-lang/rust-analyzer" = "latest"
+
+# lua (tooling)
 "github:JohnnyMorganz/StyLua" = "latest"
 "aqua:LuaLS/lua-language-server" = "latest"
+
+# shell (tooling + lsp)
+shfmt = "latest"
+shellcheck = "latest"
+"npm:bash-language-server" = "latest"
+
+# protobuf
+protobuf = "latest"
+"go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
+
+# template
+"go:github.com/hairyhenderson/gomplate/v3/cmd/gomplate" = "latest"
+
+# format (json/yaml/toml/query)
+"github:jqlang/jq" = "latest"
+"github:mikefarah/yq" = "latest"
+"github:TomWright/dasel" = "latest"
+"github:tamasfe/taplo" = "latest"
+"go:github.com/tidwall/jj/cmd/jj" = "latest"
+
+# markdown
+"github:artempyanykh/marksman" = "latest"
+"npm:markdownlint-cli2" = "latest"
+"npm:markdown-toc" = "latest"
+
+# typos
+"github:crate-ci/typos" = "latest"
+"github:tekumara/typos-lsp" = "latest"
+
+# lefthook
+"github:evilmartians/lefthook" = "latest"
+
+# request
 httpie-go = "latest"
+
+# editor / parser helpers
 tree-sitter = "latest"
+
