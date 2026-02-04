@@ -87,4 +87,6 @@ protobuf = "latest"
 tree-sitter = "latest"
 hurl = "latest"
 xh = "latest"
+k6 = "latest"
+bun = "latest"
 
