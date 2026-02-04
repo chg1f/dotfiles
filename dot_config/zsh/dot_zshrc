@@ -1,14 +1,40 @@
 #!/bin/zsh
 
 typeset -gU path
-path=("$HOME/.local/bin" "${MISE_SHIMS_DIR:-$XDG_DATA_HOME/mise/shims}" "/usr/local/bin" "/usr/bin" "/bin" "/usr/local/sbin" "/usr/sbin" "/sbin")
-for prefix in "/opt/homebrew" "/usr/local" "/home/linuxbrew/.linuxbrew"; do
-	if [[ -x "$prefix/bin/brew" ]]; then
-		eval "$($prefix/bin/brew shellenv)"
 
-		break
-	fi
-done
+path=(
+	"$HOME/.local/bin"
+
+	# "${HOMEBREW_PREFIX:-/opt/homebrew}/bin"
+	# "${MISE_SHIMS_DIR:-$XDG_DATA_HOME/mise/shims}"
+
+	"/usr/local/bin"
+	"/usr/bin"
+	"/bin"
+	"/usr/local/sbin"
+	"/usr/sbin"
+	"/sbin"
+)
+HOMEBREW_PREFIX=${HOMEBREW_PREFIX:-/opt/homebrew}
+if [[ -x "$HOMEBREW_PREFIX/bin/brew" ]]; then
+	eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
+fi
+# # MISE_SHIMS_DIR=${MISE_SHIMS_DIR:-$XDG_DATA_HOME/mise/shims}
+# if command mise >/dev/null 2>&1; then
+# 	eval "$(mise activate zsh --shims)"
+# fi
+# # print -l $path | nl -ba
+
+
+
+# path=("$HOME/.local/bin" "${MISE_SHIMS_DIR:-$XDG_DATA_HOME/mise/shims}" "/usr/local/bin" "/usr/bin" "/bin" "/usr/local/sbin" "/usr/sbin" "/sbin")
+# for prefix in "/opt/homebrew" "/usr/local" "/home/linuxbrew/.linuxbrew"; do
+# 	if [[ -x "$prefix/bin/brew" ]]; then
+# 		eval "$($prefix/bin/brew shellenv)"
+# 		break
+# 	fi
+# done
+
 # for formula in $(fd -L gnubin $(brew --prefix)/opt/); do
 # 	if [[ -d "$HOMEBREW_PREFIX/opt/$formula/libexec/gnubin" ]] && [[ -d "$HOMEBREW_PREFIX/opt/$formula/libexec/gnuman" ]]; then
 # 		path[1,0]="$HOMEBREW_PREFIX/opt/$formula/libexec/gnubin"
@@ -22,9 +48,9 @@ export ZIM_HOME="$XDG_DATA_HOME/zim"
 
 # LANG="en_US.UTF-8"
 # LC_ALL="en_US.UTF-8"
-EDITOR="nvim"
-VISUAL="nvim"
-PAGER="less"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export PAGER="less -R"
 export HISTFILE="$XDG_STATE_HOME/zhistory"
 # (( ${+commands[gdircolors]} )) && eval "$(gdircolors -b ~/.dircolors)"
 
