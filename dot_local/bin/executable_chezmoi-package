@@ -163,9 +163,11 @@ _comment() {
 # git_stash: stash current repo changes before apply/commit steps.
 # - creates a named stash; no-op if nothing to stash.
 git_stash() {
-	local msg="chezmoi-package pre-commit $(date '+%F %T')"
-	_log "stash" "chezmoi" "pre-commit $msg"
-	_run chezmoi git -- stash push -u -m "$msg" || true
+	if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
+		local msg="chezmoi-package pre-commit $(date '+%F %T')"
+		_log "stash" "chezmoi" "pre-commit $msg"
+		_run chezmoi git -- stash push -u -m "$msg"
+	fi
 }
 
 # git_commit: commit chezmoi repo changes if any.
@@ -320,7 +322,7 @@ apply() {
 		_log "apply" "chezmoi" "git pull --ff-only"
 		if ((VERBOSE)); then _run chezmoi git -- pull -v --ff-only; else _run chezmoi git -- pull --ff-only; fi
 
-		_log "apply" "chezmoi" "managed files confirm/apply"
+		_log "apply" "chezmoi" "confirm to apply managed files"
 		local file=""
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
@@ -456,7 +458,7 @@ commit() {
 	# _chezmoi_commit: confirm and add changes to source state per managed file.
 	# - iterates managed files list, shows diff, then adds on confirm.
 	_chezmoi_commit() {
-		_log "commit" "chezmoi" "managed files confirm/add"
+		_log "commit" "chezmoi" "confirm to add managed files"
 		local file=""
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
