@@ -240,15 +240,19 @@ _confirm() {
 	done
 }
 
-# _checkout_branch: checkout target branch inside the chezmoi repo.
+# git_checkout: checkout target branch inside the chezmoi repo.
 # - no-op if branch empty, excluded, or chezmoi missing.
-_checkout_branch() {
+git_checkout() {
 	local branch="${1:-}"
 	[[ -n "$branch" ]] || return 0
 	_exclude chezmoi && return 0
 	_has chezmoi || return 0
-	_log "chezmoi" "branch" "git checkout $branch"
-	_run chezmoi git -- checkout "$branch" || true
+	local current
+	current="$(chezmoi git -- rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+	if [[ "$current" != "$branch" ]]; then
+		_log "chezmoi" "branch" "git checkout $branch"
+		_run chezmoi git -- checkout "$branch" || true
+	fi
 }
 
 # bootstrap: idempotent machine bootstrap (install required tools).
@@ -307,7 +311,7 @@ update() {
 		_run mise plugins update || true
 	}
 
-	_checkout_branch "$BRANCH"
+	git_checkout "$BRANCH"
 	if ! _exclude chezmoi && _has chezmoi; then update_chezmoi; fi
 	if ! _exclude brew && _has brew; then update_brew; fi
 	if ! _exclude mise && _has mise; then update_mise; fi
@@ -392,7 +396,7 @@ apply() {
 	}
 
 	git_stash
-	_checkout_branch "$BRANCH"
+	git_checkout "$BRANCH"
 	if ! _exclude chezmoi && _has chezmoi; then chezmoi_apply; fi
 	if ! _exclude brew && _has brew; then brew_apply; fi
 	if ! _exclude mas && _has mas; then mas_apply; fi
@@ -477,6 +481,12 @@ push() {
 	_chezmoi_push() {
 		local repo
 		repo="$(chezmoi git -- config --get remote.origin.url 2>/dev/null || echo unknown)"
+		local ahead
+		ahead="$(chezmoi git -- rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
+		if [[ "$ahead" == "0" ]]; then
+			_log "push" "chezmoi" "no changes to push"
+			return 0
+		fi
 		_log "push" "chezmoi" "push branch ${BRANCH} to ${repo}"
 		_run chezmoi git -- push
 	}
