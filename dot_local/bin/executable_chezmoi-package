@@ -474,7 +474,6 @@ commit() {
 		else
 			_run brew bundle dump --file "$HOMEBREW_BUNDLE_FILE" --tap --formula --cask --services --no-restart --force
 		fi
-		_confirm "Add Brewfile changes?" "$HOMEBREW_BUNDLE_FILE" && _run chezmoi add "$HOMEBREW_BUNDLE_FILE" || true
 	}
 	# _chezmoi_commit: confirm and add changes to source state per managed file.
 	# - iterates managed files list, shows diff, then adds on confirm.
