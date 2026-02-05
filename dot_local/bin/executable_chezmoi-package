@@ -164,6 +164,7 @@ _comment() {
 # - creates a named stash; no-op if nothing to stash.
 git_stash() {
 	local msg="chezmoi-package pre-commit $(date '+%F %T')"
+	_log "stash" "chezmoi" "pre-commit $msg"
 	_run chezmoi git -- stash push -u -m "$msg" || true
 }
 
@@ -245,11 +246,7 @@ _checkout_branch() {
 	_exclude chezmoi && return 0
 	_has chezmoi || return 0
 	_log "chezmoi" "branch" "checkout $branch"
-	if ((VERBOSE)); then
-		_run chezmoi git -- checkout -v "$branch" || true
-	else
-		_run chezmoi git -- checkout "$branch" || true
-	fi
+	_run chezmoi git -- checkout "$branch" || true
 }
 
 # bootstrap: idempotent machine bootstrap (install required tools).
@@ -369,7 +366,7 @@ apply() {
 	# tpm_apply: update tmux plugin manager and its plugins.
 	# - requires TMUX_PLUGIN_MANAGER_PATH and repo at that path.
 	tpm_apply() {
-		local install="$TMUX_PLUG_MANGER_PATH/bin/install_plugins"
+		local install="$TMUX_PLUGIN_MANAGER_PATH/bin/install_plugins"
 		if [[ -x "$install" ]]; then
 			_log "apply" "tpm" "install plugins"
 			# shellcheck disable=SC2086
