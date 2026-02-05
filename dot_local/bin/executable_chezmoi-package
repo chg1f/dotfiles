@@ -160,6 +160,30 @@ _comment() {
 	printf "$COMMENT" "$hash" "$count"
 }
 
+# git_stash: stash current repo changes before apply/commit steps.
+# - creates a named stash; no-op if nothing to stash.
+git_stash() {
+	local msg="chezmoi-package pre-commit $(date '+%F %T')"
+	_run chezmoi git -- stash push -u -m "$msg" || true
+}
+
+# git_commit: commit chezmoi repo changes if any.
+# - uses COMMENT template with user/host hash and file count.
+git_commit() {
+	_log "commit" "chezmoi" "git status/diff + commit"
+	_run chezmoi git -- diff --stat || true
+
+	if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
+		local count
+		count="$(chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
+		local msg
+		msg="$(_comment "$count")"
+		_run chezmoi git -- add -A
+		_run chezmoi git -- commit -m "$msg"
+		_log "commit" "chezmoi" "committed: $msg"
+	fi
+}
+
 # _run: run a command and emit only chezmoi-package logs when not verbose.
 # - args: <cmd...>
 _run() {
@@ -280,8 +304,7 @@ update() {
 	# update_mise: refresh mise registry and plugin metadata.
 	# - tolerates errors (registry/plugins may be optional).
 	update_mise() {
-		_log "update" "mise" "registry/plugins update"
-		_run mise registry update || true
+		_log "update" "mise" "plugins update"
 		_run mise plugins update || true
 	}
 
@@ -300,13 +323,14 @@ apply() {
 		_log "apply" "chezmoi" "git pull --ff-only"
 		if ((VERBOSE)); then _run chezmoi git -- pull -v --ff-only; else _run chezmoi git -- pull --ff-only; fi
 
-		if ! _confirm "Apply chezmoi changes?" "."; then
-			_log "apply" "chezmoi" "no changes or aborted"
-			return 0
-		fi
-
-		_log "apply" "chezmoi" "apply --verbose"
-		_run chezmoi apply --verbose
+		_log "apply" "chezmoi" "managed files confirm/apply"
+		local file=""
+		while IFS= read -r -d '' file; do
+			[[ -n "$file" ]] || continue
+			if _confirm "Apply chezmoi changes?" "$file"; then
+				_run chezmoi apply -- "$file"
+			fi
+		done < <(chezmoi managed --include=files --nul-path-separator -p absolute)
 	}
 	# brew_apply: upgrade brew packages and sync Brewfile bundle.
 	# - runs brew upgrade/upgrade --cask and brew bundle if Brewfile exists.
@@ -319,8 +343,6 @@ apply() {
 		if [[ -f "$HOMEBREW_BUNDLE_FILE" ]]; then
 			_log "apply" "brew" "bundle --file $HOMEBREW_BUNDLE_FILE"
 			if ((VERBOSE)); then _run brew bundle --file "$HOMEBREW_BUNDLE_FILE" --verbose; else _run brew bundle --file "$HOMEBREW_BUNDLE_FILE"; fi
-		else
-			_log "apply" "brew" "Brewfile not found ($HOMEBREW_BUNDLE_FILE), skip bundle"
 		fi
 	}
 	# mas_apply: upgrade App Store apps via mas.
@@ -334,84 +356,49 @@ apply() {
 	mise_apply() {
 		_log "apply" "mise" "install"
 		_run mise install
+		_run mise upgrade
 	}
 	# zimfw_apply: install/update zimfw plugins using binary or sourced script.
 	# - prefers zimfw binary; falls back to sourcing zimfw.zsh.
 	zimfw_apply() {
-		local zsh="${ZSH:-zsh}"
-		local zimfw_zsh="$ZIM_HOME/zimfw.zsh"
-
-		if _has zimfw; then
-			_log "apply" "zimfw" "install/update"
-			# shellcheck disable=SC2086
-			_run zimfw install || true
-			# shellcheck disable=SC2086
-			_run zimfw update || true
-			return 0
-		fi
-
-		if [[ -f "$zimfw_zsh" ]]; then
-			_log "apply" "zimfw" "source $zimfw_zsh then install/update"
-			# shellcheck disable=SC2086
-			_run "$zsh" -lc "source '$zimfw_zsh'; zimfw install; zimfw update" || true
-			return 0
-		fi
-
-		_log "apply" "zimfw" "not found, skip"
+		_log "apply" "zimfw" "install"
+		_run zimfw install
+		_log "apply" "zimfw" "update"
+		_run zimfw update
 	}
 	# tpm_apply: update tmux plugin manager and its plugins.
 	# - requires TMUX_PLUGIN_MANAGER_PATH and repo at that path.
 	tpm_apply() {
-		if [[ -z "$TMUX_PLUGIN_MANAGER_PATH" ]]; then
-			_log "apply" "tpm" "TMUX_PLUGIN_MANAGER_PATH not set, skip"
-			return 0
+		local install="$TMUX_PLUG_MANGER_PATH/bin/install_plugins"
+		if [[ -x "$install" ]]; then
+			_log "apply" "tpm" "install plugins"
+			# shellcheck disable=SC2086
+			_run "$install" || true
 		fi
 
-		local root="$TMUX_PLUGIN_MANAGER_PATH"
-		local install="$root/bin/install_plugins"
-		local update="$root/bin/update_plugins"
+		local update="$TMUX_PLUGIN_MANAGER_PATH/bin/update_plugins"
+		if [[ -x "$update" ]]; then
+			_log "apply" "tpm" "update plugins"
+			# shellcheck disable=SC2086
+			_run "$update" all || true
+		fi
 
-		[[ -d "$root/.git" ]] || {
-			_log "apply" "tpm" "not installed at $root, skip"
-			return 0
-		}
-
-		_log "apply" "tpm" "git pull --ff-only"
-		if ((VERBOSE)); then _run git -C "$root" pull -v --ff-only || true; else _run git -C "$root" pull --ff-only || true; fi
-
-		[[ -x "$install" ]] || {
-			_log "apply" "tpm" "missing $install, skip"
-			return 0
-		}
-		[[ -x "$update" ]] || {
-			_log "apply" "tpm" "missing $update, skip"
-			return 0
-		}
-
-		_log "apply" "tpm" "install plugins"
-		# shellcheck disable=SC2086
-		_run "$install" || true
-
-		_log "apply" "tpm" "update plugins (all)"
-		# shellcheck disable=SC2086
-		_run "$update" all || true
 	}
 	# nvim_apply: sync Neovim plugins headlessly (Lazy.nvim).
 	# - runs nvim --headless "+Lazy! sync" "+qa".
 	nvim_apply() {
 		_log "apply" "nvim" 'headless "+Lazy! sync" "+qa"'
 		# shellcheck disable=SC2086
-		_run nvim --headless "+Lazy! sync" "+qa" || true
+		_run nvim --headless "+Lazy! sync" "+qa"
 	}
 
+	git_stash
 	_checkout_branch "$BRANCH"
-	if ! _exclude chezmoi && _has chezmoi; then
-		chezmoi_apply
-	fi
+	if ! _exclude chezmoi && _has chezmoi; then chezmoi_apply; fi
 	if ! _exclude brew && _has brew; then brew_apply; fi
 	if ! _exclude mas && _has mas; then mas_apply; fi
 	if ! _exclude mise && _has mise; then mise_apply; fi
-	if ! _exclude zimfw; then zimfw_apply; fi
+	if ! _exclude zimfw && _has zimfw; then zimfw_apply; fi
 	if ! _exclude tpm; then tpm_apply; fi
 	if ! _exclude nvim && _has nvim; then nvim_apply; fi
 }
@@ -459,12 +446,6 @@ prune() {
 # commit: save local environment state into metadata.
 # - captures tool state into repo files and commits if needed.
 commit() {
-	# _git_stash: stash current repo changes before commit steps.
-	# - creates a named stash; no-op if nothing to stash.
-	_git_stash() {
-		local msg="chezmoi-package pre-commit $(date '+%F %T')"
-		_run chezmoi git -- stash push -u -m "$msg" || true
-	}
 	# _brew_commit: dump Brewfile and add it to chezmoi.
 	# - includes taps, formulae, casks, and services; no restarts.
 	_brew_commit() {
@@ -485,30 +466,14 @@ commit() {
 			_confirm "Add chezmoi changes?" "$file" && _run chezmoi add "$file" || true
 		done < <(chezmoi managed --include=files --nul-path-separator -p absolute)
 	}
-	# _git_commit: commit chezmoi repo changes if any.
-	# - generates a user/host hash + date + file count commit message.
-	_git_commit() {
-		_log "commit" "chezmoi" "git status/diff + commit"
-		_run chezmoi git -- diff --stat || true
-
-		if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
-			local count
-			count="$(chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
-			local msg
-			msg="$(_comment "$count")"
-			_run chezmoi git -- add -A
-			_run chezmoi git -- commit -m "$msg"
-			_log "commit" "chezmoi" "committed: $msg"
-		fi
-	}
 
 	if _exclude chezmoi || ! _has chezmoi; then
 		_die "commit" "chezmoi" "chezmoi missing or excluded; cannot commit"
 	fi
-	_git_stash
+	git_stash
 	if ! _exclude brew && _has brew; then _brew_commit; fi
-	_chezmoi_commit
-	_git_commit
+	if ! _exclude chezmoi && _has chezmoi; then _chezmoi_commit; fi
+	git_commit
 }
 
 # push: push metadata to the remote repo.
