@@ -247,7 +247,7 @@ _checkout_branch() {
 	[[ -n "$branch" ]] || return 0
 	_exclude chezmoi && return 0
 	_has chezmoi || return 0
-	_log "chezmoi" "branch" "checkout $branch"
+	_log "chezmoi" "branch" "git checkout $branch"
 	_run chezmoi git -- checkout "$branch" || true
 }
 
@@ -408,33 +408,27 @@ prune() {
 	# brew_prune: remove unused brew deps and cleanup caches.
 	# - runs brew autoremove and brew cleanup.
 	brew_prune() {
-		_log "prune" "brew" "autoremove/cleanup"
-		_run brew autoremove || true
-		_run brew cleanup || true
+		_log "prune" "brew" "autoremove"
+		_run brew autoremove
+		_log "prune" "brew" "cleanup"
+		_run brew cleanup
 	}
 	# mise_prune: remove unused mise tool versions.
 	# - runs mise prune -y.
 	mise_prune() {
-		_log "prune" "mise" "prune -y"
-		_run mise prune -y || true
+		_log "prune" "mise" "prune"
+		if ((CONFIRM)); then _run mise prune -y; else _run mise prune; fi
 	}
 	# tpm_prune: clean tmux plugins not in config.
 	# - requires clean_plugins executable under TPM path.
 	tpm_prune() {
-		if [[ -z "$TMUX_PLUGIN_MANAGER_PATH" ]]; then
-			_log "prune" "tpm" "TMUX_PLUGIN_MANAGER_PATH not set, skip"
-			return 0
+		local clean="$TMUX_PLUGIN_MANAGER_PATH/tpm/bin/clean_plugins"
+		if [[ -x "$clean" ]]; then
+			_log "prune" "tpm" "clean plugins"
+			# shellcheck disable=SC2086
+			_run "$clean"
 		fi
-		local root="$TMUX_PLUGIN_MANAGER_PATH"
-		local clean="$root/bin/clean_plugins"
-		[[ -x "$clean" ]] || {
-			_log "prune" "tpm" "clean_plugins not found, skip"
-			return 0
-		}
 
-		_log "prune" "tpm" "clean plugins"
-		# shellcheck disable=SC2086
-		_run "$clean" || true
 	}
 
 	if ! _exclude brew && _has brew; then brew_prune; fi
