@@ -517,7 +517,9 @@ push() {
 	# _chezmoi_push: push chezmoi repo to remote.
 	# - runs git push via chezmoi wrapper.
 	_chezmoi_push() {
-		_log "push" "chezmoi" "push"
+		local repo
+		repo="$(chezmoi git -- config --get remote.origin.url 2>/dev/null || echo unknown)"
+		_log "push" "chezmoi" "push branch ${BRANCH} to ${repo}"
 		_run chezmoi git -- push
 	}
 
