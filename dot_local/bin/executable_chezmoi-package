@@ -38,23 +38,6 @@ ZIM_HOME="${ZIM_HOME:-${XDG_DATA_HOME:-$HOME/.local/share}/zim}"
 # HOMEBREW_BUNDLE_FILE: path to Brewfile for brew bundle operations.
 HOMEBREW_BUNDLE_FILE="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
 
-# GIT_FLAGS: extra flags for git wrapper.
-GIT_FLAGS="${GIT_FLAGS:-}"
-# CHEZMOI_FLAGS: extra flags for chezmoi wrapper.
-CHEZMOI_FLAGS="${CHEZMOI_FLAGS:-}"
-# BREW_FLAGS: extra flags for brew wrapper.
-BREW_FLAGS="${BREW_FLAGS:-}"
-# MISE_FLAGS: extra flags for mise wrapper.
-MISE_FLAGS="${MISE_FLAGS:-}"
-# MAS_FLAGS: extra flags for mas wrapper.
-MAS_FLAGS="${MAS_FLAGS:-}"
-# TPM_FLAGS: extra flags for tmux plugin manager scripts.
-TPM_FLAGS="${TPM_FLAGS:-}"
-# NVIM_FLAGS: extra flags for nvim invocation.
-NVIM_FLAGS="${NVIM_FLAGS:-}"
-# ZIMFW_FLAGS: extra flags for zimfw invocation.
-ZIMFW_FLAGS="${ZIMFW_FLAGS:-}"
-
 # _usage: print CLI help text and exit guidance.
 # - includes flags, env vars, examples, and excludes.
 _usage() {
@@ -118,16 +101,6 @@ Environment Variables:
 		path to tpm installation root (must include /tpm).
 		if unset, tpm operations are skipped.
 
-	# additional flags for underlying commands
-	GIT_FLAGS
-	CHEZMOI_FLAGS
-	BREW_FLAGS
-	MISE_FLAGS
-	MAS_FLAGS
-	TPM_FLAGS
-	NVIM_FLAGS
-	ZIMFW_FLAGS
-
 Examples:
 	daily use:
 	  chezmoi-package -cpua
@@ -148,12 +121,12 @@ _log() {
 	local stage="${1:-}"
 	local comp="${2:-}"
 	shift 2 || true
-	printf "[%s] %s(%s): %s\n" "$(date '+%F %T')" "$stage" "$comp" "$*" >&2
+	printf "[%s] %s(%s): %s\n" "$(date '+%F %T')" "$comp" "$stage" "$*" >&2
 }
 
 # _die: log a fatal error and exit non-zero.
 _die() {
-	_log "error" "fatal" "$*"
+	_log "${1:-}" "${2:-error}" "$*"
 	exit 1
 }
 
@@ -184,76 +157,60 @@ _comment() {
 	elif command -v md5 >/dev/null 2>&1; then
 		hash="$(printf "%s" "${user}@${host}" | md5 -q)"
 	fi
-	_log "comment" "git" "$(printf "$COMMENT" "$user@$host" "$count")"
 	printf "$COMMENT" "$hash" "$count"
+}
+
+# _run: run a command and emit only chezmoi-package logs when not verbose.
+# - args: <cmd...>
+_run() {
+	if ((VERBOSE)); then
+		"$@"
+		return $?
+	fi
+
+	"$@" >/dev/null 2>&1
 }
 
 # _confirm: show diff (optional) and prompt unless CONFIRM=1.
 # - args: <message> [path]
-# - uses [yNq] prompt; y=yes, q=quit (exit 0), others=no.
+# - uses [ynq] prompt; y=yes, n=no, q=quit (exit 0).
 _confirm() {
 	local message="${1:-Continue?}"
 	local path="${2:-}"
 
 	if [[ -n "$path" ]]; then
-		if ! _chezmoi diff -- "$path" | grep -q .; then
+		if ! chezmoi diff -- "$path" | grep -q .; then
 			# _log "confirm" "$path" "no changes"
 			return 1
 		fi
-		_chezmoi diff -- "$path" || true
+		chezmoi diff -- "$path" || true
 	else
-		if ! _chezmoi diff | grep -q .; then
+		if ! chezmoi diff | grep -q .; then
 			# _log "confirm" "chezmoi" "no changes"
 			return 1
 		fi
-		_chezmoi diff || true
+		chezmoi diff || true
 	fi
 
 	if ((CONFIRM)); then
 		return 0
 	fi
 	local reply=""
-	printf "%s [yNq]: " "$message" >/dev/tty
-	read -r reply </dev/tty || true
-	if [[ "$reply" =~ ^[Qq]$ ]]; then
-		_log "confirm" "$path" "quit"
-		exit 0
-	fi
-	if [[ "$reply" =~ ^[Yy]$ ]]; then
-		return 0
-	fi
-	_log "confirm" "$path" "declined: $message"
-	return 1
-}
-
-# _chezmoi: run chezmoi with optional flags.
-# - honors CHEZMOI_FLAGS.
-_chezmoi() { # shellcheck disable=SC2086
-	chezmoi $CHEZMOI_FLAGS "$@"
-}
-
-# _git: run git with optional flags.
-# - honors GIT_FLAGS.
-_git() { # shellcheck disable=SC2086
-	git $GIT_FLAGS "$@"
-}
-
-# _brew: run brew with optional flags.
-# - honors BREW_FLAGS.
-_brew() { # shellcheck disable=SC2086
-	brew $BREW_FLAGS "$@"
-}
-
-# _mise: run mise with optional flags.
-# - honors MISE_FLAGS.
-_mise() { # shellcheck disable=SC2086
-	mise $MISE_FLAGS "$@"
-}
-
-# _mas: run mas with optional flags.
-# - honors MAS_FLAGS.
-_mas() { # shellcheck disable=SC2086
-	mas $MAS_FLAGS "$@"
+	while true; do
+		printf "%s [ynq]: " "$message" >/dev/tty
+		read -r reply </dev/tty || true
+		case "$reply" in
+		[Yy]) return 0 ;;
+		[Nn])
+			_log "$path" "confirm" "declined"
+			return 1
+			;;
+		[Qq])
+			_log "$path" "confirm" "quit"
+			exit 0
+			;;
+		esac
+	done
 }
 
 # _checkout_branch: checkout target branch inside the chezmoi repo.
@@ -265,18 +222,18 @@ _checkout_branch() {
 	_has chezmoi || return 0
 	_log "chezmoi" "branch" "checkout $branch"
 	if ((VERBOSE)); then
-		_chezmoi git -- checkout -v "$branch" || true
+		_run chezmoi git -- checkout -v "$branch" || true
 	else
-		_chezmoi git -- checkout "$branch" || true
+		_run chezmoi git -- checkout "$branch" || true
 	fi
 }
 
-# _bootstrap: idempotent machine bootstrap (install required tools).
+# bootstrap: idempotent machine bootstrap (install required tools).
 # - ensures Homebrew and base tools, then initializes chezmoi.
-_bootstrap() {
+bootstrap() {
 	if ! _has brew; then
 		_log "bootstrap" "brew" "installing"
-		bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+		_run bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 		if [[ -x /opt/homebrew/bin/brew ]]; then
 			eval "$(/opt/homebrew/bin/brew shellenv)"
 		elif [[ -x /usr/local/bin/brew ]]; then
@@ -287,45 +244,45 @@ _bootstrap() {
 	_log "bootstrap" "brew" "installed"
 	if ! _exclude git && ! _has git; then
 		_log "bootstrap" "git" "installing"
-		_brew install git
+		_run brew install git
 	fi
 	_log "bootstrap" "git" "installed"
 	if ! _exclude chezmoi && ! _has chezmoi; then
 		_log "bootstrap" "chezmoi" "installing"
-		_brew install chezmoi
+		_run brew install chezmoi
 
 		_log "bootstrap" "chezmoi" "initializing"
-		_chezmoi init --apply --branch "$BRANCH" "$GITHUB_USERNAME"
+		_run chezmoi init --apply --branch "$BRANCH" "$GITHUB_USERNAME"
 	fi
 	_log "bootstrap" "chezmoi" "installed"
 	if ! _exclude mise && ! _has mise; then
 		_log "bootstrap" "mise" "installing"
-		_brew install mise
+		_run brew install mise
 	fi
 	_log "bootstrap" "mise" "installed"
 }
 
-# _update: update metadata only; no local environment changes.
+# update: update metadata only; no local environment changes.
 # - refreshes remote refs and tool registries.
-_update() {
+update() {
 	# update_chezmoi: fetch remote refs for the chezmoi repo.
 	# - uses git fetch --all --prune via chezmoi.
 	update_chezmoi() {
 		_log "update" "chezmoi" "git fetch --all --prune"
-		if ((VERBOSE)); then _chezmoi git -- fetch -v --all --prune; else _chezmoi git -- fetch --all --prune; fi
+		if ((VERBOSE)); then _run chezmoi git -- fetch -v --all --prune; else _run chezmoi git -- fetch --all --prune; fi
 	}
 	# update_brew: refresh Homebrew metadata.
 	# - runs brew update.
 	update_brew() {
 		_log "update" "brew" "update"
-		_brew update
+		_run brew update
 	}
 	# update_mise: refresh mise registry and plugin metadata.
 	# - tolerates errors (registry/plugins may be optional).
 	update_mise() {
 		_log "update" "mise" "registry/plugins update"
-		_mise registry update || true
-		_mise plugins update || true
+		_run mise registry update || true
+		_run mise plugins update || true
 	}
 
 	_checkout_branch "$BRANCH"
@@ -334,14 +291,14 @@ _update() {
 	if ! _exclude mise && _has mise; then update_mise; fi
 }
 
-# _apply: use metadata to sync local environment (apply config, install/update only).
+# apply: use metadata to sync local environment (apply config, install/update only).
 # - no deletions; installs/upgrades based on current metadata.
-_apply() {
+apply() {
 	# chezmoi_apply: pull repo changes, show diff, prompt, then apply config.
 	# - requires user confirmation before apply.
 	chezmoi_apply() {
 		_log "apply" "chezmoi" "git pull --ff-only"
-		if ((VERBOSE)); then _chezmoi git -- pull -v --ff-only; else _chezmoi git -- pull --ff-only; fi
+		if ((VERBOSE)); then _run chezmoi git -- pull -v --ff-only; else _run chezmoi git -- pull --ff-only; fi
 
 		if ! _confirm "Apply chezmoi changes?" "."; then
 			_log "apply" "chezmoi" "no changes or aborted"
@@ -349,19 +306,19 @@ _apply() {
 		fi
 
 		_log "apply" "chezmoi" "apply --verbose"
-		_chezmoi apply --verbose
+		_run chezmoi apply --verbose
 	}
 	# brew_apply: upgrade brew packages and sync Brewfile bundle.
 	# - runs brew upgrade/upgrade --cask and brew bundle if Brewfile exists.
 	brew_apply() {
 		_log "apply" "brew" "upgrade"
-		_brew upgrade || true
+		_run brew upgrade || true
 		_log "apply" "brew" "upgrade --cask"
-		_brew upgrade --cask || true
+		_run brew upgrade --cask || true
 
 		if [[ -f "$HOMEBREW_BUNDLE_FILE" ]]; then
 			_log "apply" "brew" "bundle --file $HOMEBREW_BUNDLE_FILE"
-			if ((VERBOSE)); then _brew bundle --file "$HOMEBREW_BUNDLE_FILE" --verbose; else _brew bundle --file "$HOMEBREW_BUNDLE_FILE"; fi
+			if ((VERBOSE)); then _run brew bundle --file "$HOMEBREW_BUNDLE_FILE" --verbose; else _run brew bundle --file "$HOMEBREW_BUNDLE_FILE"; fi
 		else
 			_log "apply" "brew" "Brewfile not found ($HOMEBREW_BUNDLE_FILE), skip bundle"
 		fi
@@ -370,13 +327,13 @@ _apply() {
 	# - runs mas upgrade.
 	mas_apply() {
 		_log "apply" "mas" "upgrade"
-		_mas upgrade || true
+		_run mas upgrade || true
 	}
 	# mise_apply: install tools listed by mise.
 	# - runs mise install.
 	mise_apply() {
 		_log "apply" "mise" "install"
-		_mise install
+		_run mise install
 	}
 	# zimfw_apply: install/update zimfw plugins using binary or sourced script.
 	# - prefers zimfw binary; falls back to sourcing zimfw.zsh.
@@ -387,16 +344,16 @@ _apply() {
 		if _has zimfw; then
 			_log "apply" "zimfw" "install/update"
 			# shellcheck disable=SC2086
-			zimfw install $ZIMFW_FLAGS || true
+			_run zimfw install || true
 			# shellcheck disable=SC2086
-			zimfw update $ZIMFW_FLAGS || true
+			_run zimfw update || true
 			return 0
 		fi
 
 		if [[ -f "$zimfw_zsh" ]]; then
 			_log "apply" "zimfw" "source $zimfw_zsh then install/update"
 			# shellcheck disable=SC2086
-			"$zsh" -lc "source '$zimfw_zsh'; zimfw install $ZIMFW_FLAGS; zimfw update $ZIMFW_FLAGS" || true
+			_run "$zsh" -lc "source '$zimfw_zsh'; zimfw install; zimfw update" || true
 			return 0
 		fi
 
@@ -420,7 +377,7 @@ _apply() {
 		}
 
 		_log "apply" "tpm" "git pull --ff-only"
-		if ((VERBOSE)); then _git -C "$root" pull -v --ff-only || true; else _git -C "$root" pull --ff-only || true; fi
+		if ((VERBOSE)); then _run git -C "$root" pull -v --ff-only || true; else _run git -C "$root" pull --ff-only || true; fi
 
 		[[ -x "$install" ]] || {
 			_log "apply" "tpm" "missing $install, skip"
@@ -433,18 +390,18 @@ _apply() {
 
 		_log "apply" "tpm" "install plugins"
 		# shellcheck disable=SC2086
-		"$install" $TPM_FLAGS || true
+		_run "$install" || true
 
 		_log "apply" "tpm" "update plugins (all)"
 		# shellcheck disable=SC2086
-		"$update" all $TPM_FLAGS || true
+		_run "$update" all || true
 	}
 	# nvim_apply: sync Neovim plugins headlessly (Lazy.nvim).
 	# - runs nvim --headless "+Lazy! sync" "+qa".
 	nvim_apply() {
 		_log "apply" "nvim" 'headless "+Lazy! sync" "+qa"'
 		# shellcheck disable=SC2086
-		nvim $NVIM_FLAGS --headless "+Lazy! sync" "+qa" || true
+		_run nvim --headless "+Lazy! sync" "+qa" || true
 	}
 
 	_checkout_branch "$BRANCH"
@@ -459,21 +416,21 @@ _apply() {
 	if ! _exclude nvim && _has nvim; then nvim_apply; fi
 }
 
-# _prune: clean local environment based on applied metadata.
+# prune: clean local environment based on applied metadata.
 # - removes unused packages/versions and stale plugins.
-_prune() {
+prune() {
 	# brew_prune: remove unused brew deps and cleanup caches.
 	# - runs brew autoremove and brew cleanup.
 	brew_prune() {
 		_log "prune" "brew" "autoremove/cleanup"
-		_brew autoremove || true
-		_brew cleanup || true
+		_run brew autoremove || true
+		_run brew cleanup || true
 	}
 	# mise_prune: remove unused mise tool versions.
 	# - runs mise prune -y.
 	mise_prune() {
 		_log "prune" "mise" "prune -y"
-		_mise prune -y || true
+		_run mise prune -y || true
 	}
 	# tpm_prune: clean tmux plugins not in config.
 	# - requires clean_plugins executable under TPM path.
@@ -491,7 +448,7 @@ _prune() {
 
 		_log "prune" "tpm" "clean plugins"
 		# shellcheck disable=SC2086
-		"$clean" $TPM_FLAGS || true
+		_run "$clean" || true
 	}
 
 	if ! _exclude brew && _has brew; then brew_prune; fi
@@ -499,55 +456,55 @@ _prune() {
 	if ! _exclude tpm; then tpm_prune; fi
 }
 
-# _commit: save local environment state into metadata.
+# commit: save local environment state into metadata.
 # - captures tool state into repo files and commits if needed.
-_commit() {
+commit() {
 	# _git_stash: stash current repo changes before commit steps.
 	# - creates a named stash; no-op if nothing to stash.
 	_git_stash() {
 		local msg="chezmoi-package pre-commit $(date '+%F %T')"
-		_chezmoi git -- stash push -u -m "$msg" || true
+		_run chezmoi git -- stash push -u -m "$msg" || true
 	}
 	# _brew_commit: dump Brewfile and add it to chezmoi.
 	# - includes taps, formulae, casks, and services; no restarts.
 	_brew_commit() {
 		_log "commit" "brew" "bundle dump $HOMEBREW_BUNDLE_FILE"
 		if ((VERBOSE)); then
-			_brew bundle dump --file "$HOMEBREW_BUNDLE_FILE" --tap --formula --cask --services --no-restart --force --verbose
+			_run brew bundle dump --file "$HOMEBREW_BUNDLE_FILE" --tap --formula --cask --services --no-restart --force --verbose
 		else
-			_brew bundle dump --file "$HOMEBREW_BUNDLE_FILE" --tap --formula --cask --services --no-restart --force
+			_run brew bundle dump --file "$HOMEBREW_BUNDLE_FILE" --tap --formula --cask --services --no-restart --force
 		fi
-		_confirm "Add Brewfile changes?" "$HOMEBREW_BUNDLE_FILE" && _chezmoi add "$HOMEBREW_BUNDLE_FILE" || true
+		_confirm "Add Brewfile changes?" "$HOMEBREW_BUNDLE_FILE" && _run chezmoi add "$HOMEBREW_BUNDLE_FILE" || true
 	}
 	# _chezmoi_commit: confirm and add changes to source state per managed file.
 	# - iterates managed files list, shows diff, then adds on confirm.
 	_chezmoi_commit() {
 		_log "commit" "chezmoi" "managed files confirm/add"
 		local file=""
-		while IFS= read -r file; do
+		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
-			_confirm "Add chezmoi changes?" "$file" && _chezmoi add "$file" || true
-		done < <(_chezmoi managed -p absolute)
+			_confirm "Add chezmoi changes?" "$file" && _run chezmoi add "$file" || true
+		done < <(chezmoi managed --include=files --nul-path-separator -p absolute)
 	}
 	# _git_commit: commit chezmoi repo changes if any.
 	# - generates a user/host hash + date + file count commit message.
 	_git_commit() {
 		_log "commit" "chezmoi" "git status/diff + commit"
-		_chezmoi git -- diff --stat || true
+		_run chezmoi git -- diff --stat || true
 
-		if [[ -n "$(_chezmoi git -- status --porcelain=v1)" ]]; then
+		if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
 			local count
-			count="$(_chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
+			count="$(chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
 			local msg
 			msg="$(_comment "$count")"
-			_chezmoi git -- add -A
-			_chezmoi git -- commit -m "$msg"
+			_run chezmoi git -- add -A
+			_run chezmoi git -- commit -m "$msg"
 			_log "commit" "chezmoi" "committed: $msg"
 		fi
 	}
 
-	if ! _exclude chezmoi || ! _has chezmoi; then
-		_log "commit" "error" "chezmoi missing or excluded; cannot commit"
+	if _exclude chezmoi || ! _has chezmoi; then
+		_die "commit" "chezmoi" "chezmoi missing or excluded; cannot commit"
 	fi
 	_git_stash
 	if ! _exclude brew && _has brew; then _brew_commit; fi
@@ -555,31 +512,17 @@ _commit() {
 	_git_commit
 }
 
-# _push: push metadata to the remote repo.
+# push: push metadata to the remote repo.
 # - uses git push inside the chezmoi repo.
-_push() {
+push() {
 	# _chezmoi_push: push chezmoi repo to remote.
 	# - runs git push via chezmoi wrapper.
 	_chezmoi_push() {
 		_log "push" "chezmoi" "push"
-		_chezmoi git -- push
+		_run chezmoi git -- push
 	}
 
 	if ! _exclude chezmoi && _has chezmoi; then _chezmoi_push; fi
-}
-
-# _run: dispatch a single step token.
-# - maps short flags to stage handlers.
-_run() {
-	case "$1" in
-	b) _bootstrap ;;
-	u) _update ;;
-	a) _apply ;;
-	x) _prune ;;
-	c) _commit ;;
-	p) _push ;;
-	*) _die "unknown step: $1" ;;
-	esac
 }
 
 # main: parse CLI args, set flags, and run selected steps.
@@ -672,16 +615,18 @@ main() {
 		set -x
 	fi
 
-	if ((VERBOSE)); then
-		case " $GIT_FLAGS " in *" -v "* | *" --verbose "*) : ;; *) GIT_FLAGS="$GIT_FLAGS -v" ;; esac
-		# case " $BREW_FLAGS " in *" --verbose "*) : ;; *) BREW_FLAGS="$BREW_FLAGS --verbose" ;; esac
-		case " $CHEZMOI_FLAGS " in *" --verbose "*) : ;; *) CHEZMOI_FLAGS="$CHEZMOI_FLAGS --verbose" ;; esac
-	fi
-
 	if ((${#steps[@]} > 0)); then
 		local s
 		for s in "${steps[@]}"; do
-			_run "$s"
+			case "$s" in
+			b) bootstrap ;;
+			u) update ;;
+			a) apply ;;
+			x) prune ;;
+			c) commit ;;
+			p) push ;;
+			*) _die "unknown step: $s" ;;
+			esac
 		done
 	fi
 }
