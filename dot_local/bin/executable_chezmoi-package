@@ -173,7 +173,7 @@ git_stash() {
 # git_commit: commit chezmoi repo changes if any.
 # - uses COMMENT template with user/host hash and file count.
 git_commit() {
-	_log "commit" "chezmoi" "git status/diff + commit"
+	_log "commit" "chezmoi" "git diff --stat"
 	_run chezmoi git -- diff --stat || true
 
 	if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
@@ -183,7 +183,7 @@ git_commit() {
 		msg="$(_comment "$count")"
 		_run chezmoi git -- add -A
 		_run chezmoi git -- commit -m "$msg"
-		_log "commit" "chezmoi" "committed: $msg"
+		_log "commit" "chezmoi" "commit -m \"$msg\""
 	fi
 }
 
