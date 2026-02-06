@@ -1,0 +1,83 @@
+#!zsh
+
+# Interactive shell configuration.
+setopt PROMPT_SUBST
+setopt INTERACTIVE_COMMENTS
+setopt AUTO_CD
+setopt NO_BEEP
+
+# History behavior
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY
+
+HISTSIZE=200000
+SAVEHIST=200000
+
+# Load zimfw (generated init.zsh)
+if [[ -r "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" ]] ; then
+	source "$HOMEBREW_PREFIX/opt/zimfw/share/zimfw.zsh" init -q
+fi
+if [[ -s "$ZIM_HOME/init.zsh" ]]; then
+	 source "$ZIM_HOME/init.zsh"
+fi
+
+# # Mise activation: do it for interactive shells
+# if command -v mise >/dev/null 2>&1; then
+#   # Prefer ONE method only: either shims on PATH or activate.
+#   # Here we assume you use activation (recommended).
+#   eval "$(mise activate zsh)"
+# fi
+#
+# # Starship (if you use it)
+# if command -v starship >/dev/null 2>&1; then
+#   eval "$(starship init zsh)"
+# fi
+
+# Completion
+# autoload -Uz compinit
+# local compDump="${ZSH_CACHE_DIR}/zcompdump-${ZSH_VERSION}"
+# # Rebuild if dump is missing or older than 1 day
+# if [[ ! -f "$compDump" || "$compDump" -ot "${ZDOTDIR}/zshrc" ]]; then
+#   compinit -d "$compDump"
+# else
+#   compinit -C -d "$compDump"
+# fi
+# zstyle ':completion:*' use-cache on
+# zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR}/zcompcache"
+# zstyle ':completion:*' menu select
+# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# zstyle ':completion:*' squeeze-slashes true
+# zstyle ':completion:*' verbose false
+
+# Key bindings
+bindkey -v
+zmodload -F zsh/terminfo +p:terminfo
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'V' edit-command-line
+bindkey '^L' autosuggest-accept
+bindkey '^H' autosuggest-clear
+bindkey -r "^T"
+bindkey "^F" fzf-file-widget
+# bindkey "^G" fzf-search-widget
+bindkey -r "^[c"
+
+# alias PX="HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080"
+# alias PX="SSH_PROXY=\"ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p'\" HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
+# alias ssh="ssh -o '$SSH_PROXY'"
+# alias NLH="LEFTHOOK=0"
+# alias -g Q="1>/dev/null 2>/dev/null"
+# alias -g Q1="1>/dev/null"
+# alias -g Q2="2>/dev/null"
+# alias http="http --check-status -pHBhbm"
+# alias SHPX="SSH_OPTIONS=\"ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p\""
+# alias ssh="ssh -o \"\$SSH_OPTIONS\""
+
+# vim: set ft=zsh
+

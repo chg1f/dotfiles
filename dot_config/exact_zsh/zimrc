@@ -4,17 +4,17 @@ zmodule 'environment'
 zmodule 'utility'
 zmodule 'input'
 
-# zmodule 'direnv'
 zmodule 'exa'
-zmodule 'git'
-zstyle ':zim:git' aliases-prefix 'g'
+# zmodule 'git'
+# zstyle ':zim:git' aliases-prefix 'g'
 # zmodule ssh
 zmodule 'fzf'
 
 zmodule 'zsh-users/zsh-completions' --fpath src
-zstyle ':zim:completion' dumpfile "${XDG_STATE_HOME}/zcompdump"
-zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME}/zcompcache"
+zstyle ':zim:completion' dumpfile "${XDG_STATE_HOME}/zsh/zcompdump"
+zstyle ':completion::complete:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
 zmodule 'completion'
+
 zmodule 'zsh-users/zsh-syntax-highlighting'
 zmodule 'zsh-users/zsh-history-substring-search'
 zmodule 'zsh-users/zsh-autosuggestions'
