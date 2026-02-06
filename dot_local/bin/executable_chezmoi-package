@@ -326,6 +326,9 @@ apply() {
 		_log "apply" "chezmoi" "git pull --ff-only"
 		if ((VERBOSE)); then _run chezmoi git -- pull -v --ff-only; else _run chezmoi git -- pull --ff-only; fi
 
+		_log "apply" "chezmoi" "init"
+		_confirm "Regenerate chezmoi config?" && _run chezmoi init || true
+
 		_log "apply" "chezmoi" "confirm to apply managed files"
 		local file=""
 		while IFS= read -r -d '' file; do
