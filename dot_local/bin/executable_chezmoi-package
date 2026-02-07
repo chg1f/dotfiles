@@ -375,6 +375,7 @@ apply() {
 	mise_apply() {
 		_log "apply" "mise" "install"
 		_run mise install
+		_log "apply" "mise" "upgrade"
 		_run mise upgrade
 	}
 	# zimfw_apply: install/update zimfw plugins using binary or sourced script.
@@ -437,7 +438,7 @@ prune() {
 	# - runs mise prune -y.
 	mise_prune() {
 		_log "prune" "mise" "prune"
-		if ((CONFIRM)); then _run mise prune -y; else _run mise prune; fi
+		_run mise prune -y
 	}
 	# tpm_prune: clean tmux plugins not in config.
 	# - requires clean_plugins executable under TPM path.
