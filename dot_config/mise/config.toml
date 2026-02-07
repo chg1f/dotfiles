@@ -5,17 +5,6 @@ env_file = '.env'
 python.uv_venv_auto = true
 pipx.uvx = true
 
-[shell_alias]
-MV = "MISE_VERBOSE=1"
-PX = "HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080"
-# NLH = "LEFTHOOK=0"
-Q = "1>/dev/null 2>/dev/null"
-Q1 = "1>/dev/null"
-Q2 = "2>/dev/null"
-http = "http --check-status -pHBhbm"
-urlencode = "python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))'"
-urldecode = "python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
-
 [tools]
 # language (runtimes)
 go = "1.25.0"
