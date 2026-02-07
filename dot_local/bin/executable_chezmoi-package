@@ -22,6 +22,8 @@ DEBUG="${DEBUG:-0}"
 VERBOSE="${VERBOSE:-0}"
 # CONFIRM: auto-confirm prompts (0/1).
 CONFIRM="${CONFIRM:-0}"
+# STASH: enable git stash before apply/commit (0/1).
+STASH="${STASH:-0}"
 # COMMENT: commit message format for repo_commit (printf-style).
 COMMENT="${COMMENT:-source %s sync %d files}"
 # BRANCH: target git branch for chezmoi operations.
@@ -76,6 +78,9 @@ Flags:
 
 	--confirm
 		auto-confirm all prompts (diff still shown).
+
+	--stash
+		stash local changes before apply/commit steps (no-op if no changes or already stashed).
 
 	--branch BRANCH
 		specify bootstrap, update, apply, commit, push branch/name.
@@ -163,6 +168,10 @@ _comment() {
 # git_stash: stash current repo changes before apply/commit steps.
 # - creates a named stash; no-op if nothing to stash.
 git_stash() {
+	if ! ((STASH)); then
+		_log "stash" "chezmoi" "skipped"
+		return 0
+	fi
 	if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
 		local msg="chezmoi-package pre-commit $(date '+%F %T')"
 		_log "stash" "chezmoi" "pre-commit $msg"
@@ -523,6 +532,10 @@ main() {
 			;;
 		--confirm)
 			CONFIRM=1
+			shift
+			;;
+		--stash)
+			STASH=1
 			shift
 			;;
 		--branch)
