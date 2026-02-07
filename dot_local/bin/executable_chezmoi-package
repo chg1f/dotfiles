@@ -329,14 +329,14 @@ apply() {
 		# _log "apply" "chezmoi" "init"
 		# _confirm "Regenerate chezmoi config?" && _run chezmoi init
 
-		_log "apply" "chezmoi" "confirm to apply managed files"
+		_log "apply" "chezmoi" "confirm to apply managed files/symlinks"
 		local file=""
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
-			if _confirm "Apply chezmoi changes?" "$file"; then
+			if _confirm "Apply $file changes?" "$file"; then
 				_run chezmoi apply -- "$file"
 			fi
-		done < <(chezmoi managed --include=files --nul-path-separator -p absolute)
+		done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
 	}
 	# brew_apply: upgrade brew packages and sync Brewfile bundle.
 	# - runs brew upgrade/upgrade --cask and brew bundle if Brewfile exists.
@@ -459,12 +459,12 @@ commit() {
 	# _chezmoi_commit: confirm and add changes to source state per managed file.
 	# - iterates managed files list, shows diff, then adds on confirm.
 	_chezmoi_commit() {
-		_log "commit" "chezmoi" "confirm to add managed files"
+		_log "commit" "chezmoi" "confirm to add managed files/symlinks"
 		local file=""
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
-			_confirm "Add chezmoi changes?" "$file" && _run chezmoi add "$file" || true
-		done < <(chezmoi managed --include=files --nul-path-separator -p absolute)
+			_confirm "Add $file changes?" "$file" && _run chezmoi add "$file" || true
+		done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
 	}
 
 	if _exclude chezmoi || ! _has chezmoi; then
