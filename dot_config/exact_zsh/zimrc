@@ -5,10 +5,11 @@ zmodule 'utility'
 zmodule 'input'
 
 zmodule 'exa'
-# zmodule 'git'
-# zstyle ':zim:git' aliases-prefix 'g'
+zmodule 'git'
+zstyle ':zim:git' aliases-prefix 'g'
 # zmodule ssh
 zmodule 'fzf'
+# zmodule 'tmux'
 
 zmodule 'zsh-users/zsh-completions' --fpath src
 zstyle ':zim:completion' dumpfile "${XDG_STATE_HOME}/zsh/zcompdump"
@@ -22,14 +23,13 @@ zmodule 'zsh-users/zsh-autosuggestions'
 # ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 # ZSH_AUTOSUGGEST_STRATEGY=("history" "completion")
 # ZSH_AUTOSUGGEST_USE_ASYNC=true
-# [[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] && \
+# if [[ -s "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh" ]] ; then
 # 	source "$ZSH_AUTOSUGGEST_DIR/zsh-autosuggestions.zsh"
+# fi
 
 zmodule 'joke/zim-chezmoi' --if-command chezmoi
 zmodule 'joke/zim-starship' --if-command starship
 zmodule 'kiesman99/zim-zoxide' --if-command zoxide
 zmodule 'joke/zim-mise' --if-command mise
-
-# zmodule 'tmux'
 
 # vim: set ft=zsh
