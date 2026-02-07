@@ -308,8 +308,8 @@ update() {
 	# update_chezmoi: fetch remote refs for the chezmoi repo.
 	# - uses git fetch --all --prune via chezmoi.
 	update_chezmoi() {
-		_log "update" "chezmoi" "git fetch --all --prune"
-		if ((VERBOSE)); then _run chezmoi git -- fetch -v --all --prune; else _run chezmoi git -- fetch --all --prune; fi
+		_log "update" "chezmoi" "git fetch --all"
+		if ((VERBOSE)); then _run chezmoi git -- fetch -v --all; else _run chezmoi git -- fetch --all; fi
 	}
 	# update_brew: refresh Homebrew metadata.
 	# - runs brew update.
