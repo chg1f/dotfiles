@@ -182,8 +182,8 @@ git_stash() {
 # git_commit: commit chezmoi repo changes if any.
 # - uses COMMENT template with user/host hash and file count.
 git_commit() {
-	_log "commit" "chezmoi" "git diff --stat"
-	_run chezmoi git -- diff --stat || true
+	# _log "commit" "chezmoi" "git diff --stat"
+	# _run chezmoi git -- diff --stat || true
 
 	if [[ -n "$(chezmoi git -- status --porcelain=v1)" ]]; then
 		local count
@@ -214,6 +214,14 @@ _confirm() {
 	local message="${1:-Continue?}"
 	local path="${2:-}"
 
+	if ((CONFIRM)); then
+		if ! chezmoi diff --no-pager -- "$path" | grep -q .; then
+			# _log "confirm" "$path" "no changes"
+			return 1
+		fi
+		chezmoi diff --no-pager -- "$path" || true
+		return 0
+	fi
 	if [[ -n "$path" ]]; then
 		if ! chezmoi diff -- "$path" | grep -q .; then
 			# _log "confirm" "$path" "no changes"
@@ -226,10 +234,6 @@ _confirm() {
 			return 1
 		fi
 		chezmoi diff || true
-	fi
-
-	if ((CONFIRM)); then
-		return 0
 	fi
 	local reply=""
 	while true; do
