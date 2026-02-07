@@ -60,19 +60,20 @@ bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey -M vicmd 'V' edit-command-line
-bindkey '^L' autosuggest-accept
-bindkey '^H' autosuggest-clear
-bindkey -r "^T"
-bindkey "^F" fzf-file-widget
+bindkey -M vicmd 'V' edit-command-line # <S-v> to edit command line in $EDITOR
+bindkey '^L' autosuggest-accept # <C-l> to accept the current autosuggestion
+bindkey '^H' autosuggest-clear # <C-h> to clear the current autosuggestion
+bindkey -r "^T" # Unbind default transpose-chars
+bindkey "^F" fzf-file-widget # <C-f> to fzf-file-widget for file searching
 # bindkey "^G" fzf-search-widget
 bindkey -r "^[c"
 
 alias PX="HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080"
+alias -g Q="1>/dev/null 2>/dev/null"
+alias -g Q1="1>/dev/null"
+alias -g Q2="2>/dev/null"
 # alias NLH="LEFTHOOK=0"
-# alias -g Q="1>/dev/null 2>/dev/null"
-# alias -g Q1="1>/dev/null"
-# alias -g Q2="2>/dev/null"
+alias path="printf '%s\n' \"\${path[@]}\" | nl -ba"
 alias urlencode="python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))'"
 alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
 alias uuid4="python3 -c 'import uuid; print(uuid.uuid4())'"
