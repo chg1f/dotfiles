@@ -18,7 +18,12 @@ local config = {
 	front_end = "WebGpu",
 	webgpu_power_preference = "HighPerformance",
 
-	color_scheme = "cyberdream",
+	-- color_scheme = "cyberdream",
+	-- color_scheme = "Night Owl (Gogh)",
+	color_scheme = "Tokyo Night Storm",
+	-- color_scheme = "One Dark Pro (Gogh)",
+	-- color_scheme = "Catppuccin Mocha",
+	-- color_scheme = "Kanagawa (Gogh)",
 	font_size = 12,
 	font = wezterm.font_with_fallback({
 		-- { family = "JetBrainsMono Nerd Font" },

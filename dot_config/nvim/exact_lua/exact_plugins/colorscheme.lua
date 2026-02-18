@@ -13,12 +13,6 @@ return {
 		},
 	},
 	{
-		"ellisonleao/gruvbox.nvim",
-		opts = {
-			contrast = "hard",
-		},
-	},
-	{
 		"catppuccin/nvim",
 		opts = {
 			flavour = "mocha",
@@ -26,5 +20,8 @@ return {
 	},
 	{
 		"folke/tokyonight.nvim",
+		opt = {
+			style = "storm",
+		},
 	},
 }
