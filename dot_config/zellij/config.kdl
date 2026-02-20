@@ -1,12 +1,5 @@
 keybinds clear-defaults=true {
-	shared_except "locked" "entersearch" "search" "scroll" {
-        bind "Alt x" { CloseFocus; }
-        bind "Alt w" { CloseTab; }
-        bind "Alt s" { NewPane "down"; }
-        bind "Alt v" { NewPane "right"; }
-        bind "Alt a" { NewPane "stacked"; }
-        bind "Alt t" { NewTab; }
-
+	shared_among "normal" "pane" "tab" "move" {
         bind "Alt h" { MoveFocus "left"; }
         bind "Alt j" { MoveFocus "down"; }
         bind "Alt k" { MoveFocus "up"; }
@@ -23,12 +16,18 @@ keybinds clear-defaults=true {
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
 
+        bind "Alt x" { CloseFocus; }
+        bind "Alt w" { CloseTab; }
+        bind "Alt s" { NewPane "down"; }
+        bind "Alt v" { NewPane "right"; }
+        bind "Alt a" { NewPane "stacked"; }
+        bind "Alt t" { NewTab; }
+
         bind "Alt =" "Alt +" { Resize "Increase"; }
         bind "Alt -" "Alt _" { Resize "Decrease"; }
 
-        bind "Alt tab" { NextSwapLayout; }
-        bind "Alt Shift tab" { PreviousSwapLayout; }
 		bind "Alt f" { ToggleFocusFullscreen; }
+        bind "Alt i" { TogglePaneInGroup; }
 
 		bind "Ctrl g" { SwitchToMode "locked"; }
 		bind "Alt ," {SwitchToMode "pane"; }
@@ -49,7 +48,7 @@ keybinds clear-defaults=true {
 		bind "d" "Ctrl d"{ HalfPageScrollDown; }
 		bind "u" "Ctrl u"{ HalfPageScrollUp; }
 		bind "g" { ScrollToTop; }
-        bind "G" { ScrollToBottom; }
+        bind "Shift g" { ScrollToBottom; }
 
 		bind "esc" { SwitchToMode "normal"; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
@@ -71,25 +70,12 @@ keybinds clear-defaults=true {
     }
 
     pane {
-        bind "x" { CloseFocus; }
-        bind "s" { NewPane "down"; }
-        bind "v" { NewPane "right"; }
-        bind "a" { NewPane "stacked"; }
-
-        bind "h" { MoveFocus "left"; }
-        bind "j" { MoveFocus "down"; }
-        bind "k" { MoveFocus "up"; }
-        bind "l" { MoveFocus "right"; }
-
         bind "Shift h" { MovePane "left"; }
         bind "Shift j" { MovePane "down"; }
         bind "Shift k" { MovePane "up"; }
         bind "Shift l" { MovePane "right"; }
         bind "Shift n" { BreakPaneRight; }
         bind "Shift p" { BreakPaneLeft; }
-
-        bind "=" "+" { Resize "Increase"; }
-        bind "-" "_" { Resize "Decrease"; }
 
         bind "tab" { NextSwapLayout; }
         bind "Shift tab" { PreviousSwapLayout; }
@@ -116,23 +102,8 @@ keybinds clear-defaults=true {
     }
 
     tab {
-        bind "w" { CloseTab; }
-        bind "t" { NewTab; }
-
-        bind "n" { GoToNextTab; }
-        bind "p" { GoToPreviousTab; }
-        bind "1" { GoToTab 1; }
-        bind "2" { GoToTab 2; }
-        bind "3" { GoToTab 3; }
-        bind "4" { GoToTab 4; }
-        bind "5" { GoToTab 5; }
-        bind "6" { GoToTab 6; }
-        bind "7" { GoToTab 7; }
-        bind "8" { GoToTab 8; }
-        bind "9" { GoToTab 9; }
-
-        bind "Shift n" { MoveTab "left"; }
-        bind "Shift p" { MoveTab "right"; }
+        bind "Shift p" { MoveTab "left"; }
+        bind "Shift n" { MoveTab "right"; }
 
         bind "a" { ToggleActiveSyncTab; }
 
