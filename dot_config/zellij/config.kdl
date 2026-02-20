@@ -1,31 +1,40 @@
 keybinds clear-defaults=true {
-	shared_except "locked" {
+	shared_except "locked" "entersearch" "search" "scroll" {
         bind "Alt x" { CloseFocus; }
+        bind "Alt w" { CloseTab; }
         bind "Alt s" { NewPane "down"; }
         bind "Alt v" { NewPane "right"; }
-        bind "Alt t" { NewPane "stacked"; }
-        bind "Alt n" { NewTab; }
+        bind "Alt a" { NewPane "stacked"; }
+        bind "Alt t" { NewTab; }
 
-        bind "Alt h" { MoveFocusOrTab "left"; }
+        bind "Alt h" { MoveFocus "left"; }
         bind "Alt j" { MoveFocus "down"; }
         bind "Alt k" { MoveFocus "up"; }
-        bind "Alt l" { MoveFocusOrTab "right"; }
-        bind "Alt ," { MoveTab "left"; }
-        bind "Alt ." { MoveTab "right"; }
+        bind "Alt l" { MoveFocus "right"; }
+        bind "Alt n" { GoToNextTab; }
+        bind "Alt p" { GoToPreviousTab; }
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt 6" { GoToTab 6; }
+        bind "Alt 7" { GoToTab 7; }
+        bind "Alt 8" { GoToTab 8; }
+        bind "Alt 9" { GoToTab 9; }
 
         bind "Alt =" "Alt +" { Resize "Increase"; }
         bind "Alt -" "Alt _" { Resize "Decrease"; }
 
         bind "Alt tab" { NextSwapLayout; }
         bind "Alt Shift tab" { PreviousSwapLayout; }
-		bind "Alt z" { ToggleFocusFullscreen; }
-        bind "Alt f" { ToggleFloatingPanes; }
+		bind "Alt f" { ToggleFocusFullscreen; }
 
 		bind "Ctrl g" { SwitchToMode "locked"; }
-		bind "Alt `" {SwitchToMode "pane"; }
-		bind "Alt ~" { SwitchToMode "tab"; }
+		bind "Alt ," {SwitchToMode "pane"; }
+		bind "Alt ." { SwitchToMode "tab"; }
 		bind "Alt :" { SwitchToMode "session"; }
-		bind "Alt [" { SwitchToMode "scroll"; }
+		bind "Alt \\" { SwitchToMode "scroll"; }
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
     locked {
@@ -65,45 +74,39 @@ keybinds clear-defaults=true {
         bind "x" { CloseFocus; }
         bind "s" { NewPane "down"; }
         bind "v" { NewPane "right"; }
-        bind "t" { NewPane "stacked"; }
+        bind "a" { NewPane "stacked"; }
 
         bind "h" { MoveFocus "left"; }
         bind "j" { MoveFocus "down"; }
         bind "k" { MoveFocus "up"; }
         bind "l" { MoveFocus "right"; }
 
-        bind "z" { ToggleFocusFullscreen; }
-        bind "f" { ToggleFloatingPanes; }
-        bind "p" { TogglePanePinned; }
-        bind "e" { TogglePaneEmbedOrFloating; }
-        bind "Shift f" { TogglePaneFrames; }
-        bind "a" { TogglePaneInGroup; }
-        bind "Shift a" { ToggleGroupMarking; }
+        bind "Shift h" { MovePane "left"; }
+        bind "Shift j" { MovePane "down"; }
+        bind "Shift k" { MovePane "up"; }
+        bind "Shift l" { MovePane "right"; }
+        bind "Shift n" { BreakPaneRight; }
+        bind "Shift p" { BreakPaneLeft; }
 
-		bind "esc" { SwitchToMode "normal"; }
-		bind "`" { SwitchToMode "tab"; }
-        bind "m" { SwitchToMode "move"; }
-        bind "i" { SwitchToMode "resize"; }
-        bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
-    }
-    resize {
         bind "=" "+" { Resize "Increase"; }
         bind "-" "_" { Resize "Decrease"; }
+
+        bind "tab" { NextSwapLayout; }
+        bind "Shift tab" { PreviousSwapLayout; }
+        bind "f" { ToggleFocusFullscreen; }
+        bind "e" { TogglePaneEmbedOrFloating; }
+        bind "p" { TogglePanePinned; }
+        bind "i" { TogglePaneInGroup; }
+
+		bind "esc" { SwitchToMode "normal"; }
+        bind "r" { SwitchToMode "resize"; }
+        bind "`" { SwitchToMode "renamepane"; PaneNameInput 0; }
+    }
+    resize {
         bind "h" { Resize "Increase left"; }
         bind "j" { Resize "Increase down"; }
         bind "k" { Resize "Increase up"; }
         bind "l" { Resize "Increase right"; }
-
-		bind "esc" { SwitchToMode "pane"; }
-    }
-    move {
-        bind "h" { MovePane "left"; }
-        bind "j" { MovePane "down"; }
-        bind "k" { MovePane "up"; }
-        bind "l" { MovePane "right"; }
-        bind "n" { MovePane; }
-        bind "p" { MovePaneBackwards; }
-        bind "tab" { MovePane; }
 
 		bind "esc" { SwitchToMode "pane"; }
     }
@@ -113,13 +116,11 @@ keybinds clear-defaults=true {
     }
 
     tab {
-        bind "x" { CloseTab; }
-        bind "n" { NewTab; }
+        bind "w" { CloseTab; }
+        bind "t" { NewTab; }
 
-        bind "h" "left" { GoToPreviousTab; }
-        bind "j" "down" { GoToNextTab; }
-        bind "h" "up" { GoToPreviousTab; }
-        bind "l" "right" { GoToNextTab; }
+        bind "n" { GoToNextTab; }
+        bind "p" { GoToPreviousTab; }
         bind "1" { GoToTab 1; }
         bind "2" { GoToTab 2; }
         bind "3" { GoToTab 3; }
@@ -130,15 +131,13 @@ keybinds clear-defaults=true {
         bind "8" { GoToTab 8; }
         bind "9" { GoToTab 9; }
 
-        bind "b" { BreakPane; }
-        bind "[" { BreakPaneLeft; }
-        bind "]" { BreakPaneRight; }
+        bind "Shift n" { MoveTab "left"; }
+        bind "Shift p" { MoveTab "right"; }
 
         bind "a" { ToggleActiveSyncTab; }
 
 		bind "esc" { SwitchToMode "normal"; }
-		bind "`" { SwitchToMode "pane"; }
-        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
+        bind "`" { SwitchToMode "renametab"; TabNameInput 0; }
     }
     renametab {
         bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
@@ -279,7 +278,7 @@ default_shell "zsh"
 //   - true (default)
 //   - false
 //
-// mouse_mode false
+mouse_mode true
 
 // Toggle having pane frames around the panes
 // Options:

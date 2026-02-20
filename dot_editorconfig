@@ -8,7 +8,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 tab_width = 4
 
-[*.{md,json,yaml,yml,toml}]
+[*.{md,json,yaml,yml,toml,hurl}]
 indent_style = space
 shift_width = 2
 

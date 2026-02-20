@@ -40,9 +40,6 @@
 	tag = magenta bold
 	stash = brightblack
 
-[alias]
-	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
-
 [pull]
 	rebase = true
 
@@ -64,3 +61,19 @@
 # 	side-by-side = true
 
 # vim: ft=gitconfig
+
+[alias]
+	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	; append = add --verbose --update
+	; amend = commit --verbose --amend --reuse-message=HEAD
+	amend = commit --amend --no-edit
+	; branches = branch --sort=-committerdate
+	branches = "!git branch --sort=-committerdate --all | fzf"
+	; tags = tag --sort=-creatordate
+	tags = "!git tag --sort=-creatordate | fzf"
+	graph = log --graph --decorate --oneline --date=short --topo-order
+	graphs = graph --all
+	sync = fetch --all --prune
+	stat = status --short --branch
+
+
