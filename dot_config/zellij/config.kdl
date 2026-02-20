@@ -4,9 +4,7 @@ keybinds clear-defaults=true {
         bind "Alt s" { NewPane "down"; }
         bind "Alt v" { NewPane "right"; }
         bind "Alt t" { NewPane "stacked"; }
-
-        bind "Alt =" "Alt +" { Resize "Increase"; }
-        bind "Alt -" "Alt _" { Resize "Decrease"; }
+        bind "Alt n" { NewTab; }
 
         bind "Alt h" { MoveFocusOrTab "left"; }
         bind "Alt j" { MoveFocus "down"; }
@@ -15,17 +13,18 @@ keybinds clear-defaults=true {
         bind "Alt ," { MoveTab "left"; }
         bind "Alt ." { MoveTab "right"; }
 
+        bind "Alt =" "Alt +" { Resize "Increase"; }
+        bind "Alt -" "Alt _" { Resize "Decrease"; }
+
         bind "Alt tab" { NextSwapLayout; }
         bind "Alt Shift tab" { PreviousSwapLayout; }
 		bind "Alt z" { ToggleFocusFullscreen; }
         bind "Alt f" { ToggleFloatingPanes; }
-        bind "Alt g" { TogglePaneInGroup; }
-        bind "Alt p" { ToggleGroupMarking; }
 
 		bind "Ctrl g" { SwitchToMode "locked"; }
-		bind "Alt m" {SwitchToMode "pane"; }
-		bind "Alt Shift m" { SwitchToMode "tab"; }
-		bind "Alt o" { SwitchToMode "session"; }
+		bind "Alt `" {SwitchToMode "pane"; }
+		bind "Alt ~" { SwitchToMode "tab"; }
+		bind "Alt :" { SwitchToMode "session"; }
 		bind "Alt [" { SwitchToMode "scroll"; }
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
@@ -33,25 +32,22 @@ keybinds clear-defaults=true {
         bind "Ctrl g" { SwitchToMode "normal"; }
     }
 
-    entersearch {
-        bind "esc" { SwitchToMode "scroll"; }
-        bind "enter" { SwitchToMode "search"; }
-    }
     shared_among "scroll" "search" {
-        bind "h" "left" "b" "Ctrl b" "PageUp" { PageScrollUp; }
-        bind "j" "down" { ScrollDown; }
-        bind "k" "up" { ScrollUp; }
-        bind "l" "right" "f" "Ctrl f" "PageDown" { PageScrollDown; }
-		bind "d" "Ctrl d" { HalfPageScrollDown; }
-		bind "u" "Ctrl u" { HalfPageScrollUp; }
+        bind "j" { ScrollDown; }
+        bind "k" { ScrollUp; }
+        bind "h" "b" "Ctrl b"{ PageScrollUp; }
+        bind "l" "f" "Ctrl f"{ PageScrollDown; }
+		bind "d" "Ctrl d"{ HalfPageScrollDown; }
+		bind "u" "Ctrl u"{ HalfPageScrollUp; }
 		bind "g" { ScrollToTop; }
         bind "G" { ScrollToBottom; }
 
 		bind "esc" { SwitchToMode "normal"; }
         bind "e" { EditScrollback; SwitchToMode "normal"; }
     }
-    scroll {
-        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+    entersearch {
+        bind "esc" { SwitchToMode "scroll"; }
+        bind "enter" { SwitchToMode "search"; }
     }
     search {
         bind "n" { Search "down"; }
@@ -61,6 +57,9 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
         bind "w" { SearchToggleOption "Wrap"; }
     }
+    scroll {
+        bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
+    }
 
     pane {
         bind "x" { CloseFocus; }
@@ -68,38 +67,45 @@ keybinds clear-defaults=true {
         bind "v" { NewPane "right"; }
         bind "t" { NewPane "stacked"; }
 
-        bind "h" "left" { MoveFocus "left"; }
-        bind "j" "down" { MoveFocus "down"; }
-        bind "k" "up" { MoveFocus "up"; }
-        bind "l" "right" { MoveFocus "right"; }
+        bind "h" { MoveFocus "left"; }
+        bind "j" { MoveFocus "down"; }
+        bind "k" { MoveFocus "up"; }
+        bind "l" { MoveFocus "right"; }
 
         bind "z" { ToggleFocusFullscreen; }
         bind "f" { ToggleFloatingPanes; }
         bind "p" { TogglePanePinned; }
         bind "e" { TogglePaneEmbedOrFloating; }
         bind "Shift f" { TogglePaneFrames; }
+        bind "a" { TogglePaneInGroup; }
+        bind "Shift a" { ToggleGroupMarking; }
 
+		bind "esc" { SwitchToMode "normal"; }
+		bind "`" { SwitchToMode "tab"; }
         bind "m" { SwitchToMode "move"; }
         bind "i" { SwitchToMode "resize"; }
-		bind "tab" { SwitchToMode "tab"; }
         bind "r" { SwitchToMode "renamepane"; PaneNameInput 0; }
     }
     resize {
         bind "=" "+" { Resize "Increase"; }
         bind "-" "_" { Resize "Decrease"; }
-        bind "h" "left" { Resize "Increase left"; }
-        bind "j" "down" { Resize "Increase down"; }
-        bind "k" "up" { Resize "Increase up"; }
-        bind "l" "right" { Resize "Increase right"; }
+        bind "h" { Resize "Increase left"; }
+        bind "j" { Resize "Increase down"; }
+        bind "k" { Resize "Increase up"; }
+        bind "l" { Resize "Increase right"; }
+
+		bind "esc" { SwitchToMode "pane"; }
     }
     move {
-        bind "h" "left" { MovePane "left"; }
-        bind "j" "down" { MovePane "down"; }
-        bind "k" "up" { MovePane "up"; }
-        bind "l" "right" { MovePane "right"; }
+        bind "h" { MovePane "left"; }
+        bind "j" { MovePane "down"; }
+        bind "k" { MovePane "up"; }
+        bind "l" { MovePane "right"; }
         bind "n" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "tab" { MovePane; }
+
+		bind "esc" { SwitchToMode "pane"; }
     }
     renamepane {
         bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
@@ -130,7 +136,8 @@ keybinds clear-defaults=true {
 
         bind "a" { ToggleActiveSyncTab; }
 
-		bind "tab" { SwitchToMode "pane"; }
+		bind "esc" { SwitchToMode "normal"; }
+		bind "`" { SwitchToMode "pane"; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
     }
     renametab {
@@ -244,7 +251,7 @@ default_mode "normal"
 // Choose the path to the default shell that zellij will use for opening new panes
 // Default: $SHELL
 //
-// default_shell "fish"
+default_shell "zsh"
 
 // Choose the path to override cwd that zellij will use for opening new panes
 //

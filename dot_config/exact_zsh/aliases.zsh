@@ -1,0 +1,16 @@
+#!zsh
+
+alias PX="HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080"
+alias -g Q="1>/dev/null 2>/dev/null"
+alias -g Q1="1>/dev/null"
+alias -g Q2="2>/dev/null"
+# alias NLH="LEFTHOOK=0"
+alias path="printf '%s\n' \"\${path[@]}\" | nl -ba"
+alias urlencode="python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))'"
+alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
+alias uuid4="python3 -c 'import uuid; print(uuid.uuid4())'"
+alias uuid7="python3 -c 'import uuid; print(uuid.uuid7())'"
+alias hurl="hurl --error-format=long"
+# alias PX="SSH_PROXY=\"ProxyCommand='/usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p'\" HTTP_PROXY=http://127.0.0.1:7890 HTTPS_PROXY=http://127.0.0.1:7890 SOCKS_PROXY=socks5://127.0.0.1:7890 ALL_PROXY=socks5://127.0.0.1:7890"
+# alias ssh="ssh -o '$SSH_PROXY'"
+# alias SHPX="SSH_OPTIONS=\"ProxyCommand /usr/bin/nc -X 5 -x 127.0.0.1:7890 %h %p\""
