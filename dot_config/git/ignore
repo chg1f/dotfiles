@@ -2,6 +2,7 @@
 
 # configuration files
 .env
+.cookie
 .properties
 .agollo
 

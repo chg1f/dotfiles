@@ -1,5 +1,13 @@
 keybinds clear-defaults=true {
 	shared_among "normal" "pane" "tab" {
+        bind "Alt w" { CloseFocus; }
+        bind "Alt q" { CloseTab; }
+
+        bind "Alt s" { NewPane "down"; }
+        bind "Alt v" { NewPane "right"; }
+        bind "Alt c" { NewPane "stacked"; }
+        bind "Alt t" { NewTab; }
+
         bind "Alt h" { MoveFocus "left"; }
         bind "Alt j" { MoveFocus "down"; }
         bind "Alt k" { MoveFocus "up"; }
@@ -16,23 +24,22 @@ keybinds clear-defaults=true {
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
 
-        bind "Alt s" { NewPane "down"; }
-        bind "Alt v" { NewPane "right"; }
-        bind "Alt a" { NewPane "stacked"; }
-        bind "Alt t" { NewTab; }
+        bind "Alt =" "Alt +" { Resize "Increase"; }
+        bind "Alt -" "Alt _" { Resize "Decrease"; }
 
 		bind "Alt f" { ToggleFocusFullscreen; }
         bind "Alt i" { TogglePaneInGroup; }
 
-		bind "Ctrl g" { SwitchToMode "locked"; }
+		bind "Alt space" { SwitchToMode "locked"; }
 		bind "Alt ," {SwitchToMode "pane"; }
 		bind "Alt ." { SwitchToMode "tab"; }
 		bind "Alt :" { SwitchToMode "session"; }
+        // bind "Alt \\" { EditScrollback; SwitchToMode "normal"; }
 		bind "Alt \\" { SwitchToMode "scroll"; }
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
     locked {
-        bind "Ctrl g" { SwitchToMode "normal"; }
+		bind "Alt space" { SwitchToMode "normal"; }
     }
 
     shared_among "scroll" "search" {
@@ -65,8 +72,6 @@ keybinds clear-defaults=true {
     }
 
     pane {
-        bind "x" { CloseFocus; }
-
         bind "h" { MovePane "left"; }
         bind "j" { MovePane "down"; }
         bind "k" { MovePane "up"; }
@@ -74,8 +79,6 @@ keybinds clear-defaults=true {
         bind "n" { BreakPaneRight; }
         bind "p" { BreakPaneLeft; }
 
-        bind "=" "+" { Resize "Increase"; }
-        bind "-" "_" { Resize "Decrease"; }
         bind "Shift h" { Resize "Increase left"; }
         bind "Shift j" { Resize "Increase down"; }
         bind "Shift k" { Resize "Increase up"; }
@@ -98,8 +101,6 @@ keybinds clear-defaults=true {
     }
 
     tab {
-        bind "w" { CloseTab; }
-
         bind "Shift p" { MoveTab "left"; }
         bind "Shift n" { MoveTab "right"; }
 
@@ -114,7 +115,7 @@ keybinds clear-defaults=true {
     }
 
     session {
-        bind "q" { Quit; }
+        bind "x" { Quit; }
         bind "d" { Detach; }
 
         bind "a" {
@@ -151,7 +152,7 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "normal"
         }
-        bind "w" {
+        bind "m" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
                 move_to_focused_tab true
