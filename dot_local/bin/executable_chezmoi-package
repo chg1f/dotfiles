@@ -216,7 +216,6 @@ _confirm() {
 
 	if ((CONFIRM)); then
 		if ! chezmoi diff --no-pager -- "$path" | grep -q .; then
-			# _log "confirm" "$path" "no changes"
 			return 1
 		fi
 		chezmoi diff --no-pager -- "$path" || true
@@ -224,13 +223,11 @@ _confirm() {
 	fi
 	if [[ -n "$path" ]]; then
 		if ! chezmoi diff -- "$path" | grep -q .; then
-			# _log "confirm" "$path" "no changes"
 			return 1
 		fi
 		chezmoi diff -- "$path" || true
 	else
 		if ! chezmoi diff | grep -q .; then
-			# _log "confirm" "chezmoi" "no changes"
 			return 1
 		fi
 		chezmoi diff || true
@@ -361,7 +358,7 @@ apply() {
 
 		if [[ -f "$HOMEBREW_BUNDLE_FILE" ]]; then
 			_log "apply" "brew" "bundle --file $HOMEBREW_BUNDLE_FILE"
-			if ((VERBOSE)); then _run brew bundle --file "$HOMEBREW_BUNDLE_FILE" --verbose; else _run brew bundle --file "$HOMEBREW_BUNDLE_FILE"; fi
+			_run brew bundle --file "$HOMEBREW_BUNDLE_FILE"
 		fi
 	}
 	# mas_apply: upgrade App Store apps via mas.
