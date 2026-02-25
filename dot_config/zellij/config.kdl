@@ -24,6 +24,13 @@ keybinds clear-defaults=true {
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
 
+        bind "Alt Shift h" { MovePane "left"; }
+        bind "Alt Shift j" { MovePane "down"; }
+        bind "Alt Shift k" { MovePane "up"; }
+        bind "Alt Shift l" { MovePane "right"; }
+        bind "Alt Shift p" { MoveTab "left"; }
+        bind "Alt Shift n" { MoveTab "right"; }
+
         bind "Alt =" "Alt +" { Resize "Increase"; }
         bind "Alt -" "Alt _" { Resize "Decrease"; }
 
@@ -31,8 +38,7 @@ keybinds clear-defaults=true {
         bind "Alt i" { TogglePaneInGroup; }
 
 		bind "Alt space" { SwitchToMode "locked"; }
-		bind "Alt ," {SwitchToMode "pane"; }
-		bind "Alt ." { SwitchToMode "tab"; }
+		bind "Alt ;" {SwitchToMode "pane"; }
 		bind "Alt :" { SwitchToMode "session"; }
         // bind "Alt \\" { EditScrollback; SwitchToMode "normal"; }
 		bind "Alt \\" { SwitchToMode "scroll"; }
@@ -72,42 +78,24 @@ keybinds clear-defaults=true {
     }
 
     pane {
-        bind "h" { MovePane "left"; }
-        bind "j" { MovePane "down"; }
-        bind "k" { MovePane "up"; }
-        bind "l" { MovePane "right"; }
-        bind "n" { BreakPaneRight; }
-        bind "p" { BreakPaneLeft; }
-
         bind "Shift h" { Resize "Increase left"; }
         bind "Shift j" { Resize "Increase down"; }
         bind "Shift k" { Resize "Increase up"; }
         bind "Shift l" { Resize "Increase right"; }
 
-
         bind "tab" { NextSwapLayout; }
         bind "Shift tab" { PreviousSwapLayout; }
-        bind "f" { ToggleFocusFullscreen; }
-        bind "e" { TogglePaneEmbedOrFloating; }
-        bind "p" { TogglePanePinned; }
-        bind "i" { TogglePaneInGroup; }
+        bind "Shift e" { TogglePaneEmbedOrFloating; }
+        bind "Shift p" { TogglePanePinned; }
+        bind "Shift a" { ToggleActiveSyncTab; }
 
 		bind "esc" { SwitchToMode "normal"; }
-        bind "`" { SwitchToMode "renamepane"; PaneNameInput 0; }
+        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
+        bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
     }
     renamepane {
         bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
 		bind "enter" { SwitchToMode "pane"; }
-    }
-
-    tab {
-        bind "Shift p" { MoveTab "left"; }
-        bind "Shift n" { MoveTab "right"; }
-
-        bind "a" { ToggleActiveSyncTab; }
-
-		bind "esc" { SwitchToMode "normal"; }
-        bind "`" { SwitchToMode "renametab"; TabNameInput 0; }
     }
     renametab {
         bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
