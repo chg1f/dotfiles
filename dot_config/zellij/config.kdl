@@ -37,15 +37,15 @@ keybinds clear-defaults=true {
 		bind "Alt f" { ToggleFocusFullscreen; }
         bind "Alt i" { TogglePaneInGroup; }
 
-		bind "Alt space" { SwitchToMode "locked"; }
+		bind "Alt Shift g" { SwitchToMode "locked"; }
 		bind "Alt ;" {SwitchToMode "pane"; }
 		bind "Alt :" { SwitchToMode "session"; }
-        // bind "Alt \\" { EditScrollback; SwitchToMode "normal"; }
+        bind "Alt |" { EditScrollback; SwitchToMode "normal"; }
 		bind "Alt \\" { SwitchToMode "scroll"; }
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
     locked {
-		bind "Alt space" { SwitchToMode "normal"; }
+		bind "Alt Shift g" { SwitchToMode "normal"; }
     }
 
     shared_among "scroll" "search" {
@@ -103,8 +103,8 @@ keybinds clear-defaults=true {
     }
 
     session {
-        bind "x" { Quit; }
-        bind "d" { Detach; }
+        bind "Shift x" { Quit; }
+        bind "Shift d" { Detach; }
 
         bind "a" {
             LaunchOrFocusPlugin "zellij:about" {
@@ -133,14 +133,14 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "normal"
         }
-        bind "s" {
+        bind "w" {
             LaunchOrFocusPlugin "zellij:share" {
                 floating true
                 move_to_focused_tab true
             }
             SwitchToMode "normal"
         }
-        bind "m" {
+        bind "s" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
                 move_to_focused_tab true
@@ -185,12 +185,12 @@ web_client {
 //   - true
 //   - false (Default)
 //
-// simplified_ui true
+simplified_ui true
 
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-// theme "tokyo-night-storm"
+theme "tokyo-night"
 
 // Choose the base input mode of zellij.
 // Default: normal
@@ -304,7 +304,7 @@ copy_on_select true
 // if it is already running or creates it otherwise.
 // Default: false
 //
-// attach_to_session true
+attach_to_session true
 
 // Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 // Options:
@@ -416,7 +416,7 @@ show_startup_tips false
 // Whether to show release notes on first version run
 // Default: true
 //
-// show_release_notes false
+show_release_notes false
 
 // Whether to enable mouse hover effects and pane grouping functionality
 // default is true

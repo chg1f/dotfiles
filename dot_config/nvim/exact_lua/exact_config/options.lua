@@ -20,6 +20,7 @@ vim.opt.listchars = {
 	precedes = "«",
 }
 
+vim.opt.wrap = true
 vim.opt.relativenumber = false
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
