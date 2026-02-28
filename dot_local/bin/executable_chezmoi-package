@@ -344,7 +344,8 @@ apply() {
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
 			if _confirm "Apply $file changes?" "$file"; then
-				_run chezmoi apply -- "$file"
+				mkdir -p "$(dirname "$file")"
+				_run chezmoi apply --force -- "$file"
 			fi
 		done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
 	}
