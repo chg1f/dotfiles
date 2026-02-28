@@ -46,6 +46,8 @@ export FZF_CTRL_R_OPTS="--reverse"
 
 export GOPATH="$XDG_DATA_HOME/go"
 
+export CODEX_HOME="$XDG_CONFIG_HOME/codex"
+
 # Homebrew shellenv is expensive; avoid unless you really need it.
 # If you must, do it here (login only), and only if brew exists.
 # if command -v brew >/dev/null 2>&1; then
