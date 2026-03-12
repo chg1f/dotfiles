@@ -475,7 +475,7 @@ commit() {
 		local file=""
 		while IFS= read -r -d '' file; do
 			[[ -n "$file" ]] || continue
-			_confirm "Add $file changes?" "$file" && _run chezmoi add --force "$file" || true
+			_confirm "Add $file changes?" "$file" && _run chezmoi add --no-pager --force "$file" || true
 		done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
 	}
 
