@@ -60,11 +60,19 @@ if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliases.zsh" ]]; then
 	source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 fi
 
-if command -v zellij >/dev/null 2>&1; then
+if command -v zellij 2>&1 >/dev/null; then
 	export ZELLIJ_AUTO_ATTACH=true
 	export ZELLIJ_AUTO_EXIT=false
 	eval "$(zellij setup --generate-auto-start zsh)"
 fi
+
+if command -v zoxide 2>&1 >/dev/null; then
+	eval "$(zoxide init zsh)"
+fi
+
+# if command -v starship 2>&1 >/dev/null; then
+# 	eval "$(starship init zsh)"
+# fi
 
 # vim: set ft=zsh
 

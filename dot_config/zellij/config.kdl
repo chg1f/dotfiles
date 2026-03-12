@@ -94,12 +94,12 @@ keybinds clear-defaults=true {
         bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
     }
     renamepane {
-        bind "esc" { UndoRenamePane; SwitchToMode "pane"; }
-		bind "enter" { SwitchToMode "pane"; }
+        bind "esc" { UndoRenamePane; SwitchToMode "normal"; }
+		bind "enter" { SwitchToMode "normal"; }
     }
     renametab {
-        bind "esc" { UndoRenameTab; SwitchToMode "tab"; }
-		bind "enter" { SwitchToMode "tab"; }
+        bind "esc" { UndoRenameTab; SwitchToMode "normal"; }
+		bind "enter" { SwitchToMode "normal"; }
     }
 
     session {

@@ -29,7 +29,7 @@ zmodule 'zsh-users/zsh-autosuggestions'
 
 zmodule 'joke/zim-chezmoi' --if-command chezmoi
 zmodule 'joke/zim-starship' --if-command starship
-zmodule 'kiesman99/zim-zoxide' --if-command zoxide
+# zmodule 'kiesman99/zim-zoxide' --if-command zoxide
 zmodule 'joke/zim-mise' --if-command mise
 
 # vim: set ft=zsh
