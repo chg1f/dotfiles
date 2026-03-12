@@ -8,7 +8,7 @@ zmodule 'exa'
 zmodule 'git'
 zstyle ':zim:git' aliases-prefix 'g'
 # zmodule ssh
-zmodule 'fzf'
+# zmodule 'fzf'
 # zmodule 'tmux'
 
 zmodule 'zsh-users/zsh-completions' --fpath src
