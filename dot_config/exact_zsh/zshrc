@@ -53,13 +53,6 @@ fi
 # zstyle ':completion:*' squeeze-slashes true
 # zstyle ':completion:*' verbose false
 
-if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/bindings.zsh" ]]; then
-	source "$XDG_CONFIG_HOME/zsh/bindings.zsh"
-fi
-if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliases.zsh" ]]; then
-	source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
-fi
-
 if command -v zellij 2>&1 >/dev/null; then
 	export ZELLIJ_AUTO_ATTACH=true
 	export ZELLIJ_AUTO_EXIT=false
@@ -138,9 +131,7 @@ if command -v fzf 2>&1 >/dev/null; then
 	bindkey -M vicmd '^E' fzf-grep-widget
 
 	# Remove default Alt-C binding.
-	bindkey -M emacs -r '\ec'
-	bindkey -M vicmd -r '\ec'
-	bindkey -M viins -r '\ec'
+	bindkey -r '^[c'
 	# Rebind directory jump to Ctrl-G.
 	bindkey -M emacs '^G' fzf-cd-widget
 	bindkey -M vicmd '^G' fzf-cd-widget
@@ -150,6 +141,46 @@ fi
 # if command -v starship 2>&1 >/dev/null; then
 # 	eval "$(starship init zsh)"
 # fi
+#
+
+
+# if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliases.zsh" ]]; then
+# 	source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
+# fi
+alias PX="HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080"
+# alias -g Q="1>/dev/null 2>/dev/null"
+# alias -g Q1="1>/dev/null"
+# alias -g Q2="2>/dev/null"
+alias hurl="hurl --error-format=long"
+alias uuid4="python3 -c 'import uuid; print(uuid.uuid4())'"
+alias uuid7="python3 -c 'import uuid; print(uuid.uuid7())'"
+alias urlencode="python3 -c 'import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))'"
+alias urldecode="python3 -c 'import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))'"
+
+# if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/bindings.zsh" ]]; then
+# 	source "$XDG_CONFIG_HOME/zsh/bindings.zsh"
+# fi
+# Vi mode
+bindkey -v
+
+# # Optional terminfo support
+zmodload -F zsh/terminfo +p:terminfo
+
+# History search in vicmd
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+# Edit command line in $EDITOR from vicmd
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd 'V' edit-command-line
+
+# Keep Ctrl-L for screen clear
+bindkey '^L' clear-screen
+
+# Autosuggestions
+bindkey '^Y' autosuggest-accept
+bindkey '^G' autosuggest-clear
 
 # vim: set ft=zsh
 
