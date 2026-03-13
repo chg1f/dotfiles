@@ -214,24 +214,19 @@ _confirm() {
 	local message="${1:-Continue?}"
 	local path="${2:-}"
 
+	if [[ ! -r "$path" ]]; then
+		_log "$path" "confirm" "unreadable"
+		return 3
+	fi
+	if ! chezmoi diff --no-pager -- "$path" | grep -q .; then
+		_log "$path" "confirm" "unchanged"
+		return 2
+	fi
 	if ((CONFIRM)); then
-		if ! chezmoi diff --no-pager -- "$path" | grep -q .; then
-			return 1
-		fi
-		chezmoi diff --no-pager -- "$path" || true
 		return 0
 	fi
-	if [[ -n "$path" ]]; then
-		if ! chezmoi diff -- "$path" | grep -q .; then
-			return 1
-		fi
-		chezmoi diff -- "$path" || true
-	else
-		if ! chezmoi diff | grep -q .; then
-			return 1
-		fi
-		chezmoi diff || true
-	fi
+
+	chezmoi diff -- "$path" || true
 	local reply=""
 	while true; do
 		printf "%s [ynq]: " "$message" >/dev/tty
