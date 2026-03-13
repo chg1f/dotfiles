@@ -37,7 +37,9 @@ keybinds clear-defaults=true {
 		bind "Alt f" { ToggleFocusFullscreen; }
         bind "Alt i" { TogglePaneInGroup; }
 
-		bind "Alt Shift g" { SwitchToMode "locked"; }
+		bind "Alt g" { SwitchToMode "locked"; }
+        bind "Alt r" { SwitchToMode "renametab"; TabNameInput 0; }
+        // bind "Alt Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
 		bind "Alt ;" {SwitchToMode "pane"; }
 		bind "Alt :" { SwitchToMode "session"; }
         bind "Alt |" { EditScrollback; SwitchToMode "normal"; }
@@ -45,7 +47,7 @@ keybinds clear-defaults=true {
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
     locked {
-		bind "Alt Shift g" { SwitchToMode "normal"; }
+		bind "Alt g" { SwitchToMode "normal"; }
     }
 
     shared_among "scroll" "search" {
@@ -77,22 +79,14 @@ keybinds clear-defaults=true {
         bind "/" { SwitchToMode "entersearch"; SearchInput 0; }
     }
 
-    pane {
+	resize {
         bind "Shift h" { Resize "Increase left"; }
         bind "Shift j" { Resize "Increase down"; }
         bind "Shift k" { Resize "Increase up"; }
         bind "Shift l" { Resize "Increase right"; }
 
-        bind "tab" { NextSwapLayout; }
-        bind "Shift tab" { PreviousSwapLayout; }
-        bind "Shift e" { TogglePaneEmbedOrFloating; }
-        bind "Shift p" { TogglePanePinned; }
-        bind "Shift a" { ToggleActiveSyncTab; }
-
 		bind "esc" { SwitchToMode "normal"; }
-        bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
-        bind "Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
-    }
+	}
     renamepane {
         bind "esc" { UndoRenamePane; SwitchToMode "normal"; }
 		bind "enter" { SwitchToMode "normal"; }
@@ -101,18 +95,28 @@ keybinds clear-defaults=true {
         bind "esc" { UndoRenameTab; SwitchToMode "normal"; }
 		bind "enter" { SwitchToMode "normal"; }
     }
+    pane {
+        bind "tab" { NextSwapLayout; }
+        bind "Shift tab" { PreviousSwapLayout; }
+        bind "Shift e" { TogglePaneEmbedOrFloating; }
+        bind "Shift p" { TogglePanePinned; }
+        bind "Shift a" { ToggleActiveSyncTab; }
 
+		bind "esc" { SwitchToMode "normal"; }
+    }
+	tab {
+	}
     session {
         bind "Shift x" { Quit; }
-        bind "Shift d" { Detach; }
+        bind "d" { Detach; }
 
-        bind "a" {
-            LaunchOrFocusPlugin "zellij:about" {
-                floating true
-                move_to_focused_tab true
-            }
-            SwitchToMode "normal"
-        }
+        // bind "a" {
+        //     LaunchOrFocusPlugin "zellij:about" {
+        //         floating true
+        //         move_to_focused_tab true
+        //     }
+        //     SwitchToMode "normal"
+        // }
         bind "l" {
             LaunchOrFocusPlugin "zellij:layout-manager" {
                 floating true
@@ -127,19 +131,19 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "normal"
         }
-        bind "q" {
-            LaunchPlugin "zellij:sequence" {
-                floating true
-            }
-            SwitchToMode "normal"
-        }
-        bind "w" {
-            LaunchOrFocusPlugin "zellij:share" {
-                floating true
-                move_to_focused_tab true
-            }
-            SwitchToMode "normal"
-        }
+        // bind "q" {
+        //     LaunchPlugin "zellij:sequence" {
+        //         floating true
+        //     }
+        //     SwitchToMode "normal"
+        // }
+        // bind "w" {
+        //     LaunchOrFocusPlugin "zellij:share" {
+        //         floating true
+        //         move_to_focused_tab true
+        //     }
+        //     SwitchToMode "normal"
+        // }
         bind "s" {
             LaunchOrFocusPlugin "session-manager" {
                 floating true
@@ -155,20 +159,20 @@ keybinds clear-defaults=true {
 // Plugin aliases - can be used to change the implementation of Zellij
 // changing these requires a restart to take effect
 plugins {
-    about location="zellij:about"
+    // about location="zellij:about"
     compact-bar location="zellij:compact-bar"
-    filepicker location="zellij:strider" {
-        cwd "/"
-    }
-    plugin-manager location="zellij:plugin-manager"
-    sequence location="zellij:sequence"
+    // filepicker location="zellij:strider" {
+    //     cwd "/"
+    // }
+    // plugin-manager location="zellij:plugin-manager"
+    // sequence location="zellij:sequence"
     session-manager location="zellij:session-manager"
-    status-bar location="zellij:status-bar"
-    strider location="zellij:strider"
-    tab-bar location="zellij:tab-bar"
-    welcome-screen location="zellij:session-manager" {
-        welcome_screen true
-    }
+    // status-bar location="zellij:status-bar"
+    // strider location="zellij:strider"
+    // tab-bar location="zellij:tab-bar"
+    // welcome-screen location="zellij:session-manager" {
+    //     welcome_screen true
+    // }
 }
 
 // Plugins to load in the background when a new session starts
@@ -176,9 +180,9 @@ plugins {
 // eg. "https://example.com/my-plugin.wasm"
 load_plugins {
 }
-web_client {
-    font "monospace"
-}
+// web_client {
+//     font "monospace"
+// }
 
 // Use a simplified UI without special fonts (arrow glyphs)
 // Options:
@@ -209,7 +213,7 @@ default_shell "zsh"
 // The name of the default layout to load on startup
 // Default: "default"
 //
-// default_layout "compact"
+default_layout "compact"
 
 // The folder in which Zellij will look for layouts
 // (Requires restart)
@@ -235,7 +239,7 @@ mouse_mode true
 //   - true (default, enabled)
 //   - false
 //
-// pane_frames false
+pane_frames false
 
 // When attaching to an existing session with other users,
 // should the session be mirrored (true)
@@ -273,7 +277,7 @@ scroll_buffer_size 50000
 // copy_command "wl-copy"                    // wayland
 // copy_command "pbcopy"                     // osx
 //
-// copy_command "pbcopy"
+copy_command "pbcopy"
 
 // Choose the destination for copied text
 // Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.

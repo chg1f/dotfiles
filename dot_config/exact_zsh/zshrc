@@ -179,8 +179,8 @@ bindkey -M vicmd 'V' edit-command-line
 bindkey '^L' clear-screen
 
 # Autosuggestions
-bindkey '^Y' autosuggest-accept
-bindkey '^G' autosuggest-clear
+bindkey '^L' autosuggest-accept
+# bindkey '^H' autosuggest-clear
 
 # vim: set ft=zsh
 
