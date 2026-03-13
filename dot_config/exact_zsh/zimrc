@@ -6,7 +6,7 @@ zmodule 'input'
 
 zmodule 'exa'
 zmodule 'git'
-zstyle ':zim:git' aliases-prefix 'g'
+zstyle ':zim:git' aliases-prefix 'G'
 # zmodule ssh
 # zmodule 'fzf'
 # zmodule 'tmux'
