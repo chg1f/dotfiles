@@ -37,7 +37,7 @@ keybinds clear-defaults=true {
 		bind "Alt f" { ToggleFocusFullscreen; }
         bind "Alt i" { TogglePaneInGroup; }
 
-		bind "Alt g" { SwitchToMode "locked"; }
+		bind "Alt `" { SwitchToMode "locked"; }
         bind "Alt r" { SwitchToMode "renametab"; TabNameInput 0; }
         // bind "Alt Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
 		bind "Alt ;" {SwitchToMode "pane"; }
@@ -47,7 +47,7 @@ keybinds clear-defaults=true {
 		bind "Alt /" { SwitchToMode "entersearch"; SearchInput 0; }
 	}
     locked {
-		bind "Alt g" { SwitchToMode "normal"; }
+		bind "Alt `" { SwitchToMode "normal"; }
     }
 
     shared_among "scroll" "search" {
