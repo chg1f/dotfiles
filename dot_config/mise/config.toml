@@ -79,4 +79,5 @@ xh = "latest"
 k6 = "latest"
 bun = "latest"
 fx = "latest"
+"npm:@larksuite/cli" = "latest"
 
