@@ -40,7 +40,7 @@ keybinds clear-defaults=true {
 		bind "Alt `" { SwitchToMode "locked"; }
         bind "Alt r" { SwitchToMode "renametab"; TabNameInput 0; }
         // bind "Alt Shift r" { SwitchToMode "renamepane"; PaneNameInput 0; }
-		bind "Alt ;" {SwitchToMode "pane"; }
+		bind "Alt '" {SwitchToMode "pane"; }
 		bind "Alt :" { SwitchToMode "session"; }
         bind "Alt |" { EditScrollback; SwitchToMode "normal"; }
 		bind "Alt \\" { SwitchToMode "scroll"; }
