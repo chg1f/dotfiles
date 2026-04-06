@@ -211,6 +211,7 @@ local M = {
 			-- log_level = vim.log.levels.DEBUG,
 			formatters_by_ft = {
 				lua = { "stylua" },
+				zsh = { "shfmt" },
 				sh = { "shfmt" },
 				sql = { "sqlfluff" },
 			},
