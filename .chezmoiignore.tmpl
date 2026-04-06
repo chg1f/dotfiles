@@ -1,10 +1,8 @@
-{{- if (has "--one-shot" .chezmoi.args) }}
-*
-!.inputrc
-{{- end }}
+*.local
+!.local
+!.local/bin/*
+!.local/share/
+!.local/share/zsh/
+!.local/share/zsh/.zshrc
+!.local/share/zsh/.zprofile
 README.md
-e.local
-.dmrc
-.xinitrc
-.config/i3*
-.config/yay

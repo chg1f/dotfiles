@@ -122,6 +122,10 @@ if command -v zellij 2>&1 >/dev/null; then
 	eval "$(zellij setup --generate-auto-start zsh)"
 fi
 
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh)"
 fi

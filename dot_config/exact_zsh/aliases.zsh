@@ -18,7 +18,7 @@ if command -v python3 &>/dev/null; then
   alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))"'
 fi
 if command -v eza &>/dev/null; then
-  EZA_PARAMS=('--git' '--group' '--group-directories-first' '--time-style=+%y-%m-%d %H:%M:%S %a' '--color-scale=all')
+  EZA_PARAMS=('--git' '--group' '--group-directories-first' '--time-style=+%y-%m-%d %H:%M:%S %a' '--color-scale=all' '--color=always')
   alias ls='eza $EZA_PARAMS'
   alias l='eza $EZA_PARAMS --git-ignore'
   alias ll='eza $EZA_PARAMS --all --header --long'
