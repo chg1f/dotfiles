@@ -12,6 +12,7 @@ alias path='print -l ${(s/:/)PATH} | nl'
 # fi
 
 # alias ssh-add='ssh-add --apple-use-keychain --apple-load-keychain'
+alias tree='tree -C'
 
 if command -v python3 &>/dev/null; then
   alias uuid7='python3 -c "import uuid; print(uuid.uuid7())"'
@@ -30,8 +31,8 @@ if command -v eza &>/dev/null; then
   alias lt='eza $EZA_PARAMS --tree'
 fi
 if command -v chezmoi 2>&1 >/dev/null; then
-  alias cz='chezmoi'
-  alias cz-manages='chezmoi managed --tree --path-style=source-relative --color=auto --no-pager'
+  alias cz='chezmoi --color=on'
+  # alias cz-manages='chezmoi managed --tree --path-style=source-relative --no-pager'
   # cz() {
   #   case "$1" in
   #   # t)  shift; command chezmoi managed --tree "$@" ;;
