@@ -11,6 +11,8 @@ alias path='print -l ${(s/:/)PATH} | nl'
 #   alias hurl="hurl --error-format=long"
 # fi
 
+# alias ssh-add='ssh-add --apple-use-keychain --apple-load-keychain'
+
 if command -v python3 &>/dev/null; then
   alias uuid7='python3 -c "import uuid; print(uuid.uuid7())"'
   alias uuid4='python3 -c "import uuid; print(uuid.uuid4())"'
