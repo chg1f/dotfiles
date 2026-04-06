@@ -12,11 +12,22 @@
 
 shell = "zsh"
 
+[templates]
+defer = """
+{{ hooks | get: "pre" | nl }}{% for file in files %}zsh-defer source "{{ file }}"
+{% endfor %}{{ hooks | get: "post" | nl }}"""
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+
 [plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
+use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
+apply = ["defer"]
 
 [plugins.zsh-history-substring-search]
 github = "zsh-users/zsh-history-substring-search"
