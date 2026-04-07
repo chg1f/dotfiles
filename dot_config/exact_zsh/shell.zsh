@@ -90,16 +90,6 @@ if command -v fzf 2>&1 >/dev/null; then
 		return $ret
 	}
 	zle -N fzf-grep-widget
-	bindkey -M emacs '^E' fzf-grep-widget
-	bindkey -M viins '^E' fzf-grep-widget
-	bindkey -M vicmd '^E' fzf-grep-widget
-
-	# Remove default Alt-C binding.
-	bindkey -r '^[c'
-	# Rebind directory jump to Ctrl-G.
-	bindkey -M emacs '^G' fzf-cd-widget
-	bindkey -M vicmd '^G' fzf-cd-widget
-	bindkey -M viins '^G' fzf-cd-widget
 fi
 
 if command -v sheldon >/dev/null 2>&1; then
