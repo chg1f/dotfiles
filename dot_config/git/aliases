@@ -1,0 +1,21 @@
+[alias]
+	graph = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
+	whoami = "!f() { printf \"%s <%s>\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	amend = commit --amend --no-edit
+	graphs = graph --all
+	lg = graph
+	sync = fetch --all --prune
+	stat = status --short --branch
+	st = status --short --branch
+	last = log -1 --stat
+	co = checkout
+	br = branch
+	ci = commit
+	fixup = commit --fixup
+	ri = rebase -i
+	fp = push --force-with-lease
+	unstage = restore --staged --
+	branches = "!git branch --sort=-committerdate --all | fzf"
+	tags = "!git tag --sort=-creatordate | fzf"
+
+# vim: ft=gitconfig
