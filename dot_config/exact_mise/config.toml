@@ -14,12 +14,12 @@ node = "lts"
 rust = "latest"
 
 # go (toolchain)
+golangci-lint = "latest"
 "go:golang.org/x/tools/gopls" = "latest"
-"go:golang.org/x/tools/cmd/goimports" = "latest"
-"go:mvdan.cc/gofumpt" = "latest"
-"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
-"go:github.com/golangci/golangci-lint/cmd/golangci-lint" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
+"go:mvdan.cc/gofumpt" = "latest"
 "github:go-swagger/go-swagger" = "latest"
 
 # python3 (tooling)
@@ -48,10 +48,10 @@ shellcheck = "latest"
 
 # protobuf
 protobuf = "latest"
-"go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
+protoc-gen-go = "latest"
 
 # template
-"go:github.com/hairyhenderson/gomplate/v3/cmd/gomplate" = "latest"
+gomplate = "latest"
 
 # format (json/yaml/toml/query)
 "github:jqlang/jq" = "latest"
