@@ -27,12 +27,6 @@ bootstrap:
 
     eval "$("{{homebrew_prefix}}/bin/brew" shellenv)"
   fi
-
-  if ! command -v brew >/dev/null 2>&1; then
-    echo "[bootstrap] brew: installed but not on PATH" >&2
-    exit 1
-  fi
-
   if ! command -v chezmoi >/dev/null 2>&1; then
     echo "[bootstrap] chezmoi: installing" >&2
     brew install chezmoi
@@ -43,17 +37,17 @@ alias f := fetch
 fetch:
   #!/usr/bin/env bash
   if command -v chezmoi >/dev/null 2>&1; then
-    echo "[update] chezmoi: git fetch --all --prune" >&2
+    echo "[fetch] chezmoi: git fetch --all --prune" >&2
     chezmoi git -- fetch --all --prune
   fi
 
   if command -v brew >/dev/null 2>&1; then
-    echo "[update] brew: update" >&2
+    echo "[fetch] brew: update" >&2
     brew update
   fi
 
   if command -v mise >/dev/null 2>&1; then
-    echo "[update] mise: plugins update" >&2
+    echo "[fetch] mise: plugins update" >&2
     mise plugins update || true
   fi
 
@@ -77,11 +71,6 @@ apply:
       echo "[apply] brew: bundle --file {{homebrew_bundle_file}}" >&2
       brew bundle --file "{{homebrew_bundle_file}}"
     fi
-  fi
-
-  if command -v mas >/dev/null 2>&1; then
-    echo "[apply] mas: upgrade" >&2
-    mas upgrade || true
   fi
 
   if command -v mise >/dev/null 2>&1; then
