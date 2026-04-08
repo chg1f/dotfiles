@@ -1,21 +1,46 @@
 [alias]
+
+	s = status --short --branch
+
+	a = add --verbose
+	au = add --verbose --update
+	aa = add --verbose --all
+
+	c = commit
+	ca = commit --amend --edit
+	cA = commit --amend --reuse-message HEAD
+
+	p = push
+	pF = push --force-with-lease
+	pA = push --force --all
+
+	P = pull
+
+	d = diff
+
+	t = stash
+
+	o = checkout
+
+	b = branch --sort=-committerdate
+	ba = branch --sort=-committerdate --all
+
+	t = tag --sort=-creatordate
+	ta = tag  --sort=-creatordate --all
+
+	f = fetch
+	fp = fetch --all --prune
+
+	r = rebase -i
+	rR = rebase -i --root
+	ra = rebase --abort
+	rc = rebase --continue
+
+	l = log
+	l1 = log -1
+	ln = log --name-status
+	lg = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
+
 	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
-
-	last = log -1
-	sync = fetch --all --prune
-	amend = commit --amend --no-edit
-	graph = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
-
-	st = status --short --branch
-	co = checkout
-	br = branch
-	ci = commit
-	ri = rebase -i
-	fp = push --force-with-lease
-	fixup = commit --fixup
-	unstage = restore --staged --
-
-	tags = "!git tag --sort=-creatordate | fzf"
-	branches = "!git branch --sort=-committerdate --all | fzf"
 
 # vim: ft=gitconfig
