@@ -8,6 +8,10 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 tab_width = 4
 
+[justfile]
+indent_style = space
+shift_width = 2
+
 [*.{md,json,yaml,yml,toml,hurl}]
 indent_style = space
 shift_width = 2

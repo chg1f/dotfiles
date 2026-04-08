@@ -1,36 +1,46 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
-# default: List available recipes.
+home := env_var_or_default("HOME", home_directory())
+xdg_config_home := env_var_or_default("XDG_CONFIG_HOME", home + "/.config")
+xdg_data_home := env_var_or_default("XDG_DATA_HOME", home + "/.local/share")
+homebrew_prefix := env_var_or_default("HOMEBREW_PREFIX", "/opt/homebrew")
+homebrew_bundle_file := env_var_or_default("HOMEBREW_BUNDLE_FILE", xdg_config_home + "/Brewfile")
+tmux_plugin_manager_path := env_var_or_default("TMUX_PLUGIN_MANAGER_PATH", xdg_data_home + "/tmux/plugins")
+just_commit_message := env_var_or_default("JUST_COMMIT_MESSAGE", "from " + sha256(env_var_or_default("USER", "") + "@" + `hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown`))
+
+# List available recipes.
 default:
   @just --list
 
 
-# bootstrap: Install Homebrew and the minimum required bootstrap dependencies.
+# Install Homebrew and the minimum required bootstrap dependencies.
 bootstrap:
   #!/usr/bin/env bash
   if ! command -v brew >/dev/null 2>&1; then
     echo "[bootstrap] brew: installing" >&2
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-    if [[ -x /opt/homebrew/bin/brew ]]; then
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-    elif [[ -x /usr/local/bin/brew ]]; then
-      eval "$(/usr/local/bin/brew shellenv)"
+    if [[ ! -x "{{homebrew_prefix}}/bin/brew" ]]; then
+      echo "[bootstrap] brew: missing at {{homebrew_prefix}}/bin/brew" >&2
+      exit 1
     fi
+
+    eval "$("{{homebrew_prefix}}/bin/brew" shellenv)"
   fi
 
-  command -v brew >/dev/null 2>&1 || {
+  if ! command -v brew >/dev/null 2>&1; then
     echo "[bootstrap] brew: installed but not on PATH" >&2
     exit 1
-  }
+  fi
 
   if ! command -v chezmoi >/dev/null 2>&1; then
     echo "[bootstrap] chezmoi: installing" >&2
     brew install chezmoi
   fi
 
-# update: Pull updates for components without changing the current environment.
-update:
+alias f := fetch
+# Pull updates for components without changing the current environment.
+fetch:
   #!/usr/bin/env bash
   if command -v chezmoi >/dev/null 2>&1; then
     echo "[update] chezmoi: git fetch --all --prune" >&2
@@ -47,157 +57,112 @@ update:
     mise plugins update || true
   fi
 
-# apply: Apply pulled updates to the current environment without deleting dependencies.
+alias a := apply
+# Apply pulled updates to the current environment without deleting dependencies.
 apply:
   #!/usr/bin/env bash
-  branch="${BRANCH:-main}"
-  excludes=",${EXCLUDES:-},"
-  bundle_file="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
-  tpm_root="${TMUX_PLUGIN_MANAGER_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins}"
-
-  if command -v chezmoi >/dev/null 2>&1 && [[ "$excludes" != *",chezmoi,"* ]]; then
-    current="$(chezmoi git -- rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
-    if [[ "$current" != "$branch" ]]; then
-      echo "[apply] chezmoi: git checkout $branch" >&2
-      chezmoi git -- checkout "$branch" || true
+  if command -v chezmoi >/dev/null 2>&1; then
+    if chezmoi apply --no-pager --dry-run >/dev/null; then
+      echo "[apply] chezmoi: apply changes" >&2
+      chezmoi apply --interactive
     fi
-
-    file=""
-    while IFS= read -r -d '' file; do
-      [[ -n "$file" ]] || continue
-      [[ -r "$file" ]] || continue
-      chezmoi diff --no-pager -- "$file" | grep -q . || continue
-      mkdir -p "$(dirname "$file")"
-      echo "[apply] chezmoi: $file" >&2
-      chezmoi apply --force -- "$file"
-    done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
   fi
 
-  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
+  if command -v brew >/dev/null 2>&1; then
     echo "[apply] brew: upgrade" >&2
     brew upgrade || true
     echo "[apply] brew: upgrade --cask" >&2
     brew upgrade --cask || true
-    if [[ -f "$bundle_file" ]]; then
-      echo "[apply] brew: bundle --file $bundle_file" >&2
-      brew bundle --file "$bundle_file"
+    if [[ -f "{{homebrew_bundle_file}}" ]]; then
+      echo "[apply] brew: bundle --file {{homebrew_bundle_file}}" >&2
+      brew bundle --file "{{homebrew_bundle_file}}"
     fi
   fi
 
-  if command -v mas >/dev/null 2>&1 && [[ "$excludes" != *",mas,"* ]]; then
+  if command -v mas >/dev/null 2>&1; then
     echo "[apply] mas: upgrade" >&2
     mas upgrade || true
   fi
 
-  if command -v mise >/dev/null 2>&1 && [[ "$excludes" != *",mise,"* ]]; then
+  if command -v mise >/dev/null 2>&1; then
     echo "[apply] mise: install" >&2
     mise install
     echo "[apply] mise: upgrade" >&2
     mise upgrade
   fi
 
-  if command -v sheldon >/dev/null 2>&1 && [[ "$excludes" != *",sheldon,"* ]]; then
+  if command -v sheldon >/dev/null 2>&1; then
     echo "[apply] sheldon: lock --update" >&2
     sheldon lock --update
   fi
 
-  if [[ "$excludes" != *",tpm,"* ]]; then
-    install_plugins="$tpm_root/bin/install_plugins"
-    update_plugins="$tpm_root/bin/update_plugins"
-
-    if [[ -x "$install_plugins" ]]; then
-      echo "[apply] tpm: install plugins" >&2
-      "$install_plugins" || true
-    fi
-
-    if [[ -x "$update_plugins" ]]; then
-      echo "[apply] tpm: update plugins" >&2
-      "$update_plugins" all || true
-    fi
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/install_plugins" ]]; then
+    echo "[apply] tpm: install plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/install_plugins" || true
   fi
 
-  if command -v nvim >/dev/null 2>&1 && [[ "$excludes" != *",nvim,"* ]]; then
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/update_plugins" ]]; then
+    echo "[apply] tpm: update plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/update_plugins" all || true
+  fi
+
+  if command -v nvim >/dev/null 2>&1; then
     echo '[apply] nvim: headless "+Lazy! sync" "+qa"' >&2
     nvim --headless "+Lazy! sync" "+qa"
   fi
 
-# prune: Remove unused dependencies from the current environment after updates are pulled.
+alias x := prune
+# Remove unused dependencies from the current environment after updates are pulled.
 prune:
   #!/usr/bin/env bash
-  excludes=",${EXCLUDES:-},"
-  tpm_root="${TMUX_PLUGIN_MANAGER_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins}"
-
-  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
+  if command -v brew >/dev/null 2>&1; then
     echo "[prune] brew: autoremove" >&2
     brew autoremove
     echo "[prune] brew: cleanup" >&2
     brew cleanup
   fi
 
-  if command -v mise >/dev/null 2>&1 && [[ "$excludes" != *",mise,"* ]]; then
+  if command -v mise >/dev/null 2>&1; then
     echo "[prune] mise: prune" >&2
     mise prune -y
   fi
 
-  if [[ "$excludes" != *",tpm,"* ]]; then
-    clean_plugins="$tpm_root/bin/clean_plugins"
-    if [[ -x "$clean_plugins" ]]; then
-      echo "[prune] tpm: clean plugins" >&2
-      "$clean_plugins"
-    fi
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/clean_plugins" ]]; then
+    echo "[prune] tpm: clean plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/clean_plugins"
   fi
 
-# commit: Save the current environment state into the local chezmoi state.
+alias c := commit
+# Save the current environment state into the local chezmoi state.
 commit:
   #!/usr/bin/env bash
-  excludes=",${EXCLUDES:-},"
-  bundle_file="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
-  verbose="${VERBOSE:-0}"
-  comment_fmt="${COMMENT:-source %s sync %d files}"
-
-  command -v chezmoi >/dev/null 2>&1 || {
+  if ! command -v chezmoi >/dev/null 2>&1; then
     echo "[commit] chezmoi: missing" >&2
     exit 1
-  }
+  fi
 
-  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
-    echo "[commit] brew: bundle dump $bundle_file" >&2
-    if ((verbose)); then
-      brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force --verbose
-    else
-      brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force
+  if command -v brew >/dev/null 2>&1; then
+    echo "[commit] brew: bundle dump {{homebrew_bundle_file}}" >&2
+    brew bundle dump --file "{{homebrew_bundle_file}}" --tap --formula --cask --services --no-restart --force
+  fi
+
+  if chezmoi re-add --no-pager --dry-run >/dev/null; then
+    chezmoi re-add
+    echo "[commit] chezmoi: add changes" >&2
+    chezmoi git -- reset HEAD >/dev/null
+    chezmoi git -- add --patch
+    if [[ -z "$(chezmoi git -- status --porcelain=v1)" ]]; then
+      echo "[commit] chezmoi: no changes to commit" >&2
+      exit 0
     fi
-  fi
-
-  file=""
-  while IFS= read -r -d '' file; do
-    [[ -n "$file" ]] || continue
-    [[ -r "$file" ]] || continue
-    chezmoi diff --no-pager -- "$file" | grep -q . || continue
-    echo "[commit] chezmoi: add $file" >&2
-    chezmoi add --no-pager --force "$file"
-  done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
-
-  if [[ -z "$(chezmoi git -- status --porcelain=v1)" ]]; then
-    exit 0
-  fi
-
-  count="$(chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
-  user="${USER:-unknown}"
-  host="$(hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown)"
-
-  if command -v md5sum >/dev/null 2>&1; then
-    hash="$(printf "%s" "${user}@${host}" | md5sum | awk '{print $1}')"
+    echo "[commit] chezmoi: commit {{just_commit_message}}"
+    chezmoi git -- commit -m '{{just_commit_message}}'
   else
-    hash="$(printf "%s" "${user}@${host}" | md5 -q)"
+    echo "[commit] chezmoi: no changes to add" >&2
   fi
 
-  printf -v message "$comment_fmt" "$hash" "$count"
-  echo "[commit] chezmoi: $message" >&2
-  chezmoi git -- add -A
-  chezmoi git -- commit -m "$message"
-
-# push: Push the local chezmoi state to the remote repository.
+alias p := push
+# Push the local chezmoi state to the remote repository.
 push:
   #!/usr/bin/env bash
   command -v chezmoi >/dev/null 2>&1 || exit 0
@@ -213,7 +178,7 @@ push:
   echo "[push] chezmoi: push to ${repo}" >&2
   chezmoi git -- push
 
-# color256: Render 256 colortest in the terminal.
+# Render 256 colortest in the terminal.
 color256:
   #!/usr/bin/env bash
   fill() {
@@ -228,7 +193,7 @@ color256:
     if ((i % 36 == 15)); then printf "\n"; fi
   done
 
-# color16: Render 16 colortest in the terminal.
+# Render 16 colortest in the terminal.
 color16:
   #!/usr/bin/env bash
   fill() {
@@ -245,7 +210,7 @@ color16:
   fill 6 "CYAN"
   fill 7 "WHITE"
 
-# ansi: Render ANSI colortest in the terminal.
+# Render ANSI colortest in the terminal.
 ansi:
   #!/usr/bin/env bash
   for b in 0 {30..37}; do
@@ -257,7 +222,7 @@ ansi:
     done
   done
 
-# rainbow: Render Rainbow colortest in the terminal.
+# Render Rainbow colortest in the terminal.
 rainbow:
   #!/usr/bin/env bash
   for i in {0..127}; do
