@@ -4,73 +4,19 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 default:
   @just --list
 
+
 # bootstrap: Install Homebrew and the minimum required bootstrap dependencies.
 bootstrap:
-  @just _ensure_brew
-  @just _ensure_chezmoi
-
-# update: Pull updates for components without changing the current environment.
-update:
-  @just _update_chezmoi
-  @just _update_brew
-  @just _update_mise
-
-# apply: Apply pulled updates to the current environment without deleting dependencies.
-apply:
-  @just _apply_chezmoi
-  @just _apply_brew
-  @just _apply_mas
-  @just _apply_mise
-  @just _apply_sheldon
-  @just _apply_tpm
-  @just _apply_nvim
-
-# prune: Remove unused dependencies from the current environment after updates are pulled.
-prune:
-  @just _prune_brew
-  @just _prune_mise
-  @just _prune_tpm
-
-# commit: Save the current environment state into the local chezmoi state.
-commit:
-  @just _commit_brew
-  @just _commit_chezmoi
-  @just _git_commit
-
-# push: Push the local chezmoi state to the remote repository.
-push:
-  @just _push_chezmoi
-
-# color256: Render 256 colortest in the terminal.
-color256:
-  @just _colortest_256
-
-# color16: Render 16 colortest in the terminal.
-color16:
-  @just _colortest_16
-
-# ansi: Render ANSI colortest in the terminal.
-ansi:
-  @just _colortest_ansi
-
-# rainbow: Render Rainbow colortest in the terminal.
-rainbow:
-  @just _colortest_rainbow
-
-[private]
-_ensure_brew:
   #!/usr/bin/env bash
-  if command -v brew >/dev/null 2>&1; then
-    exit 0
-  fi
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "[bootstrap] brew: installing" >&2
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-  echo "[bootstrap] brew: installing" >&2
-  bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-  if [[ -x /opt/homebrew/bin/brew ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -x /usr/local/bin/brew ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
+    if [[ -x /opt/homebrew/bin/brew ]]; then
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -x /usr/local/bin/brew ]]; then
+      eval "$(/usr/local/bin/brew shellenv)"
+    fi
   fi
 
   command -v brew >/dev/null 2>&1 || {
@@ -78,230 +24,164 @@ _ensure_brew:
     exit 1
   }
 
-[private]
-_ensure_chezmoi:
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "[bootstrap] chezmoi: installing" >&2
+    brew install chezmoi
+  fi
+
+# update: Pull updates for components without changing the current environment.
+update:
   #!/usr/bin/env bash
   if command -v chezmoi >/dev/null 2>&1; then
-    exit 0
+    echo "[update] chezmoi: git fetch --all --prune" >&2
+    chezmoi git -- fetch --all --prune
   fi
 
-  echo "[bootstrap] chezmoi: installing" >&2
-  brew install chezmoi
+  if command -v brew >/dev/null 2>&1; then
+    echo "[update] brew: update" >&2
+    brew update
+  fi
 
-[private]
-_update_chezmoi:
+  if command -v mise >/dev/null 2>&1; then
+    echo "[update] mise: plugins update" >&2
+    mise plugins update || true
+  fi
+
+# apply: Apply pulled updates to the current environment without deleting dependencies.
+apply:
   #!/usr/bin/env bash
-  command -v chezmoi >/dev/null 2>&1 || exit 0
-  echo "[update] chezmoi: git fetch --all --prune" >&2
-  chezmoi git -- fetch --all --prune
+  branch="${BRANCH:-main}"
+  excludes=",${EXCLUDES:-},"
+  bundle_file="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
+  tpm_root="${TMUX_PLUGIN_MANAGER_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins}"
 
-[private]
-_update_brew:
-  #!/usr/bin/env bash
-  command -v brew >/dev/null 2>&1 || exit 0
-  echo "[update] brew: update" >&2
-  brew update
-
-[private]
-_update_mise:
-  #!/usr/bin/env bash
-  command -v mise >/dev/null 2>&1 || exit 0
-  echo "[update] mise: plugins update" >&2
-  mise plugins update || true
-
-[private]
-_apply_chezmoi:
-  #!/usr/bin/env bash
-  command -v chezmoi >/dev/null 2>&1 || exit 0
-
-  confirm="${CONFIRM:-0}"
-  file=""
-
-  while IFS= read -r -d '' file; do
-    [[ -n "$file" ]] || continue
-    [[ -r "$file" ]] || continue
-    chezmoi diff --no-pager -- "$file" | grep -q . || continue
-
-    if ((confirm)); then
-      mkdir -p "$(dirname "$file")"
-      chezmoi apply --force -- "$file"
-      continue
+  if command -v chezmoi >/dev/null 2>&1 && [[ "$excludes" != *",chezmoi,"* ]]; then
+    current="$(chezmoi git -- rev-parse --abbrev-ref HEAD 2>/dev/null || echo unknown)"
+    if [[ "$current" != "$branch" ]]; then
+      echo "[apply] chezmoi: git checkout $branch" >&2
+      chezmoi git -- checkout "$branch" || true
     fi
 
-    chezmoi diff -- "$file" || true
-    while true; do
-      printf "Apply %s changes? [ynq]: " "$file" >/dev/tty
-      read -r reply </dev/tty || true
-      case "$reply" in
-        [Yy])
-          mkdir -p "$(dirname "$file")"
-          chezmoi apply --force -- "$file"
-          break
-          ;;
-        [Nn])
-          break
-          ;;
-        [Qq])
-          exit 0
-          ;;
-      esac
-    done
-  done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
-
-[private]
-_apply_brew:
-  #!/usr/bin/env bash
-  command -v brew >/dev/null 2>&1 || exit 0
-  bundle_file="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
-
-  echo "[apply] brew: upgrade" >&2
-  brew upgrade || true
-  echo "[apply] brew: upgrade --cask" >&2
-  brew upgrade --cask || true
-
-  if [[ -f "$bundle_file" ]]; then
-    echo "[apply] brew: bundle --file $bundle_file" >&2
-    brew bundle --file "$bundle_file"
+    file=""
+    while IFS= read -r -d '' file; do
+      [[ -n "$file" ]] || continue
+      [[ -r "$file" ]] || continue
+      chezmoi diff --no-pager -- "$file" | grep -q . || continue
+      mkdir -p "$(dirname "$file")"
+      echo "[apply] chezmoi: $file" >&2
+      chezmoi apply --force -- "$file"
+    done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
   fi
 
-[private]
-_apply_mas:
-  #!/usr/bin/env bash
-  command -v mas >/dev/null 2>&1 || exit 0
-  echo "[apply] mas: upgrade" >&2
-  mas upgrade || true
+  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
+    echo "[apply] brew: upgrade" >&2
+    brew upgrade || true
+    echo "[apply] brew: upgrade --cask" >&2
+    brew upgrade --cask || true
+    if [[ -f "$bundle_file" ]]; then
+      echo "[apply] brew: bundle --file $bundle_file" >&2
+      brew bundle --file "$bundle_file"
+    fi
+  fi
 
-[private]
-_apply_mise:
-  #!/usr/bin/env bash
-  command -v mise >/dev/null 2>&1 || exit 0
-  echo "[apply] mise: install" >&2
-  mise install
-  echo "[apply] mise: upgrade" >&2
-  mise upgrade
+  if command -v mas >/dev/null 2>&1 && [[ "$excludes" != *",mas,"* ]]; then
+    echo "[apply] mas: upgrade" >&2
+    mas upgrade || true
+  fi
 
-[private]
-_apply_sheldon:
-  #!/usr/bin/env bash
-  command -v sheldon >/dev/null 2>&1 || exit 0
-  echo "[apply] sheldon: lock --update" >&2
-  sheldon lock --update
+  if command -v mise >/dev/null 2>&1 && [[ "$excludes" != *",mise,"* ]]; then
+    echo "[apply] mise: install" >&2
+    mise install
+    echo "[apply] mise: upgrade" >&2
+    mise upgrade
+  fi
 
-[private]
-_apply_tpm:
+  if command -v sheldon >/dev/null 2>&1 && [[ "$excludes" != *",sheldon,"* ]]; then
+    echo "[apply] sheldon: lock --update" >&2
+    sheldon lock --update
+  fi
+
+  if [[ "$excludes" != *",tpm,"* ]]; then
+    install_plugins="$tpm_root/bin/install_plugins"
+    update_plugins="$tpm_root/bin/update_plugins"
+
+    if [[ -x "$install_plugins" ]]; then
+      echo "[apply] tpm: install plugins" >&2
+      "$install_plugins" || true
+    fi
+
+    if [[ -x "$update_plugins" ]]; then
+      echo "[apply] tpm: update plugins" >&2
+      "$update_plugins" all || true
+    fi
+  fi
+
+  if command -v nvim >/dev/null 2>&1 && [[ "$excludes" != *",nvim,"* ]]; then
+    echo '[apply] nvim: headless "+Lazy! sync" "+qa"' >&2
+    nvim --headless "+Lazy! sync" "+qa"
+  fi
+
+# prune: Remove unused dependencies from the current environment after updates are pulled.
+prune:
   #!/usr/bin/env bash
+  excludes=",${EXCLUDES:-},"
   tpm_root="${TMUX_PLUGIN_MANAGER_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins}"
-  install_plugins="$tpm_root/bin/install_plugins"
-  update_plugins="$tpm_root/bin/update_plugins"
 
-  if [[ -x "$install_plugins" ]]; then
-    echo "[apply] tpm: install plugins" >&2
-    "$install_plugins" || true
+  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
+    echo "[prune] brew: autoremove" >&2
+    brew autoremove
+    echo "[prune] brew: cleanup" >&2
+    brew cleanup
   fi
 
-  if [[ -x "$update_plugins" ]]; then
-    echo "[apply] tpm: update plugins" >&2
-    "$update_plugins" all || true
+  if command -v mise >/dev/null 2>&1 && [[ "$excludes" != *",mise,"* ]]; then
+    echo "[prune] mise: prune" >&2
+    mise prune -y
   fi
 
-[private]
-_apply_nvim:
-  #!/usr/bin/env bash
-  command -v nvim >/dev/null 2>&1 || exit 0
-  echo '[apply] nvim: headless "+Lazy! sync" "+qa"' >&2
-  nvim --headless "+Lazy! sync" "+qa"
-
-[private]
-_prune_brew:
-  #!/usr/bin/env bash
-  command -v brew >/dev/null 2>&1 || exit 0
-  echo "[prune] brew: autoremove" >&2
-  brew autoremove
-  echo "[prune] brew: cleanup" >&2
-  brew cleanup
-
-[private]
-_prune_mise:
-  #!/usr/bin/env bash
-  command -v mise >/dev/null 2>&1 || exit 0
-  echo "[prune] mise: prune" >&2
-  mise prune -y
-
-[private]
-_prune_tpm:
-  #!/usr/bin/env bash
-  tpm_root="${TMUX_PLUGIN_MANAGER_PATH:-${XDG_DATA_HOME:-$HOME/.local/share}/tmux/plugins}"
-  clean_plugins="$tpm_root/bin/clean_plugins"
-
-  if [[ -x "$clean_plugins" ]]; then
-    echo "[prune] tpm: clean plugins" >&2
-    "$clean_plugins"
+  if [[ "$excludes" != *",tpm,"* ]]; then
+    clean_plugins="$tpm_root/bin/clean_plugins"
+    if [[ -x "$clean_plugins" ]]; then
+      echo "[prune] tpm: clean plugins" >&2
+      "$clean_plugins"
+    fi
   fi
 
-[private]
-_commit_brew:
+# commit: Save the current environment state into the local chezmoi state.
+commit:
   #!/usr/bin/env bash
-  command -v brew >/dev/null 2>&1 || exit 0
+  excludes=",${EXCLUDES:-},"
   bundle_file="${HOMEBREW_BUNDLE_FILE:-${XDG_CONFIG_HOME:-$HOME/.config}/Brewfile}"
   verbose="${VERBOSE:-0}"
+  comment_fmt="${COMMENT:-source %s sync %d files}"
 
-  echo "[commit] brew: bundle dump $bundle_file" >&2
-  if ((verbose)); then
-    brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force --verbose
-  else
-    brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force
-  fi
-
-[private]
-_commit_chezmoi:
-  #!/usr/bin/env bash
   command -v chezmoi >/dev/null 2>&1 || {
     echo "[commit] chezmoi: missing" >&2
     exit 1
   }
 
-  confirm="${CONFIRM:-0}"
-  file=""
+  if command -v brew >/dev/null 2>&1 && [[ "$excludes" != *",brew,"* ]]; then
+    echo "[commit] brew: bundle dump $bundle_file" >&2
+    if ((verbose)); then
+      brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force --verbose
+    else
+      brew bundle dump --file "$bundle_file" --tap --formula --cask --services --no-restart --force
+    fi
+  fi
 
+  file=""
   while IFS= read -r -d '' file; do
     [[ -n "$file" ]] || continue
     [[ -r "$file" ]] || continue
     chezmoi diff --no-pager -- "$file" | grep -q . || continue
-
-    if ((confirm)); then
-      chezmoi add --no-pager --force "$file"
-      continue
-    fi
-
-    chezmoi diff -- "$file" || true
-    while true; do
-      printf "Add %s changes? [ynq]: " "$file" >/dev/tty
-      read -r reply </dev/tty || true
-      case "$reply" in
-        [Yy])
-          chezmoi add --no-pager --force "$file"
-          break
-          ;;
-        [Nn])
-          break
-          ;;
-        [Qq])
-          exit 0
-          ;;
-      esac
-    done
+    echo "[commit] chezmoi: add $file" >&2
+    chezmoi add --no-pager --force "$file"
   done < <(chezmoi managed --include=files,symlinks --nul-path-separator -p absolute)
-
-[private]
-_git_commit:
-  #!/usr/bin/env bash
-  command -v chezmoi >/dev/null 2>&1 || exit 0
 
   if [[ -z "$(chezmoi git -- status --porcelain=v1)" ]]; then
     exit 0
   fi
 
-  comment_fmt="${COMMENT:-source %s sync %d files}"
   count="$(chezmoi git -- status --porcelain=v1 | wc -l | awk '{print $1}')"
   user="${USER:-unknown}"
   host="$(hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown)"
@@ -317,8 +197,8 @@ _git_commit:
   chezmoi git -- add -A
   chezmoi git -- commit -m "$message"
 
-[private]
-_push_chezmoi:
+# push: Push the local chezmoi state to the remote repository.
+push:
   #!/usr/bin/env bash
   command -v chezmoi >/dev/null 2>&1 || exit 0
 
@@ -333,20 +213,23 @@ _push_chezmoi:
   echo "[push] chezmoi: push to ${repo}" >&2
   chezmoi git -- push
 
-[private]
-_colortest_ansi:
+# color256: Render 256 colortest in the terminal.
+color256:
   #!/usr/bin/env bash
-  for b in 0 {30..37}; do
-    for a in 0 1; do
-      for c in {0..9} {40..47}; do
-        printf " \e[${a};${b};${c}m%11s\e[0m" "\e[${a};${b};${c}m"
-      done
-      printf "\n"
-    done
+  fill() {
+    printf "$(tput setaf "$1")%3d$(tput setab "$1") $(tput sgr0)" "$1"
+  }
+  for i in {0..15}; do fill "$i"; done
+  printf "\n"
+  for i in {232..255}; do fill "$i"; done
+  printf "\n"
+  for i in {16..231}; do
+    fill "$i"
+    if ((i % 36 == 15)); then printf "\n"; fi
   done
 
-[private]
-_colortest_16:
+# color16: Render 16 colortest in the terminal.
+color16:
   #!/usr/bin/env bash
   fill() {
     printf "$(tput sgr0)$(tput setaf "$1")%14s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
@@ -362,23 +245,20 @@ _colortest_16:
   fill 6 "CYAN"
   fill 7 "WHITE"
 
-[private]
-_colortest_256:
+# ansi: Render ANSI colortest in the terminal.
+ansi:
   #!/usr/bin/env bash
-  fill() {
-    printf "$(tput setaf "$1")%3d$(tput setab "$1") $(tput sgr0)" "$1"
-  }
-  for i in {0..15}; do fill "$i"; done
-  printf "\n"
-  for i in {232..255}; do fill "$i"; done
-  printf "\n"
-  for i in {16..231}; do
-    fill "$i"
-    if ((i % 36 == 15)); then printf "\n"; fi
+  for b in 0 {30..37}; do
+    for a in 0 1; do
+      for c in {0..9} {40..47}; do
+        printf " \e[${a};${b};${c}m%11s\e[0m" "\e[${a};${b};${c}m"
+      done
+      printf "\n"
+    done
   done
 
-[private]
-_colortest_rainbow:
+# rainbow: Render Rainbow colortest in the terminal.
+rainbow:
   #!/usr/bin/env bash
   for i in {0..127}; do
     h=$((i / 43))
