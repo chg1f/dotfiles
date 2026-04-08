@@ -21,6 +21,8 @@
 	t = stash
 
 	o = checkout
+	oO = checkout --ours
+	oT = checkout --theirs
 
 	b = branch --sort=-committerdate
 	ba = branch --sort=-committerdate --all
