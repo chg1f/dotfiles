@@ -1,4 +1,5 @@
 ---@class LazyVimPlugin
+
 local M = {
 	{
 		"LazyVim/LazyVim",
@@ -199,7 +200,17 @@ local M = {
 				-- 	args = { "run", "--out-format=json" },
 				-- },
 				sqlfluff = {
-					args = { "lint", "--format=json", "--dialect=mysql" },
+					args = function()
+						return {
+							"lint",
+							"--format=json",
+							"--dialect",
+							"mysql",
+							"--exclude-rules",
+							"AM04",
+							"-",
+						}
+					end,
 				},
 			},
 		},
@@ -217,7 +228,19 @@ local M = {
 			},
 			formatters = {
 				sqlfluff = {
-					args = { "fix", "--dialect=mysql", "--stdin-filename", "$FILENAME", "-" },
+					args = function(_, _)
+						return {
+							"fix",
+							"--dialect",
+							"mysql",
+							"--exclude-rules",
+							"AM04",
+							"--stdin-filename",
+							"$FILENAME",
+							"-",
+						}
+					end,
+					require_cwd = false,
 				},
 			},
 		},
