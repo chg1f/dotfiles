@@ -1,5 +1,6 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
+# default: List available recipes.
 default:
   @just --list
 
@@ -40,16 +41,20 @@ commit:
 push:
   @just _push_chezmoi
 
-color256: # Render 256 colortest in the terminal.
+# color256: Render 256 colortest in the terminal.
+color256:
   @just _colortest_256
 
-color16: # Render 16 colortest in the terminal.
+# color16: Render 16 colortest in the terminal.
+color16:
   @just _colortest_16
 
-ansi: # Render ANSI colortest in the terminal.
+# ansi: Render ANSI colortest in the terminal.
+ansi:
   @just _colortest_ansi
 
-rainbow: # Render Rainbow colortest in the terminal.
+# rainbow: Render Rainbow colortest in the terminal.
+rainbow:
   @just _colortest_rainbow
 
 [private]
