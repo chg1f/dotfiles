@@ -7,8 +7,9 @@
 	aa = add --verbose --all
 
 	c = commit
-	ca = commit --amend --edit
+	ca = commit --amend
 	cA = commit --amend --reuse-message HEAD
+	cm = commit --message
 
 	p = push
 	pF = push --force-with-lease
@@ -33,8 +34,9 @@
 	f = fetch
 	fp = fetch --all --prune
 
-	r = rebase -i
-	rR = rebase -i --root
+	r = rebase
+	ri = rebase --interactive
+	rR = rebase --interactive --root
 	ra = rebase --abort
 	rc = rebase --continue
 
