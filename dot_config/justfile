@@ -56,7 +56,7 @@ alias a := apply
 apply:
   #!/usr/bin/env bash
   if command -v chezmoi >/dev/null 2>&1; then
-    if chezmoi apply --no-pager --dry-run >/dev/null; then
+    if chezmoi diff --no-pager >/dev/null; then
       echo "[apply] chezmoi: apply changes" >&2
       chezmoi apply --interactive
     fi
@@ -135,20 +135,26 @@ commit:
     brew bundle dump --file "{{homebrew_bundle_file}}" --tap --formula --cask --services --no-restart --force
   fi
 
-  if chezmoi re-add --no-pager --dry-run >/dev/null; then
-    chezmoi re-add
-    echo "[commit] chezmoi: add changes" >&2
-    chezmoi git -- reset HEAD >/dev/null
-    chezmoi git -- add --patch
-    if [[ -z "$(chezmoi git -- status --porcelain=v1)" ]]; then
-      echo "[commit] chezmoi: no changes to commit" >&2
-      exit 0
-    fi
-    echo "[commit] chezmoi: commit {{just_commit_message}}"
-    chezmoi git -- commit -m '{{just_commit_message}}'
-  else
-    echo "[commit] chezmoi: no changes to add" >&2
+  chezmoi re-add --no-pager >/dev/null
+
+  chezmoi git -- reset HEAD >/dev/null
+  changes="$(chezmoi git -- status --short)"
+  echo "[commit] chezmoi: no changes to commit" >&2
+  if [ -z "$changes" ]; then
+    exit 0
   fi
+  chezmoi git -- status --branch --short
+
+  echo "[commit] chezmoi: add changes" >&2
+  chezmoi git -- add --interactive
+
+  if [[ -z "$(chezmoi git -- diff --cached)" ]]; then
+    echo "[commit] chezmoi: no changes to commit" >&2
+    exit 0
+  fi
+
+  echo "[commit] chezmoi: commit {{just_commit_message}}"
+  chezmoi git -- commit -m '{{just_commit_message}}'
 
 alias p := push
 # Push the local chezmoi state to the remote repository.
