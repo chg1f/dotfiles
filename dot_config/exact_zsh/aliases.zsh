@@ -13,6 +13,8 @@ alias path='print -l ${(s/:/)PATH} | nl'
 
 # alias ssh-add='ssh-add --apple-use-keychain --apple-load-keychain'
 alias tree='tree -C'
+# alias manages='chezmoi managed --path-style=source-relative | tree --fromfile | less -R'
+
 
 if command -v python3 &>/dev/null; then
   alias uuid7='python3 -c "import uuid; print(uuid.uuid7())"'

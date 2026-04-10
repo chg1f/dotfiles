@@ -144,6 +144,7 @@ commit:
     exit 0
   fi
   chezmoi git -- status --branch --short
+  chezmoi git -- diff --stat
 
   echo "[commit] chezmoi: add changes" >&2
   chezmoi git -- add --interactive
