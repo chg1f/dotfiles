@@ -36,6 +36,8 @@ go.work.sum
 .lazy.lua
 
 # agent files
+.codex/
+.claude/
 skills/
 
 # vim: ft=gitignore
