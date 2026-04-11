@@ -1,6 +1,5 @@
 tap "homebrew/cask"
 tap "homebrew/core"
-tap "qoderai/qoder"
 brew "age"
 brew "atuin"
 brew "bash"
