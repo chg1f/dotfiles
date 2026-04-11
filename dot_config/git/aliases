@@ -1,4 +1,5 @@
 [alias]
+	h = "!git config --get-regexp \"^alias\\\\.\" | sed -E \"s/^alias\\.([^ ]+) (.*)$/\\1\\t\\2/\""
 
 	s = status --short --branch
 
@@ -8,22 +9,18 @@
 
 	c = commit
 	ca = commit --amend
-	cA = commit --amend --reuse-message HEAD
+	car = commit --amend --reuse-message HEAD
 	cm = commit --message
 
 	p = push
-	pF = push --force-with-lease
-	pA = push --force --all
-
-	P = pull
+	pf = push --force-with-lease
+	pa = push --force --all
 
 	d = diff
 
-	t = stash
-
 	o = checkout
-	oO = checkout --ours
-	oT = checkout --theirs
+	; oO = checkout --ours
+	; oT = checkout --theirs
 
 	b = branch --sort=-committerdate
 	ba = branch --sort=-committerdate --all
@@ -36,7 +33,6 @@
 
 	r = rebase
 	ri = rebase --interactive
-	rR = rebase --interactive --root
 	ra = rebase --abort
 	rc = rebase --continue
 
