@@ -6,7 +6,7 @@ xdg_data_home := env_var_or_default("XDG_DATA_HOME", home + "/.local/share")
 homebrew_prefix := env_var_or_default("HOMEBREW_PREFIX", "/opt/homebrew")
 homebrew_bundle_file := env_var_or_default("HOMEBREW_BUNDLE_FILE", xdg_config_home + "/Brewfile")
 tmux_plugin_manager_path := env_var_or_default("TMUX_PLUGIN_MANAGER_PATH", xdg_data_home + "/tmux/plugins")
-just_commit_message := env_var_or_default("JUST_COMMIT_MESSAGE", "from " + sha256(env_var_or_default("USER", "") + "@" + `hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown`))
+commit_message := env_var_or_default("COMMIT_MESSAGE", "from " + sha256(env_var_or_default("USER", "") + "@" + `hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown`))
 
 # List available recipes.
 default:
@@ -154,8 +154,8 @@ commit:
     exit 0
   fi
 
-  echo "[commit] chezmoi: commit {{just_commit_message}}"
-  chezmoi git -- commit -m '{{just_commit_message}}'
+  echo "[commit] chezmoi: commit {{commit_message}}"
+  chezmoi git -- commit -m '{{commit_message}}'
 
 alias p := push
 # Push the local chezmoi state to the remote repository.

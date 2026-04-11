@@ -22,14 +22,6 @@ sh -c "$(curl -fsSL get.chezmoi.io)" -- init --one-shot $GITHUB_USERNAME
 
 ## Daily Operation
 
-### Apply
-
 ```bash
-chezmoi scripts --fetch --apply
-```
-
-### Commit
-
-```bash
-chezmoi scripts --commit --upload
+just c p f a x
 ```
