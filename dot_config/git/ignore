@@ -39,6 +39,6 @@ go.work.sum
 .agents/
 .codex/
 .claude/
-skills/
+skills
 
 # vim: ft=gitignore
