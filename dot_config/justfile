@@ -105,6 +105,8 @@ alias x := prune
 prune:
   #!/usr/bin/env bash
   if command -v brew >/dev/null 2>&1; then
+    echo "[prune] brew: bundle cleanup"
+    brew bundle --file "{{homebrew_bundle_file}}" --cleanup
     echo "[prune] brew: autoremove" >&2
     brew autoremove
     echo "[prune] brew: cleanup" >&2

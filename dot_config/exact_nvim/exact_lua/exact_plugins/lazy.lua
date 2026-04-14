@@ -1,5 +1,36 @@
 ---@class LazyVimPlugin
 
+-- GoRoot finds the project root used by Go tooling configuration discovery.
+-- It prefers the repository golangci config, then go module/workspace markers,
+-- and finally the VCS root to keep lint/format behavior project-scoped.
+local function GoRoot(filename)
+	local match = vim.fs.find({ ".golangci.yml", ".golangci.yaml", "go.work", "go.mod", ".git" }, {
+		path = filename,
+		upward = true,
+	})[1]
+	return match and vim.fs.dirname(match) or nil
+end
+
+-- GolangciLintFmtArgs builds stable stdin args for golangci-lint fmt.
+-- The formatter reads from stdin and emits formatted source to stdout, so the
+-- working directory must already point at the project root for config lookup.
+local function GolangciLintFmtArgs()
+	return { "fmt", "--stdin" }
+end
+
+-- NoopLinter disables linting cleanly when no project root can be resolved.
+-- This avoids accidentally running golangci-lint from an unrelated cwd.
+local function NoopLinter()
+	return {
+		cmd = "true",
+		stdin = true,
+		append_fname = false,
+		parser = function()
+			return {}
+		end,
+	}
+end
+
 local M = {
 	{
 		"LazyVim/LazyVim",
@@ -186,19 +217,29 @@ local M = {
 	{
 		"mfussenegger/nvim-lint",
 		opts = {
-			linter_by_ft = {
+			linters_by_ft = {
 				zsh = { "zsh" },
-				-- go = { "golangcilint" },
+				go = { "golangcilint" },
 				typescript = { "biomejs" },
 				javascript = { "biomejs" },
 				json = { "biomejs" },
 				sql = { "sqlfluff" },
 			},
 			linters = {
-				-- golangcilint = {
-				-- 	executable = "golangci-lint",
-				-- 	args = { "run", "--out-format=json" },
-				-- },
+				golangcilint = function()
+					local filename = vim.api.nvim_buf_get_name(0)
+					local root = GoRoot(filename)
+					if not root then
+						return NoopLinter()
+					end
+
+					local linter = vim.deepcopy(require("lint.linters.golangcilint"))
+
+					-- Force project-root execution so golangci-lint picks up the repository config.
+					linter.cwd = root
+
+					return linter
+				end,
 				sqlfluff = {
 					args = function()
 						return {
@@ -221,12 +262,22 @@ local M = {
 			-- default_format_opts = 5000, -- 5s
 			-- log_level = vim.log.levels.DEBUG,
 			formatters_by_ft = {
+				go = { "golangci_lint_fmt", lsp_format = "never" },
 				lua = { "stylua" },
 				zsh = { "shfmt" },
 				sh = { "shfmt" },
 				sql = { "sqlfluff" },
 			},
 			formatters = {
+				golangci_lint_fmt = {
+					command = "golangci-lint",
+					args = GolangciLintFmtArgs,
+					cwd = function(_, ctx)
+						return GoRoot(ctx.filename)
+					end,
+					require_cwd = true,
+					stdin = true,
+				},
 				sqlfluff = {
 					args = function(_, _)
 						return {
