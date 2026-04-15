@@ -4,78 +4,78 @@ jobs = 8
 env_file = '.env'
 python.uv_venv_auto = true
 pipx.uvx = true
+lockfile = true
 
 [tools]
-# language (runtimes)
-go = "1.25.0"
+# runtimes
+node = "lts"
+go = "1.25.4"
 python = "latest"
 uv = "latest"
-node = "lts"
 rust = "latest"
 
-# go (toolchain)
+# go toolchain
 golangci-lint = "latest"
-"go:golang.org/x/tools/gopls" = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
 "go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "go:mvdan.cc/gofumpt" = "latest"
 "github:go-swagger/go-swagger" = "latest"
 
-# python3 (tooling)
-"pipx:ruff" = "latest"
-"pipx:sqlfluff" = "latest"
-"npm:pyright" = "latest"
-
-# typescript / nodejs (tooling + lsp)
-"npm:typescript" = "latest"
-"npm:typescript-language-server" = "latest"
-"npm:@vtsls/language-server" = "latest"
-"github:biomejs/biome" = "latest"
-"npm:vscode-langservers-extracted" = "latest"
-
-# rust (tooling)
-"github:rust-lang/rust-analyzer" = "latest"
-
-# lua (tooling)
-"github:JohnnyMorganz/StyLua" = "latest"
+# lua tooling
 "aqua:LuaLS/lua-language-server" = "latest"
+"github:JohnnyMorganz/StyLua" = "latest"
 
-# shell (tooling + lsp)
-shfmt = "latest"
-shellcheck = "latest"
-"npm:bash-language-server" = "latest"
+# markdown tooling
+"github:artempyanykh/marksman" = "latest"
+"npm:markdown-toc" = "latest"
+"npm:markdownlint-cli2" = "latest"
 
-# protobuf
+# protobuf tooling
 protobuf = "latest"
 protoc-gen-go = "latest"
 
-# template
-gomplate = "latest"
+# python tooling
+"npm:pyright" = "latest"
+"pipx:ruff" = "latest"
+"pipx:sqlfluff" = "latest"
 
-# format (json/yaml/toml/query)
+# rust tooling
+"github:rust-lang/rust-analyzer" = "latest"
+
+# shell tooling
+"npm:bash-language-server" = "latest"
+shellcheck = "latest"
+shfmt = "latest"
+
+# structured data tooling
 "github:jqlang/jq" = "latest"
 "github:mikefarah/yq" = "latest"
-"github:TomWright/dasel" = "latest"
 "github:tamasfe/taplo" = "latest"
+"github:TomWright/dasel" = "latest"
 "go:github.com/tidwall/jj/cmd/jj" = "latest"
 
-# markdown
-"github:artempyanykh/marksman" = "latest"
-"npm:markdownlint-cli2" = "latest"
-"npm:markdown-toc" = "latest"
+# template tooling
+gomplate = "latest"
 
-# typos
+# text tooling
 "github:crate-ci/typos" = "latest"
 "github:tekumara/typos-lsp" = "latest"
 
-# lefthook
+# typescript and node tooling
+"npm:@vtsls/language-server" = "latest"
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+"github:biomejs/biome" = "latest"
+
+# workflow tooling
 "github:evilmartians/lefthook" = "latest"
 
-# editor / parser helpers
-tree-sitter = "latest"
-hurl = "latest"
-xh = "latest"
-k6 = "latest"
+# cli helpers
 bun = "latest"
 fx = "latest"
+hurl = "latest"
+xh = "latest"
+tree-sitter = "latest"

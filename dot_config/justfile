@@ -78,6 +78,8 @@ apply:
     mise install
     echo "[apply] mise: upgrade" >&2
     mise upgrade
+    echo "[apply] mise: locked" >&2
+    mise lock --global
   fi
 
   if command -v sheldon >/dev/null 2>&1; then
