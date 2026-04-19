@@ -10,6 +10,8 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export LANG="${LANG:-en_US.UTF-8}"
 export LC_ALL="${LC_ALL:-en_US.UTF-8}"
 
+export AGENTS_LANG="${AGENTS_LANG:-"zh_CN.UTF-8"}"
+
 # Zsh directory.
 export ZDOTDIR="${XDG_DATA_HOME:-$HOME/.local/share}/zsh"
 
