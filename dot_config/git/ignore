@@ -32,6 +32,9 @@ debug.test*
 go.work
 go.work.sum
 
+# node files
+node_modules
+
 # vim files
 .lazy.lua
 
@@ -39,6 +42,6 @@ go.work.sum
 .agents/
 .codex/
 .claude/
-skills
+skills/
 
 # vim: ft=gitignore

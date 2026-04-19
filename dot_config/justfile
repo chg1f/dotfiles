@@ -78,8 +78,6 @@ apply:
     mise install
     echo "[apply] mise: upgrade" >&2
     mise upgrade
-    echo "[apply] mise: locked" >&2
-    mise lock --global
   fi
 
   if command -v sheldon >/dev/null 2>&1; then
@@ -107,8 +105,6 @@ alias x := prune
 prune:
   #!/usr/bin/env bash
   if command -v brew >/dev/null 2>&1; then
-    echo "[prune] brew: bundle cleanup"
-    brew bundle --file "{{homebrew_bundle_file}}" --cleanup
     echo "[prune] brew: autoremove" >&2
     brew autoremove
     echo "[prune] brew: cleanup" >&2

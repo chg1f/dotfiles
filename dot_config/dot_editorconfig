@@ -12,7 +12,7 @@ tab_width = 4
 indent_style = space
 shift_width = 2
 
-[*.{md,json,yaml,yml,toml,hurl}]
+[*.{md,json,jsonc,yaml,yml,toml,hurl}]
 indent_style = space
 shift_width = 2
 
