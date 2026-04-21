@@ -42,6 +42,5 @@ node_modules
 .agents/
 .codex/
 .claude/
-skills/
 
 # vim: ft=gitignore

@@ -4,5 +4,10 @@
   "scroll_speed": 3,
   "scroll_acceleration": {
     "enabled": true
+  },
+  "keybinds": {
+    "leader": "ctrl+a",
+    "input_line_home": "",
+    "input_line_end": ""
   }
 }

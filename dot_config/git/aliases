@@ -8,9 +8,9 @@
 	aa = add --verbose --all
 
 	c = commit
-	ca = commit --amend
-	car = commit --amend --reuse-message HEAD
 	cm = commit --message
+	ca = commit --amend
+	ch = commit --amend --reuse-message HEAD
 
 	p = push
 	pf = push --force-with-lease
@@ -19,26 +19,14 @@
 	d = diff
 
 	o = checkout
-	; oO = checkout --ours
-	; oT = checkout --theirs
-
-	b = branch --sort=-committerdate
-	ba = branch --sort=-committerdate --all
-
-	t = tag --sort=-creatordate
-	ta = tag  --sort=-creatordate --all
+	; oo = checkout --ours
+	; ot = checkout --theirs
 
 	f = fetch
 	fp = fetch --all --prune
 
-	r = rebase
-	ri = rebase --interactive
-	ra = rebase --abort
-	rc = rebase --continue
-
 	l = log
 	l1 = log -1
-	ln = log --name-status
 	lg = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
 
 	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
