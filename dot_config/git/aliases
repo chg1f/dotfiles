@@ -3,6 +3,11 @@
 
 	s = status --short --branch
 
+	t = stash
+	tl = stash list
+	ts = stash --staged # --message
+	tu = stash --keep-index --include-untracked # --message
+
 	a = add --verbose
 	au = add --verbose --update
 	aa = add --verbose --all

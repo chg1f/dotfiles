@@ -5,6 +5,8 @@ alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOC
 # alias -g Q1="1>/dev/null"
 # alias -g Q2="2>/dev/null"
 
+alias hurl='hurl --verbose --cookie .cookie --file-root .'
+
 alias path='print -l ${(s/:/)PATH} | nl'
 
 # if command -v hurl &> /dev/null; then
