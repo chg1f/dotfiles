@@ -44,7 +44,7 @@ local config = {
 
 	scrollback_lines = 50000,
 
-	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
+	-- leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1000 },
 	keys = {
 		{ key = "c", mods = "SUPER", action = wezterm.action.CopyTo("Clipboard") },
 		{ key = "v", mods = "SUPER", action = wezterm.action.PasteFrom("Clipboard") },
@@ -53,10 +53,10 @@ local config = {
 		{ key = "-", mods = "SUPER", action = wezterm.action.DecreaseFontSize },
 		{ key = "0", mods = "SUPER", action = wezterm.action.ResetFontSize },
 
-		{ key = "n", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
+		{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
 		{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
-		{ key = "h", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
-		{ key = "l", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "n", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "p", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
 
 		-- { key = "q", mods = "ALT", action = wezterm.action.CloseCurrentTab({ confirm = true }) },
 		-- { key = "t", mods = "ALT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
