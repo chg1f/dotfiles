@@ -24,6 +24,8 @@ export LESS="-g -i -w -M -R -F -X"
 export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
 
 export MANPAGER="col -bx | bat -p -l man"
+export BAT_PAGER="less -g -i -w -M -R -F"
+
 
 export GOPATH="$XDG_DATA_HOME/go"
 
