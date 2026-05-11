@@ -3,11 +3,11 @@
 alias less='less -R'
 
 alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080'
-# alias -g Q="1>/dev/null 2>/dev/null"
-# alias -g Q1="1>/dev/null"
-# alias -g Q2="2>/dev/null"
+alias -g Q="1>/dev/null 2>/dev/null"
+alias -g Q1="1>/dev/null"
+alias -g Q2="2>/dev/null"
 
-# alias hurl='hurl --verbose --cookie .cookie --file-root .'
+alias hurl='hurl --cookie .cookie --file-root .'
 
 alias path='print -l ${(s/:/)PATH} | nl'
 
@@ -19,10 +19,7 @@ alias path='print -l ${(s/:/)PATH} | nl'
 alias tree='tree -C'
 # alias manages='chezmoi managed --path-style=source-relative | tree --fromfile | less -R'
 
-
 if command -v python3 &>/dev/null; then
-  alias uuid7='python3 -c "import uuid; print(uuid.uuid7())"'
-  alias uuid4='python3 -c "import uuid; print(uuid.uuid4())"'
   alias urldecode='python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))"'
   alias urlencode='python3 -c "import sys, urllib.parse; print(urllib.parse.quote(sys.argv[1]))"'
 fi

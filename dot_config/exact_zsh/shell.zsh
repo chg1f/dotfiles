@@ -17,14 +17,31 @@ setopt EXTENDED_HISTORY
 HISTSIZE=200000
 SAVEHIST=200000
 
-if command -v codex 2>&1 >/dev/null; then
-	export CODEX_HOME="$XDG_DATA_HOME/codex"
+if command -v sheldon >/dev/null 2>&1; then
+	eval "$(sheldon source)"
 fi
 
+autoload -Uz compinit
+zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
+compinit -d "$XDG_STATE_HOME/zsh/zcompdump"
+
+if command -v mise >/dev/null 2>&1; then
+  export MISE_SHIMS_DIR="$XDG_DATA_HOME/mise/shims"
+  # export MISE_ENV_FILE=.env
+  eval "$(mise activate zsh)"
+fi
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+fi
 
 if command -v atuin >/dev/null 2>&1; then
 	export ATUIN_NOBIND=1
 	eval "$(atuin init zsh)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
 fi
 
 if command -v fzf 2>&1 >/dev/null; then
@@ -92,18 +109,8 @@ if command -v fzf 2>&1 >/dev/null; then
 	zle -N fzf-grep-widget
 fi
 
-if command -v sheldon >/dev/null 2>&1; then
-	eval "$(sheldon source)"
-fi
-
-autoload -Uz compinit
-zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}/zsh/zcompcache"
-compinit -d "${XDG_STATE_HOME}/zsh/zcompdump"
-
-if command -v mise >/dev/null 2>&1; then
-  export MISE_SHIMS_DIR="$XDG_DATA_HOME/mise/shims"
-  # export MISE_ENV_FILE=.env
-  eval "$(mise activate zsh)"
+if command -v codex 2>&1 >/dev/null; then
+	export CODEX_HOME="$XDG_CONFIG_HOME/codex"
 fi
 
 # if command -v zellij 2>&1 >/dev/null; then
@@ -112,19 +119,15 @@ fi
 # 	eval "$(zellij setup --generate-auto-start zsh)"
 # fi
 
-if command -v zoxide >/dev/null 2>&1; then
-  eval "$(zoxide init zsh)"
+if [[ -r "$XDG_CONFIG_HOME/zsh/functions.zsh" ]]; then
+	source "$XDG_CONFIG_HOME/zsh/functions.zsh"
 fi
 
-if command -v starship >/dev/null 2>&1; then
-  eval "$(starship init zsh)"
-fi
-
-if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliases.zsh" ]]; then
+if [[ -r "$XDG_CONFIG_HOME/zsh/aliases.zsh" ]]; then
 	source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 fi
 
-if [[ -r "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/bindings.zsh" ]]; then
+if [[ -r "$XDG_CONFIG_HOME/zsh/bindings.zsh" ]]; then
 	source "$XDG_CONFIG_HOME/zsh/bindings.zsh"
 fi
 

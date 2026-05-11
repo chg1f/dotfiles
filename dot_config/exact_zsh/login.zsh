@@ -19,13 +19,11 @@ export PATH="${(j.:.)path}"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less -R"
-
-export LESS="-g -i -w -M -R -F -X"
-export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
-
 export MANPAGER="col -bx | bat -p -l man"
 export BAT_PAGER="less -g -i -w -M -R -F"
 
+export LESS="-g -i -w -M -R -F -X"
+export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
 
 export GOPATH="$XDG_DATA_HOME/go"
 
@@ -41,6 +39,5 @@ if command -v brew 2>&1 >/dev/null; then
   export HOMEBREW_NO_ENV_HINTS=1
   export HOMEBREW_NO_INSTALL_FROM_API=1
 fi
-
 
 # vim: set ft=zsh
