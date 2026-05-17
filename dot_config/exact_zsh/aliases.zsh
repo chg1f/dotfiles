@@ -2,7 +2,7 @@
 
 alias less='less -R'
 
-alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080'
+alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080 NO_PROXY=localhost,127.0.0.1,::1'
 alias -g Q="1>/dev/null 2>/dev/null"
 alias -g Q1="1>/dev/null"
 alias -g Q2="2>/dev/null"

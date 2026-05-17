@@ -111,6 +111,7 @@ fi
 
 if command -v codex 2>&1 >/dev/null; then
 	export CODEX_HOME="$XDG_CONFIG_HOME/codex"
+  eval "$(codex completion zsh)"
 fi
 
 # if command -v zellij 2>&1 >/dev/null; then
