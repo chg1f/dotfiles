@@ -26,6 +26,7 @@ __debug_bin*
 debug.test*
 
 # python files
+__pycache__
 .venv
 
 # golang files

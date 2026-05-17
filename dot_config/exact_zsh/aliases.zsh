@@ -7,7 +7,7 @@ alias -g Q="1>/dev/null 2>/dev/null"
 alias -g Q1="1>/dev/null"
 alias -g Q2="2>/dev/null"
 
-alias hurl='hurl --cookie .cookie --file-root . --error-format long --continue-on-error'
+alias hurl='hurl --file-root . --cookie .cookie --variables-file .env --error-format long --continue-on-error'
 
 alias path='print -l ${(s/:/)PATH} | nl'
 
