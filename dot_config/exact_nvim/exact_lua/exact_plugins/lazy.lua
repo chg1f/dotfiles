@@ -35,6 +35,37 @@ local M = {
 		"folke/snacks.nvim",
 		opts = {
 			dashboard = { enabled = false },
+			picker = {
+				sources = {
+					explorer = {
+						win = {
+							input = {
+								keys = {
+									["<C-f>"] = { "list_scroll_down", mode = { "i", "n" } },
+									["<C-b>"] = { "list_scroll_up", mode = { "i", "n" } },
+
+									-- -- keep preview scrolling on Alt keys
+									-- ["<A-f>"] = { "preview_scroll_down", mode = { "i", "n" } },
+									-- ["<A-b>"] = { "preview_scroll_up", mode = { "i", "n" } },
+									-- ["<A-l>"] = { "preview_scroll_right", mode = { "i", "n" } },
+									-- ["<A-h>"] = { "preview_scroll_left", mode = { "i", "n" } },
+								},
+							},
+							list = {
+								keys = {
+									["<C-f>"] = "list_scroll_down",
+									["<C-b>"] = "list_scroll_up",
+
+									-- ["<A-f>"] = "preview_scroll_down",
+									-- ["<A-b>"] = "preview_scroll_up",
+									-- ["<A-l>"] = "preview_scroll_right",
+									-- ["<A-h>"] = "preview_scroll_left",
+								},
+							},
+						},
+					},
+				},
+			},
 		},
 	},
 	{

@@ -24,6 +24,10 @@ fi
 autoload -Uz compinit
 zstyle ':completion:*' cache-path "$XDG_CACHE_HOME/zsh/zcompcache"
 compinit -d "$XDG_STATE_HOME/zsh/zcompdump"
+if command -v aliyun >/dev/null 2>&1; then
+  autoload -U +X bashcompinit && bashcompinit -i
+  complete -o nospace -F /opt/homebrew/bin/aliyun aliyun
+fi
 
 if command -v mise >/dev/null 2>&1; then
   export MISE_SHIMS_DIR="$XDG_DATA_HOME/mise/shims"
