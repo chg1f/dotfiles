@@ -45,3 +45,6 @@ node_modules
 .claude/
 
 # vim: ft=gitignore
+# Qoder local files (private, not committed)
+AGENTS.local.md
+*.local.md

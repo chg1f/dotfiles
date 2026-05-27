@@ -31,9 +31,9 @@
 	fp = fetch --all --prune
 
 	l = log
-	l1 = log -1
 	lg = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
 
+	amend = commit --amend
 	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
 
 # vim: ft=gitconfig
