@@ -78,3 +78,5 @@ hurl = "latest"
 xh = "latest"
 bun = "latest"
 fx = "latest"
+
+"npm:@larksuite/cli" = "latest"
