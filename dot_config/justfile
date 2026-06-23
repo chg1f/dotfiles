@@ -64,9 +64,9 @@ apply:
 
   if command -v brew >/dev/null 2>&1; then
     echo "[apply] brew: upgrade" >&2
-    brew upgrade || true
+    brew upgrade --yes || true
     echo "[apply] brew: upgrade --cask" >&2
-    brew upgrade --cask || true
+    brew upgrade --cask --yes || true
     if [[ -f "{{homebrew_bundle_file}}" ]]; then
       echo "[apply] brew: bundle --file {{homebrew_bundle_file}}" >&2
       brew bundle --file "{{homebrew_bundle_file}}"

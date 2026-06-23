@@ -26,6 +26,8 @@ brew "coreutils"
 brew "curl"
 # Diff that understands syntax
 brew "difftastic"
+# Command-line DNS Client for Humans
+brew "doggo"
 # Embeddable SQL OLAP Database Management System
 brew "duckdb"
 # Modern, maintained replacement for ls
