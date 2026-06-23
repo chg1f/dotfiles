@@ -1,0 +1,10 @@
+.bash_profile
+.dlv
+.gitconfig
+.i3
+.nvim
+.tmux
+.tmux.conf
+.vim
+.viminfo
+.zshrc

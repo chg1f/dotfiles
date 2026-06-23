@@ -1,0 +1,265 @@
+set shell := ["bash", "-euo", "pipefail", "-c"]
+
+home := env_var_or_default("HOME", home_directory())
+xdg_config_home := env_var_or_default("XDG_CONFIG_HOME", home + "/.config")
+xdg_data_home := env_var_or_default("XDG_DATA_HOME", home + "/.local/share")
+homebrew_prefix := env_var_or_default("HOMEBREW_PREFIX", "/opt/homebrew")
+homebrew_bundle_file := env_var_or_default("HOMEBREW_BUNDLE_FILE", xdg_config_home + "/Brewfile")
+tmux_plugin_manager_path := env_var_or_default("TMUX_PLUGIN_MANAGER_PATH", xdg_data_home + "/tmux/plugins")
+commit_message := env_var_or_default("COMMIT_MESSAGE", "from " + sha256(env_var_or_default("USER", "") + "@" + `hostname -s 2>/dev/null || hostname 2>/dev/null || echo unknown`))
+
+# List available recipes.
+default:
+  @just --list
+
+
+# Install Homebrew and the minimum required bootstrap dependencies.
+bootstrap:
+  #!/usr/bin/env bash
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "[bootstrap] brew: installing" >&2
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    if [[ ! -x "{{homebrew_prefix}}/bin/brew" ]]; then
+      echo "[bootstrap] brew: missing at {{homebrew_prefix}}/bin/brew" >&2
+      exit 1
+    fi
+
+    eval "$("{{homebrew_prefix}}/bin/brew" shellenv)"
+  fi
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "[bootstrap] chezmoi: installing" >&2
+    brew install chezmoi
+  fi
+
+alias f := fetch
+# Pull updates for components without changing the current environment.
+fetch:
+  #!/usr/bin/env bash
+  if command -v chezmoi >/dev/null 2>&1; then
+    echo "[fetch] chezmoi: git fetch --all --prune" >&2
+    chezmoi git -- fetch --all --prune
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    echo "[fetch] brew: update" >&2
+    brew update
+  fi
+
+  if command -v mise >/dev/null 2>&1; then
+    echo "[fetch] mise: plugins update" >&2
+    mise plugins update || true
+  fi
+
+alias a := apply
+# Apply pulled updates to the current environment without deleting dependencies.
+apply:
+  #!/usr/bin/env bash
+  if command -v chezmoi >/dev/null 2>&1; then
+    if chezmoi diff --no-pager >/dev/null; then
+      echo "[apply] chezmoi: apply changes" >&2
+      chezmoi apply --interactive
+    fi
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    echo "[apply] brew: upgrade" >&2
+    brew upgrade || true
+    echo "[apply] brew: upgrade --cask" >&2
+    brew upgrade --cask || true
+    if [[ -f "{{homebrew_bundle_file}}" ]]; then
+      echo "[apply] brew: bundle --file {{homebrew_bundle_file}}" >&2
+      brew bundle --file "{{homebrew_bundle_file}}"
+    fi
+  fi
+
+  if command -v mise >/dev/null 2>&1; then
+    echo "[apply] mise: install" >&2
+    mise install
+    echo "[apply] mise: upgrade" >&2
+    mise upgrade
+  fi
+
+  if command -v sheldon >/dev/null 2>&1; then
+    echo "[apply] sheldon: lock --update" >&2
+    sheldon lock --update
+  fi
+
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/install_plugins" ]]; then
+    echo "[apply] tpm: install plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/install_plugins" || true
+  fi
+
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/update_plugins" ]]; then
+    echo "[apply] tpm: update plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/update_plugins" all || true
+  fi
+
+  if command -v nvim >/dev/null 2>&1; then
+    echo '[apply] nvim: headless "+Lazy! sync" "+qa"' >&2
+    nvim --headless "+Lazy! sync" "+qa"
+  fi
+
+alias x := prune
+# Remove unused dependencies from the current environment after updates are pulled.
+prune:
+  #!/usr/bin/env bash
+  if command -v brew >/dev/null 2>&1; then
+    echo "[prune] brew: autoremove" >&2
+    brew autoremove
+    echo "[prune] brew: cleanup" >&2
+    brew cleanup
+  fi
+
+  if command -v mise >/dev/null 2>&1; then
+    echo "[prune] mise: prune" >&2
+    mise prune -y
+  fi
+
+  if [[ -x "{{tmux_plugin_manager_path}}/bin/clean_plugins" ]]; then
+    echo "[prune] tpm: clean plugins" >&2
+    "{{tmux_plugin_manager_path}}/bin/clean_plugins"
+  fi
+
+alias c := commit
+# Save the current environment state into the local chezmoi state.
+commit:
+  #!/usr/bin/env bash
+  if ! command -v chezmoi >/dev/null 2>&1; then
+    echo "[commit] chezmoi: missing" >&2
+    exit 1
+  fi
+
+  if command -v brew >/dev/null 2>&1; then
+    echo "[commit] brew: bundle dump {{homebrew_bundle_file}}" >&2
+    brew bundle dump --file "{{homebrew_bundle_file}}" --tap --formula --cask --no-restart --force
+  fi
+
+  chezmoi re-add --no-pager >/dev/null
+
+  chezmoi git -- reset HEAD >/dev/null
+  changes="$(chezmoi git -- status --short)"
+  echo "[commit] chezmoi: no changes to commit" >&2
+  if [ -z "$changes" ]; then
+    exit 0
+  fi
+  chezmoi git -- status --branch --short
+  chezmoi git -- diff --stat
+
+  echo "[commit] chezmoi: add changes" >&2
+  chezmoi git -- add --interactive
+
+  if [[ -z "$(chezmoi git -- diff --cached)" ]]; then
+    echo "[commit] chezmoi: no changes to commit" >&2
+    exit 0
+  fi
+
+  echo "[commit] chezmoi: commit {{commit_message}}"
+  chezmoi git -- commit -m '{{commit_message}}'
+
+alias p := push
+# Push the local chezmoi state to the remote repository.
+push:
+  #!/usr/bin/env bash
+  command -v chezmoi >/dev/null 2>&1 || exit 0
+
+  repo="$(chezmoi git -- config --get remote.origin.url 2>/dev/null || echo unknown)"
+  ahead="$(chezmoi git -- rev-list --count @{u}..HEAD 2>/dev/null || echo 0)"
+
+  if [[ "$ahead" == "0" ]]; then
+    echo "[push] chezmoi: no changes to push" >&2
+    exit 0
+  fi
+
+  echo "[push] chezmoi: push to ${repo}" >&2
+  chezmoi git -- push
+
+# Render 256 colortest in the terminal.
+color256:
+  #!/usr/bin/env bash
+  fill() {
+    printf "$(tput setaf "$1")%3d$(tput setab "$1") $(tput sgr0)" "$1"
+  }
+  for i in {0..15}; do fill "$i"; done
+  printf "\n"
+  for i in {232..255}; do fill "$i"; done
+  printf "\n"
+  for i in {16..231}; do
+    fill "$i"
+    if ((i % 36 == 15)); then printf "\n"; fi
+  done
+
+# Render 16 colortest in the terminal.
+color16:
+  #!/usr/bin/env bash
+  fill() {
+    printf "$(tput sgr0)$(tput setaf "$1")%14s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
+    printf "$(tput setaf 0)$(tput setab $(($1 + 8))) * $(tput sgr0)$(tput setaf $(($1 + 8)))%-3d%-s$(tput sgr0)" "$(($1 + 8))" "BRIGHT $2"
+    printf "\n"
+  }
+  fill 0 "BLACK"
+  fill 1 "RED"
+  fill 2 "GREEN"
+  fill 3 "YELLOW"
+  fill 4 "BLUE"
+  fill 5 "PURPLE/MAGENTA"
+  fill 6 "CYAN"
+  fill 7 "WHITE"
+
+# Render ANSI colortest in the terminal.
+ansi:
+  #!/usr/bin/env bash
+  for b in 0 {30..37}; do
+    for a in 0 1; do
+      for c in {0..9} {40..47}; do
+        printf " \e[${a};${b};${c}m%11s\e[0m" "\e[${a};${b};${c}m"
+      done
+      printf "\n"
+    done
+  done
+
+# Render Rainbow colortest in the terminal.
+rainbow:
+  #!/usr/bin/env bash
+  for i in {0..127}; do
+    h=$((i / 43))
+    t=$(((i - 43 * h) * 255 / 43))
+    q=$((255 - t))
+    case $h in
+      0) printf "\e[48:2:%d:%d:%dm \e[0m" 255 "$t" 0 ;;
+      1) printf "\e[48:2:%d:%d:%dm \e[0m" "$q" 255 0 ;;
+      2) printf "\e[48:2:%d:%d:%dm \e[0m" 0 255 "$t" ;;
+      3) printf "\e[48:2:%d:%d:%dm \e[0m" 0 "$q" 255 ;;
+      4) printf "\e[48:2:%d:%d:%dm \e[0m" "$t" 0 255 ;;
+      5) printf "\e[48:2:%d:%d:%dm \e[0m" 255 0 "$q" ;;
+      *) printf "\e[48:2:%d:%d:%dm \e[0m" 0 0 0 ;;
+    esac
+  done
+  printf "\n"
+  for i in {255..128}; do
+    h=$((i / 43))
+    t=$(((i - 43 * h) * 255 / 43))
+    q=$((255 - t))
+    case $h in
+      0) printf "\e[48:2:%d:%d:%dm \e[0m" 255 "$t" 0 ;;
+      1) printf "\e[48:2:%d:%d:%dm \e[0m" "$q" 255 0 ;;
+      2) printf "\e[48:2:%d:%d:%dm \e[0m" 0 255 "$t" ;;
+      3) printf "\e[48:2:%d:%d:%dm \e[0m" 0 "$q" 255 ;;
+      4) printf "\e[48:2:%d:%d:%dm \e[0m" "$t" 0 255 ;;
+      5) printf "\e[48:2:%d:%d:%dm \e[0m" 255 0 "$q" ;;
+      *) printf "\e[48:2:%d:%d:%dm \e[0m" 0 0 0 ;;
+    esac
+  done
+  printf "\n"
+  for i in {0..127}; do printf "\e[48:2:%d:%d:%dm \e[0m" "$i" 0 0; done
+  printf "\n"
+  for i in {255..128}; do printf "\e[48:2:%d:%d:%dm \e[0m" "$i" 0 0; done
+  printf "\n"
+  for i in {0..127}; do printf "\e[48:2:%d:%d:%dm \e[0m" 0 "$i" 0; done
+  printf "\n"
+  for i in {255..128}; do printf "\e[48:2:%d:%d:%dm \e[0m" 0 "$i" 0; done
+  printf "\n"
+  for i in {0..127}; do printf "\e[48:2:%d:%d:%dm \e[0m" 0 0 "$i"; done
+  printf "\n"
+  for i in {255..128}; do printf "\e[48:2:%d:%d:%dm \e[0m" 0 0 "$i"; done
+  printf "\n"

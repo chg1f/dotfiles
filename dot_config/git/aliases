@@ -1,0 +1,39 @@
+[alias]
+	h = "!git config --get-regexp \"^alias\\\\.\" | sed -E \"s/^alias\\.([^ ]+) (.*)$/\\1\\t\\2/\""
+
+	s = status --short --branch
+
+	t = stash
+	tl = stash list
+	ts = stash --staged # --message
+	tu = stash --keep-index --include-untracked # --message
+
+	a = add --verbose
+	au = add --verbose --update
+	aa = add --verbose --all
+
+	c = commit
+	cm = commit --message
+	ca = commit --amend
+	ch = commit --amend --reuse-message HEAD
+
+	p = push
+	pf = push --force-with-lease
+	pa = push --force --all
+
+	d = diff
+
+	o = checkout
+	; oo = checkout --ours
+	; ot = checkout --theirs
+
+	f = fetch
+	fp = fetch --all --prune
+
+	l = log
+	lg = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
+
+	amend = commit --amend
+	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+
+# vim: ft=gitconfig

@@ -1,0 +1,82 @@
+[settings]
+# verbose = true
+jobs = 8
+env_file = '.env'
+python.uv_venv_auto = true
+pipx.uvx = true
+
+[tools]
+# language (runtimes)
+go = "1.25.0"
+python = "latest"
+uv = "latest"
+node = "lts"
+rust = "latest"
+
+# go (toolchain)
+golangci-lint = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
+"go:mvdan.cc/gofumpt" = "latest"
+"github:go-swagger/go-swagger" = "latest"
+
+# python3 (tooling)
+"pipx:ruff" = "latest"
+"pipx:sqlfluff" = "latest"
+"npm:pyright" = "latest"
+
+# typescript / nodejs (tooling + lsp)
+"npm:typescript" = "latest"
+"npm:typescript-language-server" = "latest"
+"npm:@vtsls/language-server" = "latest"
+"github:biomejs/biome" = "latest"
+"npm:vscode-langservers-extracted" = "latest"
+
+# rust (tooling)
+"github:rust-lang/rust-analyzer" = "latest"
+
+# lua (tooling)
+"github:JohnnyMorganz/StyLua" = "latest"
+"aqua:LuaLS/lua-language-server" = "latest"
+
+# shell (tooling + lsp)
+shfmt = "latest"
+shellcheck = "latest"
+"npm:bash-language-server" = "latest"
+
+# protobuf
+protobuf = "latest"
+protoc-gen-go = "latest"
+
+# template
+gomplate = "latest"
+
+# format (json/yaml/toml/query)
+"github:jqlang/jq" = "latest"
+"github:mikefarah/yq" = "latest"
+"github:TomWright/dasel" = "latest"
+"github:tamasfe/taplo" = "latest"
+"go:github.com/tidwall/jj/cmd/jj" = "latest"
+
+# markdown
+"github:artempyanykh/marksman" = "latest"
+"npm:markdownlint-cli2" = "latest"
+"npm:markdown-toc" = "latest"
+
+# typos
+"github:crate-ci/typos" = "latest"
+"github:tekumara/typos-lsp" = "latest"
+
+# lefthook
+"github:evilmartians/lefthook" = "latest"
+
+# editor / parser helpers
+tree-sitter = "latest"
+hurl = "latest"
+xh = "latest"
+bun = "latest"
+fx = "latest"
+
+"npm:@larksuite/cli" = "latest"
