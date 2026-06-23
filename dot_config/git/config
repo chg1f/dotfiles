@@ -1,0 +1,66 @@
+[include]
+	path = ~/.config/git/config.local
+
+[include]
+	path = ~/.config/git/aliases
+
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
+
+[includeIf "gitdir:**/github.com/"]
+	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:https://github.com/**"]
+	path = ~/.config/git/github.com
+
+[includeIf "hasconfig:remote.*.url:git@github.com:*/**"]
+	path = ~/.config/git/github.com
+
+[color]
+	ui = auto
+	diff = true
+
+[color]
+	ui = auto
+	diff = true
+
+[color "branch"]
+	current = blue
+	local = green
+	remote = red
+	upstream = yellow
+	plain = white
+
+[color "status"]
+	added = brightgreen
+	changed = brightyellow
+	untracked = brightblack
+	unmerged = brightblue
+
+[color "decorate"]
+	branch = magenta
+	remoteBranch = red
+	tag = magenta bold
+	stash = brightblack
+
+[pull]
+	rebase = true
+
+[diff]
+	external = difft --sort-paths --skip-unchanged --syntax-highlight=on --display=side-by-side
+
+# [merge]
+# 	; tool = nvimdiff
+# 	conflictstyle = zdiff3
+#
+# [pager]
+# 	diff = delta
+# 	reflog = delta
+# 	show = delta
+# 	log = delta
+#
+# [delta]
+# 	line-numbers = true
+# 	side-by-side = true
+
+# vim: ft=gitconfig

@@ -1,0 +1,51 @@
+.DS_Store
+
+# configuration files
+.env
+.cookie
+.properties
+.agollo
+
+# log files
+log{,s}/*
+*.log
+
+# local files
+*.local{,.*}
+
+# temporary files
+*.{bak,backup}
+tmp/*
+*.{tmp,temp}
+*.pid
+*{~,.swp}
+
+# binary files
+bin/*
+__debug_bin*
+debug.test*
+
+# python files
+__pycache__
+.venv
+
+# golang files
+go.work
+go.work.sum
+
+# node files
+node_modules
+
+# vim files
+.lazy.lua
+
+# agent files
+.agents/
+.codex/
+.claude/
+.qoder/
+
+# vim: ft=gitignore
+# Qoder local files (private, not committed)
+AGENTS.local.md
+*.local.md

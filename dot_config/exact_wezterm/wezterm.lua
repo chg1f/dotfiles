@@ -1,0 +1,55 @@
+local wezterm = require("wezterm")
+local config = {
+	adjust_window_size_when_changing_font_size = false,
+	initial_cols = 100,
+	initial_rows = 30,
+
+	automatically_reload_config = true,
+	exit_behavior = "CloseOnCleanExit",
+	exit_behavior_messaging = "Verbose",
+
+	window_close_confirmation = "NeverPrompt",
+	window_padding = { left = 5, right = 5, top = 5, bottom = 5 },
+
+	enable_tab_bar = true,
+	hide_tab_bar_if_only_one_tab = true,
+
+	animation_fps = 60,
+	max_fps = 60,
+	front_end = "WebGpu",
+	webgpu_power_preference = "HighPerformance",
+
+	color_scheme = "Tokyo Night Storm",
+	font_size = 12,
+	font = wezterm.font_with_fallback({
+		"JetBrains Mono NL",
+		"Maple Mono NL CN",
+		"Symbols Nerd Font Mono",
+		"Apple Color Emoji",
+		"Noto Color Emoji",
+	}),
+
+	disable_default_key_bindings = true,
+
+	inactive_pane_hsb = {
+		saturation = 0.7,
+		brightness = 0.55,
+	},
+
+	scrollback_lines = 50000,
+
+	keys = {
+		{ key = "c", mods = "SUPER", action = wezterm.action.CopyTo("Clipboard") },
+		{ key = "v", mods = "SUPER", action = wezterm.action.PasteFrom("Clipboard") },
+
+		{ key = "+", mods = "SUPER", action = wezterm.action.IncreaseFontSize },
+		{ key = "-", mods = "SUPER", action = wezterm.action.DecreaseFontSize },
+		{ key = "0", mods = "SUPER", action = wezterm.action.ResetFontSize },
+
+		{ key = "t", mods = "SUPER", action = wezterm.action.SpawnTab("DefaultDomain") },
+		{ key = "w", mods = "SUPER", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+		{ key = "n", mods = "SUPER", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "p", mods = "SUPER", action = wezterm.action.ActivateTabRelative(-1) },
+	},
+}
+return config

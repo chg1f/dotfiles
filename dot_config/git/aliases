@@ -1,0 +1,49 @@
+[alias]
+	h = "!git config --get-regexp \"^alias\\\\.\" | sed -E \"s/^alias\\.([^ ]+) (.*)$/\\1\\t\\2/\""
+
+	s = status --short --branch
+
+	t = stash
+	tl = stash list
+	ts = stash --staged # --message
+	tu = stash --keep-index --include-untracked # --message
+
+	a = add --verbose
+	au = add --verbose --update
+	aa = add --verbose --all
+
+	c = commit
+	cm = commit --message
+	ca = commit --amend
+	ch = commit --amend --reuse-message HEAD
+
+	p = push
+	pf = push --force-with-lease
+	pa = push --force --all
+
+	d = diff
+
+	o = checkout
+	; oo = checkout --ours
+	; ot = checkout --theirs
+
+	f = fetch
+	fp = fetch --all --prune
+
+	l = log
+	lg = log --graph --decorate --abbrev-commit --topo-order --format=format:'%C(bold magenta)%d%C(reset) %C(bold yellow)[%h]%C(reset) %C(cyan)(%cr)%C(reset) %s %C(brightblack)--%C(reset) %C(white)%an%C(reset)'
+
+	amend = commit --amend
+	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	tags = for-each-ref \
+		--sort=-creatordate \
+		--color=always \
+		--format='%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a)%(color:reset) %(color:cyan)(%(creatordate:relative))%(color:reset)' \
+		refs/tags
+	branches = for-each-ref \
+		--sort=-committerdate \
+		--color=always \
+		--format='%(if)%(HEAD)%(then)%(color:bold green)* %(color:reset)%(else)  %(end)%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a) %(color:cyan)(%(committerdate:relative))%(color:reset)%(if)%(upstream)%(then) %(color:cyan)%(upstream:trackshort) %(color:bold magenta)%(upstream:short)%(color:reset) %(end)' \
+		refs/heads
+
+# vim: ft=gitconfig

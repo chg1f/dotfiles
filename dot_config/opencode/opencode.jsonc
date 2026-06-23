@@ -1,0 +1,25 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permission": {
+    "*": "ask",
+    "bash": {
+      "*": "ask",
+      "git push*": "deny",
+      "git commit*": "deny",
+      "git checkout*": "deny",
+      "git log*": "allow",
+      "git diff*": "allow",
+      "git status*": "allow"
+    },
+    "task": "allow",
+    "list": "allow",
+    "read": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "skill": "allow",
+    "question": "allow",
+    "webfetch": "allow",
+    "todowrite": "allow",
+    "codesearch": "allow"
+  }
+}

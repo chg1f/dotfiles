@@ -1,0 +1,36 @@
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+tab_width = 4
+
+[justfile]
+indent_style = space
+shift_width = 2
+
+[*.{md,json,jsonc,yaml,yml,toml,hurl}]
+indent_style = space
+shift_width = 2
+
+[*.py]
+indent_style = space
+shift_width = 4
+
+[*.{sh,zsh}]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[.zsh*]
+indent_style = space
+indent_size = 2
+tab_width = 2
+
+[.bash*]
+indent_style = space
+indent_size = 2
+tab_width = 2

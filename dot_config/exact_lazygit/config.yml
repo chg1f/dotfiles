@@ -1,0 +1,13 @@
+os:
+  editPreset: "nvim"
+
+customCommands:
+  - key: "o"
+    context: "files"
+    command: "git checkout --ours -- {{.SelectedFile.Name}} && git add -- {{.SelectedFile.Name}}"
+    loadingText: "take ours"
+
+  - key: "t"
+    context: "files"
+    command: "git checkout --theirs -- {{.SelectedFile.Name}} && git add -- {{.SelectedFile.Name}}"
+    loadingText: "take theirs"
