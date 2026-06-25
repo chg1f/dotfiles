@@ -149,6 +149,8 @@ cask "ghostty"
 cask "github-copilot-for-xcode"
 # Web browser
 cask "google-chrome"
+# Web browser
+cask "google-chrome@beta"
 # Markdown editor
 cask "mark-text"
 # Knowledge base that works on top of a local folder of plain text Markdown files
@@ -163,6 +165,8 @@ cask "qoderai/qoder/qodercli"
 cask "squirrel-app"
 # System monitor for the menu bar
 cask "stats"
+# Network toolbox
+cask "surge"
 # GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
 # Network protocol analyzer

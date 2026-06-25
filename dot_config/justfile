@@ -263,3 +263,8 @@ rainbow:
   printf "\n"
   for i in {255..128}; do printf "\e[48:2:%d:%d:%dm \e[0m" 0 0 "$i"; done
   printf "\n"
+
+chrome-beta proxy="socks5://127.0.0.1:1080":
+  open -na "Google Chrome Beta" --args \
+    --disable-extensions \
+    --proxy-server="{{proxy}}"
