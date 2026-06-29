@@ -31,9 +31,19 @@
 	fp = fetch --all --prune
 
 	l = log
-	lg = log --graph --decorate --abbrev-commit --date=format-local:'%y-%m-%d %H:%M:%S %a' --format=format:'%C(auto)%h%C(auto)%d %s %C(brightblack)--%C(reset) %C(blue)%an<%ae> %C(green)(%cr) %C(green)%cd%C(reset)' --topo-order
+	lg = log --graph --decorate --abbrev-commit --topo-order --format=format:'%C(bold magenta)%d%C(reset) %C(bold yellow)[%h]%C(reset) %C(cyan)(%cr)%C(reset) %s %C(brightblack)--%C(reset) %C(white)%an%C(reset)'
 
 	amend = commit --amend
 	whoami = "!f() { printf \"%s <%s>\n\" \"$(git config user.name)\" \"$(git config user.email)\"; }; f"
+	tags = for-each-ref \
+		--sort=-creatordate \
+		--color=always \
+		--format='%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a)%(color:reset) %(color:cyan)(%(creatordate:relative))%(color:reset)' \
+		refs/tags
+	branches = for-each-ref \
+		--sort=-committerdate \
+		--color=always \
+		--format='%(if)%(HEAD)%(then)%(color:bold green)* %(color:reset)%(else)  %(end)%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a) %(color:cyan)(%(committerdate:relative))%(color:reset)%(if)%(upstream)%(then) %(color:brightblack)-> %(color:bold magenta)%(upstream:short)%(color:reset) %(color:cyan)%(upstream:trackshort)%(color:reset)%(end)' \
+		refs/heads
 
 # vim: ft=gitconfig

@@ -126,7 +126,7 @@ truncation_symbol = '...'
 
 [git_commit]
 disabled = false
-format = '[($tag(\($hash\)))]($style) '
+format = '([$tag](bold red) )[\[${hash}\]](bold yellow)'
 only_detached = false
 tag_disabled = false
 tag_symbol = ''
