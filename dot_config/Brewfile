@@ -110,6 +110,8 @@ brew "tmux"
 brew "tree"
 # Parser generator tool
 brew "tree-sitter-cli"
+# Terminal spreadsheet multitool for discovering and arranging data
+brew "visidata"
 # Executes a program periodically, showing output fullscreen
 brew "watch"
 # Internet file retriever
