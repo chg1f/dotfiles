@@ -132,7 +132,7 @@ commit:
 
   if command -v brew >/dev/null 2>&1; then
     echo "[commit] brew: bundle dump {{homebrew_bundle_file}}" >&2
-    brew bundle dump --file "{{homebrew_bundle_file}}" --tap --formula --cask --no-restart --force
+    brew bundle dump --file "{{homebrew_bundle_file}}" --force --no-describe --no-restart --tap --cask --formula
   fi
 
   chezmoi re-add --no-pager >/dev/null

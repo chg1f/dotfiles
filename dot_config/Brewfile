@@ -2,176 +2,92 @@ tap "homebrew/cask"
 tap "homebrew/core"
 tap "octane0411/tap"
 tap "qoderai/qoder"
-# Simple, modern, secure file encryption
 brew "age"
-# Universal Command-Line Interface for Alibaba Cloud
 brew "aliyun-cli"
-# Improved shell history for zsh, bash, fish and nushell
 brew "atuin"
-# Terminal bandwidth utilization tool
 brew "bandwhich"
-# Bourne-Again SHell, a UNIX command interpreter
 brew "bash"
-# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# Breadth-first version of find
 brew "bfs"
-# Manage your dotfiles across multiple diverse machines, securely
 brew "chezmoi"
-# Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima"
-# GNU File, Shell, and Text utilities
 brew "coreutils"
-# Get a file from an HTTP, HTTPS or FTP server
 brew "curl"
-# Diff that understands syntax
 brew "difftastic"
-# Command-line DNS Client for Humans
 brew "doggo"
-# Embeddable SQL OLAP Database Management System
 brew "duckdb"
-# Modern, maintained replacement for ls
 brew "eza"
-# Simple, fast and user-friendly alternative to find
 brew "fd"
-# Collection of GNU find, xargs, and locate
 brew "findutils"
-# Command-line fuzzy finder written in Go
 brew "fzf"
-# GitHub command-line tool
 brew "gh"
-# Distributed revision control system
 brew "git"
-# Syntax-highlighting pager for git and diff output
 brew "git-delta"
-# GNU implementation of the famous stream editor
 brew "gnu-sed"
-# GNU Privacy Guard (OpenPGP)
 brew "gnupg"
-# Handy way to save and run project-specific commands
 brew "just"
-# Simple terminal UI for git commands
 brew "lazygit"
-# Pager program similar to more
 brew "less"
-# Input filter for the pager less
 brew "lesspipe"
-# Powerful, lightweight programming language
 brew "lua"
-# Package manager for the Lua programming language
 brew "luarocks"
-# Fast and accurate AI powered file content types detection
 brew "magika"
-# Polyglot runtime manager (asdf rust clone)
 brew "mise"
-# Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
-# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Command-line interface for SQLite
 brew "sqlite"
-# Interpreted, interactive, object-oriented programming language
 brew "python@3.14"
-# Port scanning utility for large networks
 brew "nmap"
-# Search tool like grep and The Silver Searcher
 brew "ripgrep"
-# AI coding agent, built for the terminal
 brew "opencode"
-# Package compiler and linker metadata toolkit
 brew "pkgconf"
-# Tool for managing OCI containers and pods
 brew "podman"
-# Interpreted, interactive, object-oriented programming language
 brew "python@3.13"
-# Generic machine emulator and virtualizer
 brew "qemu"
-# Ultra-fast CSV data-wrangling toolkit
 brew "qsv"
-# Reattach process (e.g., tmux) to background
 brew "reattach-to-user-namespace"
-# Utility that provides fast incremental file transfer
 brew "rsync"
-# Fast, configurable, shell plugin manager
 brew "sheldon"
-# Universal proxy platform
 brew "sing-box"
-# Source-code syntax highlighter
 brew "source-highlight"
-# Cross-shell prompt for astronauts
 brew "starship"
-# User interface to the TELNET protocol
 brew "telnet"
-# Send macOS User Notifications from the command-line
 brew "terminal-notifier"
-# Terminal multiplexer
 brew "tmux"
-# Display directories as trees (with optional color/HTML output)
 brew "tree"
-# Parser generator tool
 brew "tree-sitter-cli"
-# Terminal spreadsheet multitool for discovering and arranging data
 brew "visidata"
-# Executes a program periodically, showing output fullscreen
 brew "watch"
-# Internet file retriever
 brew "wget"
-# Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
-# Pluggable terminal workspace, with terminal multiplexer as the base feature
 brew "zellij"
-# Shell extension to navigate your filesystem faster
 brew "zoxide"
-# UNIX shell (command interpreter)
 brew "zsh"
-# Android SDK component
 cask "android-platform-tools"
-# OpenAI's official ChatGPT desktop app
 cask "chatgpt"
-# OpenAI's coding agent that runs in your terminal
 cask "codex"
-# OpenAI's Codex desktop app for managing coding agents
 cask "codex-app"
-# Brings the power of Copilot coding agent directly to your terminal
 cask "copilot-cli"
-# Plain-text editor for web pages, program source codes and more
 cask "coteditor"
-# AI-powered translator
 cask "deepl"
-# English dictionary
 cask "eudic"
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 cask "font-noto-color-emoji"
 cask "font-noto-sans-cjk-sc"
 cask "font-noto-sans-cjk-tc"
-# Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# Xcode extension for GitHub Copilot
 cask "github-copilot-for-xcode"
-# Web browser
 cask "google-chrome"
-# Web browser
 cask "google-chrome@beta"
-# Markdown editor
 cask "mark-text"
-# Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
-# Native companion app for AI coding agents
 cask "octane0411/tap/openisland", trusted: true
-# Graphical management tool for OSS (Object Storage Service)
 cask "oss-browser"
-# Qoder AI CLI tool - Terminal-based AI assistant for code development
 cask "qoderai/qoder/qodercli"
-# Rime input method engine
 cask "squirrel-app"
-# System monitor for the menu bar
 cask "stats"
-# Network toolbox
 cask "surge"
-# GPU-accelerated cross-platform terminal emulator and multiplexer
 cask "wezterm"
-# Network protocol analyzer
 cask "wireshark-app"
-# Youdao Dictionary
 cask "youdaodict"
