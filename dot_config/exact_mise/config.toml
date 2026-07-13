@@ -4,8 +4,6 @@ jobs = 8
 env_file = '.env'
 python.uv_venv_auto = true
 pipx.uvx = true
-# offline = true
-http_retries = 0
 
 [tools]
 # language (runtimes)
@@ -68,11 +66,8 @@ gomplate = "latest"
 "npm:markdown-toc" = "latest"
 
 # typos
-"github:crate-ci/typos" = "latest"
+"typos" = "latest"
 "github:tekumara/typos-lsp" = "latest"
-
-# lefthook
-"github:evilmartians/lefthook" = "latest"
 
 # editor / parser helpers
 tree-sitter = "latest"
@@ -81,4 +76,9 @@ xh = "latest"
 bun = "latest"
 fx = "latest"
 
+just = "latest"
+lefthook = "latest"
+
 "npm:@larksuite/cli" = "latest"
+"npm:@openai/codex" = "latest"
+"pipx:magika" = "latest"
