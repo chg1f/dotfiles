@@ -22,13 +22,11 @@ local config = {
 	color_scheme = "Tokyo Night Storm",
 	font_size = 12,
 	font = wezterm.font_with_fallback({
-		-- { family = "JetBrainsMono Nerd Font" },
-		{ family = "JetBrainsMonoNL Nerd Font" },
-		-- { family = "JetBrains Mono NL" },
-		{ family = "Noto Color Emoji" },
-		-- { family = "Apple Color Emoji" },
-		{ family = "Noto Sans CJK TC" },
-		{ family = "Noto Sans CJK SC" },
+		"JetBrains Mono NL",
+		"Maple Mono NL CN",
+		"Symbols Nerd Font Mono",
+		"Apple Color Emoji",
+		"Noto Color Emoji",
 	}),
 
 	disable_default_key_bindings = true,

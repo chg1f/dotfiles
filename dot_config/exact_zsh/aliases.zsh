@@ -1,23 +1,18 @@
 #!zsh
 
-alias less='less -R'
-alias path='print -l ${(s/:/)PATH} | nl'
-
 alias GNU='PATH="$(brew --prefix coreutils)/libexec/gnubin:$(brew --prefix findutils)/libexec/gnubin:$(brew --prefix diffutils)/libexec/gnubin:$PATH"'
 alias UUTILS='PATH="$(brew --prefix uutils-coreutils)/libexec/gnubin:$(brew --prefix uutils-findutils)/libexec/gnubin:$(brew --prefix uutils-diffutils)/libexec/gnubin:$PATH"'
 alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080 NO_PROXY=localhost,127.0.0.1,::1'
+alias NLH="LEFTHOOK=0"
 alias -g Q="1>/dev/null 2>/dev/null"
 alias -g Q1="1>/dev/null"
 alias -g Q2="2>/dev/null"
 
-alias hurl='hurl --file-root . --cookie .cookie --variables-file .env --error-format long --continue-on-error'
-# if command -v hurl &> /dev/null; then
-#   alias hurl="hurl --error-format=long"
-# fi
-
-# alias ssh-add='ssh-add --apple-use-keychain --apple-load-keychain'
+alias path='print -l ${(s/:/)PATH} | nl'
+alias less='less -R'
 alias tree='tree -C'
-# alias manages='chezmoi managed --path-style=source-relative | tree --fromfile | less -R'
+alias hurl='hurl --file-root . --cookie .cookie --variables-file .env --error-format long --continue-on-error'
+# alias ssh-add='ssh-add --apple-use-keychain --apple-load-keychain'
 
 if command -v python3 &>/dev/null; then
   alias urldecode='python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))"'
@@ -37,18 +32,4 @@ fi
 
 if command -v chezmoi 2>&1 >/dev/null; then
   alias cz='chezmoi --color=on'
-  # alias cz-manages='chezmoi managed --tree --path-style=source-relative --no-pager'
-  # cz() {
-  #   case "$1" in
-  #   # t)  shift; command chezmoi managed --tree "$@" ;;
-  #   # ts) shift; command chezmoi managed --tree --path-style=source-relative "$@" ;;
-  #   # s)  shift; command chezmoi status "$@" ;;
-  #   # d)  shift; command chezmoi diff "$@" ;;
-  #   # src) shift; cd "$(command chezmoi source-path)" || return ;;
-  #   # a)  shift; command chezmoi apply "$@" ;;
-  #   manages) chezmoi managed --tree --path-style=source-relative --color=auto --no-pager ;;
-  #   *) command chezmoi "$@" ;;
-  #   esac
-  # }
-  # compdef _chezmoi cz
 fi
