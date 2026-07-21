@@ -82,3 +82,5 @@ lefthook = "latest"
 "npm:@larksuite/cli" = "latest"
 "npm:@openai/codex" = "latest"
 "pipx:magika" = "latest"
+awscli = { version = "latest", symlink_bins = "true" }
+"aqua:minio/mc" = "latest"
