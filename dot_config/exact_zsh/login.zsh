@@ -19,11 +19,11 @@ export PATH="${(j.:.)path}"
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PAGER="less -R"
-export MANPAGER="col -bx | bat -p -l man"
-export BAT_PAGER="less -g -i -w -M -R -F"
-
-export LESS="-g -i -w -M -R -F -X"
+export LESS="-J -g -i -w -M -R -F -X"
 export LESSHISTFILE="$XDG_STATE_HOME/lesshst"
+export MANROFFOPT="-c"
+export MANPAGER="sh -c 'col -bx | bat --language=man --plain --paging=always'"
+export AWS_PAGER=""
 
 export GOPATH="$XDG_DATA_HOME/go"
 
