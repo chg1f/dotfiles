@@ -3,7 +3,7 @@
 alias GNU='PATH="$(brew --prefix coreutils)/libexec/gnubin:$(brew --prefix findutils)/libexec/gnubin:$(brew --prefix diffutils)/libexec/gnubin:$PATH"'
 alias UUTILS='PATH="$(brew --prefix uutils-coreutils)/libexec/gnubin:$(brew --prefix uutils-findutils)/libexec/gnubin:$(brew --prefix uutils-diffutils)/libexec/gnubin:$PATH"'
 alias PX='HTTP_PROXY=http://127.0.0.1:1080 HTTPS_PROXY=http://127.0.0.1:1080 SOCKS_PROXY=socks5://127.0.0.1:1080 ALL_PROXY=socks5://127.0.0.1:1080 NO_PROXY=localhost,127.0.0.1,::1'
-alias NPX='env -u HTTP_PROXY -u HTTPS_PROXY -u ALL_PROXY -u http_proxy -u https_proxy -u all_proxy'
+alias NPX='env -u HTTP_PROXY -u HTTPS_PROXY -u SOCKS_PROXY -u ALL_PROXY'
 alias NLH="LEFTHOOK=0"
 alias -g Q="1>/dev/null 2>/dev/null"
 alias -g Q1="1>/dev/null"
