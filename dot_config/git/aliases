@@ -43,7 +43,7 @@
 	branches = for-each-ref \
 		--sort=-committerdate \
 		--color=always \
-		--format='%(if)%(HEAD)%(then)%(color:bold green)* %(color:reset)%(else)  %(end)%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a) %(color:cyan)(%(committerdate:relative))%(color:reset)%(if)%(upstream)%(then) %(color:brightblack)-> %(color:bold magenta)%(upstream:short)%(color:reset) %(color:cyan)%(upstream:trackshort)%(color:reset)%(end)' \
+		--format='%(if)%(HEAD)%(then)%(color:bold green)* %(color:reset)%(else)  %(end)%(color:bold magenta)%(refname:short)%(color:reset) %(color:bold yellow)[%(objectname:short)]%(color:reset) %(committerdate:format-local:%Y-%m-%d %H:%M:%S %a) %(color:cyan)(%(committerdate:relative))%(color:reset)%(if)%(upstream)%(then) %(color:cyan)%(upstream:trackshort) %(color:bold magenta)%(upstream:short)%(color:reset) %(end)' \
 		refs/heads
 
 # vim: ft=gitconfig
