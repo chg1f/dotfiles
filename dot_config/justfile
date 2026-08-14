@@ -16,6 +16,7 @@ default:
 # Install Homebrew and the minimum required bootstrap dependencies.
 bootstrap:
   #!/usr/bin/env bash
+  set +e
   if ! command -v brew >/dev/null 2>&1; then
     echo "[bootstrap] brew: installing" >&2
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -36,6 +37,7 @@ alias f := fetch
 # Pull updates for components without changing the current environment.
 fetch:
   #!/usr/bin/env bash
+  set +e
   if command -v chezmoi >/dev/null 2>&1; then
     echo "[fetch] chezmoi: git fetch --all --prune" >&2
     chezmoi git -- fetch --all --prune
@@ -55,6 +57,7 @@ alias a := apply
 # Apply pulled updates to the current environment without deleting dependencies.
 apply:
   #!/usr/bin/env bash
+  set +e
   if command -v chezmoi >/dev/null 2>&1; then
     if chezmoi diff --no-pager >/dev/null; then
       echo "[apply] chezmoi: apply changes" >&2
@@ -104,6 +107,7 @@ alias x := prune
 # Remove unused dependencies from the current environment after updates are pulled.
 prune:
   #!/usr/bin/env bash
+  set +e
   if command -v brew >/dev/null 2>&1; then
     echo "[prune] brew: autoremove" >&2
     brew autoremove
@@ -125,6 +129,7 @@ alias c := commit
 # Save the current environment state into the local chezmoi state.
 commit:
   #!/usr/bin/env bash
+  set +e
   if ! command -v chezmoi >/dev/null 2>&1; then
     echo "[commit] chezmoi: missing" >&2
     exit 1
@@ -161,6 +166,7 @@ alias p := push
 # Push the local chezmoi state to the remote repository.
 push:
   #!/usr/bin/env bash
+  set +e
   command -v chezmoi >/dev/null 2>&1 || exit 0
 
   repo="$(chezmoi git -- config --get remote.origin.url 2>/dev/null || echo unknown)"
@@ -177,6 +183,7 @@ push:
 # Render 256 colortest in the terminal.
 color256:
   #!/usr/bin/env bash
+  set +e
   fill() {
     printf "$(tput setaf "$1")%3d$(tput setab "$1") $(tput sgr0)" "$1"
   }
@@ -192,6 +199,7 @@ color256:
 # Render 16 colortest in the terminal.
 color16:
   #!/usr/bin/env bash
+  set +e
   fill() {
     printf "$(tput sgr0)$(tput setaf "$1")%14s %2d$(tput setaf 15)$(tput setab "$1") * $(tput sgr0)" "$2" "$1"
     printf "$(tput setaf 0)$(tput setab $(($1 + 8))) * $(tput sgr0)$(tput setaf $(($1 + 8)))%-3d%-s$(tput sgr0)" "$(($1 + 8))" "BRIGHT $2"
@@ -209,6 +217,7 @@ color16:
 # Render ANSI colortest in the terminal.
 ansi:
   #!/usr/bin/env bash
+  set +e
   for b in 0 {30..37}; do
     for a in 0 1; do
       for c in {0..9} {40..47}; do
@@ -221,6 +230,7 @@ ansi:
 # Render Rainbow colortest in the terminal.
 rainbow:
   #!/usr/bin/env bash
+  set +e
   for i in {0..127}; do
     h=$((i / 43))
     t=$(((i - 43 * h) * 255 / 43))
