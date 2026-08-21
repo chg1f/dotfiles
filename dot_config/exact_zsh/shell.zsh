@@ -114,7 +114,7 @@ if command -v fzf 2>&1 >/dev/null; then
 fi
 
 if command -v codex 2>&1 >/dev/null; then
-	export CODEX_HOME="$XDG_CONFIG_HOME/codex"
+	export CODEX_HOME="$XDG_DATA_HOME/codex"
   eval "$(codex completion zsh)"
 fi
 
