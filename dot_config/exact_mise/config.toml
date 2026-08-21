@@ -2,6 +2,7 @@
 # verbose = true
 jobs = 8
 env_file = '.env'
+minimum_release_age = '0s'
 python.uv_venv_auto = true
 pipx.uvx = true
 

@@ -26,10 +26,14 @@ local M = {
 	},
 	{
 		"mason.nvim",
-		-- enabled = false,
+		enabled = false,
 		opts = {
 			install_root = vim.fn.stdpath("data") .. "/mason",
 		},
+	},
+	{
+		"mason-lspconfig.nvim",
+		enabled = false,
 	},
 	{
 		"folke/snacks.nvim",
