@@ -85,3 +85,4 @@ lefthook = "latest"
 "pipx:magika" = "latest"
 awscli = { version = "latest", symlink_bins = "true" }
 "aqua:minio/mc" = "latest"
+"pipx:tccli" = "latest"
