@@ -3,7 +3,7 @@
 # Login shell setup.
 typeset -U path
 path=(
-  "$HOME/.local/bin"
+  # "$HOME/.local/bin"
   "/usr/local/bin"
   "/usr/bin"
   "/bin"
