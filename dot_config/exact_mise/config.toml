@@ -7,83 +7,121 @@ python.uv_venv_auto = true
 pipx.uvx = true
 
 [tools]
-# language (runtimes)
-go = "1.25.0"
+# language runtimes
+go = "latest"
 python = "latest"
 uv = "latest"
 node = "lts"
+bun = "latest"
 rust = "latest"
 
-# go (toolchain)
-golangci-lint = "latest"
+# go
+"go:github.com/golangci/golangci-lint/v2/cmd/golangci-lint" = "latest"
 "go:golang.org/x/tools/gopls" = "latest"
 "go:github.com/go-delve/delve/cmd/dlv" = "latest"
 "go:golang.org/x/tools/cmd/goimports" = "latest"
-"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
 "go:mvdan.cc/gofumpt" = "latest"
-"github:go-swagger/go-swagger" = "latest"
+"go:golang.org/x/vuln/cmd/govulncheck" = "latest"
+"go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
+"go:github.com/go-swagger/go-swagger/cmd/swagger" = "latest"
+# "go:github.com/air-verse/air" = "latest"
+# "go:github.com/securego/gosec/v2/cmd/gosec" = "latest"
+# "go:github.com/goreleaser/goreleaser/v2" = "latest"
+# "go:go.uber.org/mock/mockgen" = "latest"
 
-# python3 (tooling)
+# python
 "pipx:ruff" = "latest"
 "pipx:sqlfluff" = "latest"
 "npm:pyright" = "latest"
+"pipx:magika" = "latest"
 
-# typescript / nodejs (tooling + lsp)
+# Optional:
+# "pipx:black" = "latest"
+# "pipx:mypy" = "latest"
+# "pipx:pytest" = "latest"
+
+# typescript / javascript
 "npm:typescript" = "latest"
 "npm:typescript-language-server" = "latest"
 "npm:@vtsls/language-server" = "latest"
-"github:biomejs/biome" = "latest"
+"npm:@biomejs/biome" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 
-# rust (tooling)
+# Optional:
+# "npm:eslint" = "latest"
+# "npm:prettier" = "latest"
+# "npm:tsx" = "latest"
+
+# rust
 "github:rust-lang/rust-analyzer" = "latest"
 
-# lua (tooling)
+# lua
 "github:JohnnyMorganz/StyLua" = "latest"
 "aqua:LuaLS/lua-language-server" = "latest"
 
-# shell (tooling + lsp)
+# shell
 shfmt = "latest"
 shellcheck = "latest"
 "npm:bash-language-server" = "latest"
 
-# protobuf
-protobuf = "latest"
-protoc-gen-go = "latest"
+# Optional:
+# "cargo:shellharden" = "latest"
 
-# template
+# protobuf / templates
+protobuf = "latest"
 gomplate = "latest"
 
-# format (json/yaml/toml/query)
+# data / config formats
 "github:jqlang/jq" = "latest"
 "github:mikefarah/yq" = "latest"
 "github:TomWright/dasel" = "latest"
 "github:tamasfe/taplo" = "latest"
 "go:github.com/tidwall/jj/cmd/jj" = "latest"
+fx = "latest"
 
-# markdown
+# markdown / prose
 "github:artempyanykh/marksman" = "latest"
 "npm:markdownlint-cli2" = "latest"
 "npm:markdown-toc" = "latest"
-
-# typos
 "typos" = "latest"
 "github:tekumara/typos-lsp" = "latest"
 
-# editor / parser helpers
-tree-sitter = "latest"
+# api / http / testing
 hurl = "latest"
 xh = "latest"
-bun = "latest"
-fx = "latest"
 
+# Optional:
+# "pipx:httpie" = "latest"
+
+# develop workflow
+tree-sitter = "latest"
 just = "latest"
 lefthook = "latest"
 
-"npm:@larksuite/cli" = "latest"
-"npm:@openai/codex" = "latest"
-"npm:@qoder-ai/qodercli" = "latest"
-"pipx:magika" = "latest"
+# security
+# Optional:
+# "aqua:gitleaks/gitleaks" = "latest"
+# "aqua:sigstore/cosign" = "latest"
+
+# containers
+# Optional:
+# "aqua:hadolint/hadolint" = "latest"
+
+# kubernetes
+# Optional:
+# "aqua:kubernetes/kubectl" = "latest"
+# "aqua:helm/helm" = "latest"
+# "aqua:derailed/k9s" = "latest"
+
+# git
+# Optional:
+# "aqua:cli/cli" = "latest"
+# "aqua:jesseduffield/lazygit" = "latest"
+
+# cloud / vendor cli
 awscli = { version = "latest", symlink_bins = "true" }
 "aqua:minio/mc" = "latest"
 "pipx:tccli" = "latest"
+"npm:@larksuite/cli" = "latest"
+"npm:@openai/codex" = "latest"
+"npm:@qoder-ai/qodercli" = "latest"
