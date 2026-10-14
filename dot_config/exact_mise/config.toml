@@ -33,7 +33,7 @@ rust = "latest"
 "pipx:ruff" = "latest"
 "pipx:sqlfluff" = "latest"
 "npm:pyright" = "latest"
-"pipx:magika" = "latest"
+# "pipx:magika" = "latest"
 
 # Optional:
 # "pipx:black" = "latest"
@@ -125,3 +125,5 @@ awscli = { version = "latest", symlink_bins = "true" }
 "npm:@larksuite/cli" = "latest"
 "npm:@openai/codex" = "latest"
 "npm:@qoder-ai/qodercli" = "latest"
+"github:aliyun/aliyun-cli" = "latest"
+"github:maxmind/mmdbinspect" = "latest"
