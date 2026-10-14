@@ -1,7 +1,6 @@
 tap "homebrew/cask"
 tap "homebrew/core"
 brew "age"
-brew "aliyun-cli"
 brew "atuin"
 brew "bash"
 brew "bat"
