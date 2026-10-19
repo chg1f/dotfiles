@@ -11,7 +11,6 @@ commit_message := env_var_or_default("COMMIT_MESSAGE", "from " + sha256(env_var_
 default:
   @just --list
 
-
 # Install Homebrew and the minimum required bootstrap dependencies.
 bootstrap:
   #!/usr/bin/env bash
