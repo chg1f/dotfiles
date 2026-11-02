@@ -27,6 +27,12 @@
 	; oo = checkout --ours
 	; ot = checkout --theirs
 
+	; b =
+	bu = git branch --set-upstream-to
+
+	ru = rebase @{upstream}
+
+
 	f = fetch
 	fp = fetch --all --prune
 

@@ -120,7 +120,7 @@ symbol = 'gcp '
 
 [git_branch]
 disabled = false
-format = "[$symbol$branch(:$remote_branch)]($style) "
+format = "[$symbol$branch(:$remote_name/$remote_branch)]($style) "
 symbol = ''
 truncation_symbol = '...'
 
