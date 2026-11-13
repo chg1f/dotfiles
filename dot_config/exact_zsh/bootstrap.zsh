@@ -14,3 +14,8 @@ export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
 export ZDOTDIR="${ZDOTDIR:-$XDG_DATA_HOME/zsh}"
 
 # vim: ft=zsh
+
+# QODER_DISPATCHER_PATH v1
+path=("$HOME/.qoder/entry" ${path:#"$HOME/.qoder/entry"})
+export PATH
+# END QODER_DISPATCHER_PATH v1
